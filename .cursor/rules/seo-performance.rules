@@ -1,0 +1,59 @@
+name: ecommerce-seo-performance
+description: Enforce SEO and performance best practices for production e-commerce
+alwaysApply: true
+
+rules:
+
+  # URL & Routing
+  - All public pages MUST use clean, keyword-based URLs.
+  - NEVER use query parameters for product or category pages.
+  - Product URLs MUST follow:
+      /aluminium/{product-name}-{variant}
+  - Category URLs MUST follow:
+      /aluminium/{category}/{subcategory}
+
+  # Meta & Indexing
+  - Every indexable page MUST include:
+      - Unique <title> (50–60 chars)
+      - Unique meta description (140–160 chars)
+      - Canonical URL
+  - Duplicate meta tags are NOT allowed.
+
+  # Headings
+  - Each page MUST contain exactly ONE <h1>.
+  - <h1> MUST reflect the primary search intent.
+  - Headings MUST follow hierarchy (h1 → h2 → h3).
+
+  # Product Content
+  - Product pages MUST contain:
+      - Minimum 300 words of original content
+      - Use-case descriptions
+      - FAQ section
+  - Manufacturer copy-paste is FORBIDDEN.
+
+  # Images
+  - All images MUST:
+      - Use WebP or AVIF
+      - Include descriptive alt text
+      - Be lazy-loaded if non-critical
+
+  # Structured Data
+  - Product pages MUST include:
+      - Product schema
+      - Offer schema (price, availability)
+      - Review schema (if available)
+
+  # Performance
+  - SSR is REQUIRED for SEO-critical pages.
+  - JavaScript must be code-split.
+  - No blocking scripts allowed.
+
+  # Internal Linking
+  - Product pages MUST link to:
+      - Parent category
+      - At least 3 related products
+  - Orphan pages are NOT allowed.
+
+  # Crawl Control
+  - Filter URLs MUST be noindex.
+  - Internal search pages MUST be noindex.

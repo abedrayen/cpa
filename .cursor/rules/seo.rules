@@ -1,0 +1,91 @@
+name: seo-optimization
+description: Enforce enterprise-grade SEO best practices for an e-commerce platform
+alwaysApply: true
+
+rules:
+
+  # 1️⃣ URL & Routing Rules
+  - All public pages MUST use clean, human-readable, keyword-based URLs.
+  - NEVER generate URLs with query-based identifiers for primary pages.
+  - Product URLs MUST follow:
+    /products/{brand}-{product-name}-{primary-variant}
+  - Category URLs MUST follow:
+    /{category}/{subcategory}
+
+  # 2️⃣ Meta Tags (MANDATORY)
+  - EVERY indexable page MUST include:
+      - <title> tag (50–60 characters)
+      - meta description (140–160 characters)
+  - Meta titles MUST contain the primary keyword near the beginning.
+  - Meta descriptions MUST be unique per page and conversion-oriented.
+  - NEVER allow duplicate meta titles or descriptions.
+
+  # 3️⃣ Headings & Content Structure
+  - Each page MUST have exactly ONE <h1> tag.
+  - <h1> MUST match the page’s primary keyword intent.
+  - <h2>–<h4> MUST be used for logical content hierarchy.
+  - NEVER skip heading levels (e.g., h1 → h3).
+
+  # 4️⃣ Product Content Requirements
+  - Product pages MUST include:
+      - Minimum 300 words of original content
+      - A benefit-focused product description
+      - At least 1 FAQ section (schema-compatible)
+  - NEVER allow manufacturer copy-paste content.
+
+  # 5️⃣ Images & Media SEO
+  - ALL images MUST:
+      - Use descriptive filenames
+      - Include alt attributes with natural keywords
+      - Be served in WebP or AVIF when supported
+  - Lazy-load all non-critical images.
+
+  # 6️⃣ Structured Data (Schema.org)
+  - Product pages MUST include:
+      - Product schema
+      - Offer schema (price, availability)
+      - Review schema when available
+  - Category pages MUST include:
+      - Breadcrumb schema
+  - Blog/guide pages MUST include:
+      - Article schema
+
+  # 7️⃣ Internal Linking
+  - Every product page MUST:
+      - Link to its parent category
+      - Link to at least 3 related products
+  - Blog content MUST link to relevant product or category pages.
+  - NEVER create orphan pages.
+
+  # 8️⃣ Indexing & Crawl Control
+  - Use canonical URLs on all pages.
+  - Block indexing of:
+      - Filter URLs
+      - Search result pages
+      - Duplicate parameterized URLs
+  - Out-of-stock products MUST remain indexable with proper messaging.
+
+  # 9️⃣ Performance (Core Web Vitals)
+  - Pages MUST:
+      - Achieve LCP < 2.5s
+      - CLS < 0.1
+      - Minimize JavaScript blocking
+  - Server-side rendering is REQUIRED for SEO-critical pages.
+
+  # 🔟 Mobile & Accessibility
+  - Mobile-first rendering is mandatory.
+  - All interactive elements MUST be accessible (ARIA, labels).
+  - Text contrast MUST meet WCAG AA.
+
+  # 1️⃣1️⃣ Content Quality Enforcement
+  - NEVER generate thin content pages.
+  - NEVER auto-generate SEO text without human review.
+  - Content MUST be helpful, specific, and intent-driven.
+
+  # 1️⃣2️⃣ SEO Regression Protection
+  - Any change affecting:
+      - URLs
+      - Meta tags
+      - Headings
+      - Structured data
+    MUST be flagged for SEO review.
