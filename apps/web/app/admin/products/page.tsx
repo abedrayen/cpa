@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { getAdminToken } from '@/components/AdminGuard';
 import { Breadcrumbs } from '@/components/admin/Breadcrumbs';
 import { ConfirmDialog } from '@/components/admin/ConfirmDialog';
@@ -16,6 +17,7 @@ interface Product {
   price: string;
   isActive: boolean;
   category?: { name: string; slug: string };
+  images?: { id: string; url: string; alt: string }[];
 }
 
 export default function AdminProductsPage() {
@@ -104,6 +106,7 @@ export default function AdminProductsPage() {
             <table className="admin-table" role="table">
               <thead>
                 <tr>
+                  <th scope="col">Image</th>
                   <th scope="col">Name</th>
                   <th scope="col">Slug</th>
                   <th scope="col">Price</th>
@@ -115,6 +118,22 @@ export default function AdminProductsPage() {
               <tbody>
                 {products.map((p) => (
                   <tr key={p.id}>
+                    <td>
+                      {p.images?.[0]?.url ? (
+                        <span className="admin-product-thumb">
+                          <Image
+                            src={p.images[0].url}
+                            alt={p.images[0].alt || p.name}
+                            width={48}
+                            height={48}
+                            style={{ objectFit: 'cover', borderRadius: '4px' }}
+                            unoptimized={p.images[0].url.startsWith('data:')}
+                          />
+                        </span>
+                      ) : (
+                        <span className="admin-product-thumb admin-product-thumb--empty" aria-hidden>—</span>
+                      )}
+                    </td>
                     <td>{p.name}</td>
                     <td>
                       <code style={{ fontSize: '0.8125rem' }}>{p.slug}</code>

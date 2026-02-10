@@ -17,6 +17,11 @@ export interface CategoryOption {
   slug: string;
 }
 
+export interface ProductImageInput {
+  url: string;
+  alt: string;
+}
+
 export interface ProductFormValues {
   name: string;
   slug: string;
@@ -24,6 +29,7 @@ export interface ProductFormValues {
   description: string;
   price: string;
   pricingUnit: string;
+  images: ProductImageInput[];
   isQuoteOnly: boolean;
   isActive: boolean;
 }
@@ -35,6 +41,7 @@ const defaultValues: ProductFormValues = {
   description: '',
   price: '',
   pricingUnit: '',
+  images: [],
   isQuoteOnly: false,
   isActive: true,
 };
@@ -56,6 +63,7 @@ export function ProductForm({
     ...defaultValues,
     ...initialValues,
     price: initialValues?.price ?? defaultValues.price,
+    images: initialValues?.images ?? defaultValues.images,
   });
   const [slugLocked, setSlugLocked] = useState(!!initialValues?.slug);
   const [error, setError] = useState<string | null>(null);
@@ -204,6 +212,92 @@ export function ProductForm({
         placeholder="TND/unit"
         className="admin-input"
       />
+
+      <fieldset style={{ border: '1px solid var(--color-border)', borderRadius: '8px', padding: '1rem', margin: 0 }}>
+        <legend style={{ fontWeight: 600, padding: '0 0.25rem' }}>Images</legend>
+        <p style={{ fontSize: '0.875rem', color: 'var(--color-muted)', margin: '0 0 0.75rem 0' }}>
+          Choose images from your device. Add descriptive alt text for each for accessibility and SEO.
+        </p>
+        {values.images.map((img, i) => (
+          <div
+            key={i}
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1.2fr auto',
+              gap: '0.5rem',
+              alignItems: 'end',
+              marginBottom: '0.75rem',
+            }}
+          >
+            <div>
+              <label htmlFor={`img-file-${i}`}>Image from device</label>
+              <input
+                id={`img-file-${i}`}
+                type="file"
+                accept="image/*"
+                onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  try {
+                    const fd = new FormData();
+                    fd.append('file', file);
+                    const res = await fetch('/api/upload', { method: 'POST', body: fd });
+                    const data = await res.json();
+                    if (!res.ok || !data.url) {
+                      throw new Error(data.message ?? 'Upload failed');
+                    }
+                    const next = [...values.images];
+                    next[i] = { ...next[i], url: data.url };
+                    update({ images: next });
+                  } catch (err) {
+                    console.error(err);
+                  } finally {
+                    e.target.value = '';
+                  }
+                }}
+                className="admin-input"
+                style={{ padding: '0.375rem' }}
+              />
+              {img.url ? (
+                <span style={{ fontSize: '0.75rem', color: 'var(--color-muted)', display: 'block', marginTop: '0.25rem' }}>
+                  Uploaded
+                </span>
+              ) : null}
+            </div>
+            <div>
+              <label htmlFor={`img-alt-${i}`}>Alt text</label>
+              <input
+                id={`img-alt-${i}`}
+                type="text"
+                value={img.alt}
+                onChange={(e) => {
+                  const next = [...values.images];
+                  next[i] = { ...next[i], alt: e.target.value };
+                  update({ images: next });
+                }}
+                placeholder="Describe the image"
+                className="admin-input"
+              />
+            </div>
+            <button
+              type="button"
+              onClick={() => update({ images: values.images.filter((_, j) => j !== i) })}
+              style={{ padding: '0.5rem', fontSize: '0.875rem' }}
+              aria-label={`Remove image ${i + 1}`}
+            >
+              Remove
+            </button>
+          </div>
+        ))}
+        <button
+          type="button"
+          onClick={() => update({ images: [...values.images, { url: '', alt: '' }] })}
+          className="btn"
+          style={{ background: 'var(--color-bg)', border: '1px solid var(--color-border)' }}
+        >
+          Add image
+        </button>
+      </fieldset>
 
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
         <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>

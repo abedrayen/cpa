@@ -54,6 +54,9 @@ export default function AdminNewProductPage() {
         description: values.description.trim(),
         price,
         specs: values.pricingUnit.trim() ? { unit: values.pricingUnit.trim() } : undefined,
+        images: values.images
+          .filter((im) => im.url.trim())
+          .map((im, i) => ({ url: im.url.trim(), alt: im.alt.trim() || undefined, sortOrder: i })),
         isQuoteOnly: values.isQuoteOnly,
         isActive: values.isActive,
       }),
