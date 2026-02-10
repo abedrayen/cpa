@@ -4,6 +4,10 @@ import type { Product } from '@/lib/types';
 import { OrderForm } from '@/components/OrderForm';
 import { ProductCard } from '@/components/ProductCard';
 
+function priceCurrency(_specs: Product['specs']): string {
+  return 'TND';
+}
+
 function ProductSchema({ product, canonical }: { product: Product; canonical: string }) {
   const schema = {
     '@context': 'https://schema.org',
@@ -15,7 +19,7 @@ function ProductSchema({ product, canonical }: { product: Product; canonical: st
     offers: {
       '@type': 'Offer',
       price: product.price,
-      priceCurrency: 'EUR',
+      priceCurrency: priceCurrency(product.specs),
       availability: product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
       url: canonical,
     },
@@ -118,7 +122,9 @@ export function ProductPage({
 
           <div className="product-meta">
             <p className="product-price">
-              {product.isQuoteOnly ? 'Request quote' : `From ${product.price}`}
+              {product.isQuoteOnly
+                ? 'Request quote'
+                : `From ${product.price}${(product.specs as { unit?: string } | null)?.unit ? ` ${(product.specs as { unit: string }).unit}` : ''}`.trim()}
             </p>
           </div>
 

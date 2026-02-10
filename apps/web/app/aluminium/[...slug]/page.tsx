@@ -7,18 +7,6 @@ import { ProductPage } from '@/components/ProductPage';
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;
 
-function findCategoryByPath(tree: Category[], pathSlugs: string[]): Category | null {
-  if (pathSlugs.length === 0) return null;
-  let level: Category[] = tree;
-  let found: Category | null = null;
-  for (const slug of pathSlugs) {
-    found = level.find((c) => c.slug === slug) ?? null;
-    if (!found) return null;
-    level = found.children ?? [];
-  }
-  return found;
-}
-
 async function getCategoryBySlug(slug: string): Promise<Category | null> {
   try {
     return await fetcher<Category>(`/categories/${slug}`);
@@ -42,13 +30,12 @@ async function getCategoryTree(): Promise<Category[]> {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug?: string[] }>;
+  params: { slug: string[] };
 }) {
-  const { slug } = await params;
-  const segments = slug ?? [];
+  const segments = params.slug ?? [];
   if (segments.length === 0) return {};
 
-  const tree = await getCategoryTree();
+  await getCategoryTree();
   const lastSlug = segments[segments.length - 1];
   const product = await getProductBySlug(lastSlug);
   if (product) {
@@ -79,15 +66,14 @@ export async function generateMetadata({
 export default async function AluminiumSlugPage({
   params,
 }: {
-  params: Promise<{ slug?: string[] }>;
+  params: { slug: string[] };
 }) {
-  const { slug } = await params;
-  const segments = slug ?? [];
+  const segments = params.slug ?? [];
   if (segments.length === 0) {
     notFound();
   }
 
-  const tree = await getCategoryTree();
+  await getCategoryTree();
   const lastSlug = segments[segments.length - 1];
 
   const product = await getProductBySlug(lastSlug);
@@ -145,3 +131,4 @@ export default async function AluminiumSlugPage({
 
   notFound();
 }
+

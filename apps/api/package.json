@@ -44,5 +44,8 @@
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
+  },
+  "overrides": {
+    "prisma": "^5.22.0"
   }
 }

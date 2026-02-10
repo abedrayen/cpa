@@ -35,14 +35,17 @@ export function ProductCard({
               width={400}
               height={300}
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              loading="lazy"
             />
           </div>
         ) : (
-          <div className="product-card-image placeholder" aria-hidden />
+          <div className="product-card-image placeholder skeleton" aria-hidden />
         )}
         <h3 className="product-card-title">{product.name}</h3>
         <p className="product-card-price">
-          {product.isQuoteOnly ? 'Request quote' : `From ${product.price}`}
+          {product.isQuoteOnly
+            ? 'Request quote'
+            : `From ${product.price}${(product.specs as { unit?: string } | null)?.unit ? ` ${(product.specs as { unit: string }).unit}` : ''}`.trim()}
         </p>
       </Link>
     </article>

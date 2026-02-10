@@ -58,7 +58,14 @@ export class ProductsService {
     const product = await this.prisma.product.findFirst({
       where: { id, deletedAt: null },
       include: {
-        category: { select: { id: true, name: true, slug: true, parent: { select: { name: true, slug: true } } },
+        category: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+            parent: { select: { name: true, slug: true } },
+          },
+        },
         images: { orderBy: { sortOrder: 'asc' } },
       },
     });
@@ -70,7 +77,14 @@ export class ProductsService {
     const product = await this.prisma.product.findFirst({
       where: { slug, deletedAt: null, isActive: true },
       include: {
-        category: { select: { id: true, name: true, slug: true, parent: { select: { name: true, slug: true } } },
+        category: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+            parent: { select: { name: true, slug: true } },
+          },
+        },
         images: { orderBy: { sortOrder: 'asc' } },
       },
     });
@@ -99,11 +113,16 @@ export class ProductsService {
   }
 
   async create(dto: CreateProductDto) {
-    const { images, ...data } = dto;
+    const { images, categoryId, specs, price, ...rest } = dto;
     const product = await this.prisma.product.create({
       data: {
-        ...data,
-        price: new Decimal(data.price),
+        ...rest,
+        // map DTO fields to Prisma checked create input
+        price: new Decimal(price),
+        specs: specs as Prisma.InputJsonValue | undefined,
+        category: {
+          connect: { id: categoryId },
+        },
         images: images?.length
           ? {
               create: images.map((img, i) => ({
@@ -113,7 +132,7 @@ export class ProductsService {
               })),
             }
           : undefined,
-      },
+      } as Prisma.ProductCreateInput,
       include: {
         category: { select: { id: true, name: true, slug: true } },
         images: true,
@@ -125,7 +144,7 @@ export class ProductsService {
   async update(id: string, dto: UpdateProductDto) {
     const existing = await this.prisma.product.findFirst({ where: { id, deletedAt: null } });
     if (!existing) throw new NotFoundException('Product not found');
-    const { images, ...data } = dto;
+    const { images, categoryId, specs, price, ...rest } = dto;
     if (images !== undefined) {
       await this.prisma.productImage.deleteMany({ where: { productId: id } });
       if (images.length) {
@@ -142,9 +161,17 @@ export class ProductsService {
     const product = await this.prisma.product.update({
       where: { id },
       data: {
-        ...data,
-        price: data.price !== undefined ? new Decimal(data.price) : undefined,
-      },
+        ...rest,
+        specs: specs as Prisma.InputJsonValue | undefined,
+        price: price !== undefined ? new Decimal(price) : undefined,
+        ...(categoryId !== undefined
+          ? {
+              category: {
+                connect: { id: categoryId },
+              },
+            }
+          : {}),
+      } as Prisma.ProductUpdateInput,
       include: {
         category: { select: { id: true, name: true, slug: true } },
         images: { orderBy: { sortOrder: 'asc' } },

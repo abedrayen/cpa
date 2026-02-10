@@ -18,8 +18,8 @@ cp .env.example .env
 # Edit .env: DATABASE_URL, JWT_ACCESS_SECRET, JWT_REFRESH_SECRET (min 32 chars)
 npm install
 npx prisma generate
-npx prisma migrate dev   # or db push for dev
-npx prisma db seed      # creates admin@cpa.local / ChangeMeInProduction!
+npm run db:migrate       # use project Prisma 5 (do not use `npx prisma` – it may install Prisma 7 and break)
+npx prisma db seed      # admin user + Catalogue category + 6 TND products
 npm run dev             # http://localhost:3001
 ```
 
@@ -47,6 +47,8 @@ npm run dev             # turbo dev (both apps)
 - **Admin:** /admin/login, /admin (dashboard, categories, products, orders)
 - **API:** http://localhost:3001/api/v1 (products, categories, orders, auth, admin)
 
+admin@cpa.local 
+ChangeMeInProduction!
 ## Docs
 
 See [docs/DELIVERABLES.md](docs/DELIVERABLES.md) for schema, API list, SEO and performance notes, and production checklist.
