@@ -18,6 +18,8 @@ interface Order {
   status: string;
   customerName: string;
   customerEmail: string;
+  customerPhone?: string | null;
+  notes?: string | null;
   createdAt: string;
   items: OrderItem[];
 }
@@ -136,6 +138,7 @@ export default function AdminOrdersPage() {
                 <th scope="col">Status</th>
                 <th scope="col">Date</th>
                 <th scope="col">Items</th>
+                <th scope="col">Notes</th>
               </tr>
             </thead>
             <tbody>
@@ -150,6 +153,14 @@ export default function AdminOrdersPage() {
                     <span style={{ fontSize: '0.8125rem', color: 'var(--color-muted)' }}>
                       {o.customerEmail}
                     </span>
+                    {o.customerPhone ? (
+                      <>
+                        <br />
+                        <span style={{ fontSize: '0.8125rem', color: 'var(--color-muted)' }}>
+                          {o.customerPhone}
+                        </span>
+                      </>
+                    ) : null}
                   </td>
                   <td>
                     <StatusBadge status={o.status} />
@@ -163,6 +174,9 @@ export default function AdminOrdersPage() {
                         </li>
                       ))}
                     </ul>
+                  </td>
+                  <td style={{ fontSize: '0.8125rem', color: 'var(--color-muted)', maxWidth: '260px' }}>
+                    {o.notes ?? '—'}
                   </td>
                 </tr>
               ))}
