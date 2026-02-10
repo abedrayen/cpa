@@ -6,11 +6,9 @@ rules:
 
   # URL & Routing
   - All public pages MUST use clean, keyword-based URLs.
-  - NEVER use query parameters for product or category pages.
-  - Product URLs MUST follow:
-      /aluminium/{product-name}-{variant}
-  - Category URLs MUST follow:
-      /aluminium/{category}/{subcategory}
+  - NEVER use query parameters for product pages.
+  - Product URLs MUST follow: /products/{product-slug}
+  - Product list: /products (no category filtering).
 
   # Meta & Indexing
   - Every indexable page MUST include:
@@ -50,8 +48,8 @@ rules:
 
   # Internal Linking
   - Product pages MUST link to:
-      - Parent category
-      - At least 3 related products
+      - Products list (/products)
+      - Related products where available
   - Orphan pages are NOT allowed.
 
   # Crawl Control

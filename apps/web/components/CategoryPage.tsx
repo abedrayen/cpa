@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ProductCard } from '@/components/ProductCard';
+import { SiteHeader } from '@/components/SiteHeader';
 import type { Category, Product } from '@/lib/types';
 
 export function CategoryPage({
@@ -13,14 +14,7 @@ export function CategoryPage({
 }) {
   return (
     <>
-      <header className="site-header">
-        <div className="container">
-          <Link href="/" className="logo">CPA Aluminium</Link>
-          <nav>
-            <Link href="/aluminium">Aluminium</Link>
-          </nav>
-        </div>
-      </header>
+      <SiteHeader />
 
       <main className="container" style={{ paddingTop: '2rem', paddingBottom: '4rem' }}>
         <nav aria-label="Breadcrumb" className="breadcrumb">

@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { fetcher } from '@/lib/api';
-import type { Category, Product, Paginated } from '@/lib/types';
+import type { Product, Paginated } from '@/lib/types';
 import { ProductCard } from '@/components/ProductCard';
+import { SiteHeader } from '@/components/SiteHeader';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;
@@ -20,29 +21,15 @@ export const metadata = {
 };
 
 async function getLandingData() {
-  const [categories, products] = await Promise.all([
-    fetcher<Category[]>('/categories/tree'),
-    fetcher<Paginated<Product>>('/products?limit=8&sort=createdAt&order=desc'),
-  ]);
-  return { categories, products };
+  return fetcher<Paginated<Product>>('/products?limit=8&sort=createdAt&order=desc');
 }
 
 export default async function HomePage() {
-  const { categories, products } = await getLandingData();
-  const rootCategories = categories.filter((c) => !c.parentId);
+  const products = await getLandingData();
 
   return (
     <>
-      <header className="site-header" role="banner">
-        <div className="container">
-          <Link href="/" className="logo" aria-current="page">
-            CPA Aluminium
-          </Link>
-          <nav aria-label="Main">
-            <Link href="/aluminium">Aluminium</Link>
-          </nav>
-        </div>
-      </header>
+      <SiteHeader homeCurrent />
 
       <main id="main-content">
         <section className="hero" aria-labelledby="hero-heading">
@@ -52,38 +39,9 @@ export default async function HomePage() {
               High-quality aluminium solutions for residential and commercial projects.
               Request a quote or buy online. Trusted supplier with years of experience.
             </p>
-            <Link href="/aluminium" className="btn btn-primary">
-              View catalogue
+            <Link href="/products" className="btn btn-primary">
+              View all products
             </Link>
-          </div>
-        </section>
-
-        <section className="section landing-section" aria-labelledby="categories-heading">
-          <div className="container">
-            <h2 id="categories-heading">Featured Aluminium Categories</h2>
-            <p className="section-lead">
-              Browse by category to find windows, doors, and profiles for your project.
-            </p>
-            <ul className="category-grid" role="list">
-              {rootCategories.map((cat) => (
-                <li key={cat.id}>
-                  <Link href={`/aluminium/${cat.slug}`} className="category-card-link">
-                    {cat.name}
-                  </Link>
-                  {cat.children?.length ? (
-                    <ul role="list">
-                      {cat.children.slice(0, 5).map((child) => (
-                        <li key={child.id}>
-                          <Link href={`/aluminium/${cat.slug}/${child.slug}`}>
-                            {child.name}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : null}
-                </li>
-              ))}
-            </ul>
           </div>
         </section>
 
@@ -91,17 +49,17 @@ export default async function HomePage() {
           <div className="container">
             <h2 id="products-heading">Featured Products</h2>
             <p className="section-lead">
-              Popular aluminium products. Request a quote or view full catalogue.
+              Popular products. Request a quote or view the full list.
             </p>
             <ul className="product-grid" role="list">
               {products.data.map((p) => (
                 <li key={p.id}>
-                  <ProductCard product={p} basePath="/aluminium" />
+                  <ProductCard product={p} basePath="/products" />
                 </li>
               ))}
             </ul>
             <p className="section-cta">
-              <Link href="/aluminium">View all products</Link>
+              <Link href="/products">View all products</Link>
             </p>
           </div>
         </section>
@@ -118,29 +76,6 @@ export default async function HomePage() {
               <li>Expert support and project guidance</li>
               <li>Years of experience in residential and commercial supply</li>
             </ul>
-          </div>
-        </section>
-
-        <section className="section landing-internal" aria-labelledby="explore-heading">
-          <div className="container">
-            <h2 id="explore-heading">Explore by Category</h2>
-            <p className="section-lead">
-              Quick links to our main aluminium product categories.
-            </p>
-            <nav aria-label="Category links">
-              <ul className="internal-links" role="list">
-                {rootCategories.map((cat) => (
-                  <li key={cat.id}>
-                    <Link href={`/aluminium/${cat.slug}`}>
-                      {cat.name}
-                    </Link>
-                  </li>
-                ))}
-                <li>
-                  <Link href="/aluminium">Full aluminium catalogue</Link>
-                </li>
-              </ul>
-            </nav>
           </div>
         </section>
       </main>

@@ -7,6 +7,8 @@ function productUrl(
   basePath: string,
   categoryPath?: string
 ): string {
+  // Flat product list: no category in URL
+  if (basePath === '/products') return `${basePath}/${product.slug}`;
   const path = categoryPath ?? product.category?.slug;
   if (path) return `${basePath}/${path}/${product.slug}`;
   return `${basePath}/p/${product.slug}`;

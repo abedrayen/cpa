@@ -3,6 +3,7 @@ import Image from 'next/image';
 import type { Product } from '@/lib/types';
 import { OrderForm } from '@/components/OrderForm';
 import { ProductCard } from '@/components/ProductCard';
+import { SiteHeader } from '@/components/SiteHeader';
 
 function priceCurrency(_specs: Product['specs']): string {
   return 'TND';
@@ -56,18 +57,20 @@ export function ProductPage({
   related,
   breadcrumb,
   pathSegments = [],
+  productsBasePath = '/products',
 }: {
   product: Product;
   related: Product[];
   breadcrumb: { name: string; slug: string }[];
   pathSegments?: string[];
+  productsBasePath?: string;
 }) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? '';
   const path = pathSegments.length ? pathSegments.join('/') : product.slug;
-  const canonical = `${siteUrl}/aluminium/${path}`.replace(/\/+/g, '/');
+  const canonical = `${siteUrl}${productsBasePath}/${path}`.replace(/\/+/g, '/');
   const breadcrumbUrls = [
     { name: 'Home', url: siteUrl || '/' },
-    { name: 'Aluminium', url: `${siteUrl}/aluminium` },
+    { name: 'Products', url: `${siteUrl}${productsBasePath}` },
     ...breadcrumb.map((b) => ({ name: b.name, url: `${siteUrl}${b.slug}` })),
     { name: product.name, url: canonical },
   ];
@@ -77,26 +80,13 @@ export function ProductPage({
       <ProductSchema product={product} canonical={canonical} />
       <BreadcrumbSchema items={breadcrumbUrls} />
 
-      <header className="site-header">
-        <div className="container">
-          <Link href="/" className="logo">CPA Aluminium</Link>
-          <nav>
-            <Link href="/aluminium">Aluminium</Link>
-          </nav>
-        </div>
-      </header>
+      <SiteHeader />
 
       <main className="container" style={{ paddingTop: '2rem', paddingBottom: '4rem' }}>
         <nav aria-label="Breadcrumb" className="breadcrumb">
           <Link href="/">Home</Link>
           <span aria-hidden>/</span>
-          <Link href="/aluminium">Aluminium</Link>
-          {breadcrumb.map((b) => (
-            <span key={b.slug}>
-              <span aria-hidden>/</span>
-              <Link href={b.slug}>{b.name}</Link>
-            </span>
-          ))}
+          <Link href={productsBasePath}>Products</Link>
           <span aria-hidden>/</span>
           <span>{product.name}</span>
         </nav>
@@ -161,7 +151,7 @@ export function ProductPage({
             <ul className="product-grid">
               {related.map((p) => (
                 <li key={p.id}>
-                  <ProductCard product={p} basePath="/aluminium" />
+                  <ProductCard product={p} basePath={productsBasePath} />
                 </li>
               ))}
             </ul>

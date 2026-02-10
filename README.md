@@ -43,7 +43,7 @@ npm run dev             # turbo dev (both apps)
 
 ## Main URLs
 
-- **Site:** / (landing), /aluminium (catalogue), /aluminium/{category}/{product}
+- **Site:** / (landing), /products (all products), /products/{slug} (product page)
 - **Admin:** /admin/login, /admin (dashboard, categories, products, orders)
 - **API:** http://localhost:3001/api/v1 (products, categories, orders, auth, admin)
 
