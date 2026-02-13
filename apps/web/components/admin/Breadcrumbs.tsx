@@ -8,7 +8,7 @@ export interface BreadcrumbItem {
 export function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
   if (items.length === 0) return null;
   return (
-    <nav aria-label="Breadcrumb" className="admin-breadcrumb">
+    <nav aria-label="Fil d'Ariane" className="admin-breadcrumb">
       {items.map((item, i) => (
         <span key={i}>
           {i > 0 && <span aria-hidden> / </span>}

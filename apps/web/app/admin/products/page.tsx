@@ -42,7 +42,7 @@ export default function AdminProductsPage() {
       })
       .catch(() => {
         setProducts([]);
-        setError('Failed to load products.');
+        setError('Impossible de charger les produits.');
       })
       .finally(() => setLoading(false));
   }, [meta.limit, meta.page]);
@@ -54,12 +54,12 @@ export default function AdminProductsPage() {
   if (loading && products.length === 0) {
     return (
       <>
-        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Products' }]} />
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Produits' }]} />
         <div className="admin-page-header">
-          <h1 className="admin-page-title">Products</h1>
+          <h1 className="admin-page-title">Produits</h1>
         </div>
         <div className="admin-loading" role="status" aria-live="polite">
-          Loading products…
+          Chargement des produits…
         </div>
       </>
     );
@@ -70,19 +70,19 @@ export default function AdminProductsPage() {
       <Breadcrumbs
         items={[
           { label: 'Admin', href: '/admin' },
-          { label: 'Products', href: '/admin/products' },
+          { label: 'Produits', href: '/admin/products' },
         ]}
       />
       <header className="admin-page-header">
-        <h1 className="admin-page-title">Products</h1>
+        <h1 className="admin-page-title">Produits</h1>
         <p style={{ margin: 0, color: 'var(--color-muted)', fontSize: '0.9375rem' }}>
-          {meta.total > 0 ? `${meta.total} product${meta.total !== 1 ? 's' : ''}` : 'No products yet'}
+          {meta.total > 0 ? `${meta.total} produit${meta.total !== 1 ? 's' : ''}` : 'Aucun produit pour le moment'}
         </p>
       </header>
 
       <div className="admin-sticky-bar">
         <Link href="/admin/products/new" className="btn btn-primary">
-          New product
+          Nouveau produit
         </Link>
       </div>
 
@@ -94,9 +94,9 @@ export default function AdminProductsPage() {
 
       {products.length === 0 && !error ? (
         <div className="admin-empty">
-          <p>No products.</p>
+          <p>Aucun produit.</p>
           <Link href="/admin/products/new" className="btn btn-primary" style={{ marginTop: '1rem' }}>
-            Add first product
+            Ajouter le premier produit
           </Link>
         </div>
       ) : (
@@ -106,10 +106,10 @@ export default function AdminProductsPage() {
               <thead>
                 <tr>
                   <th scope="col">Image</th>
-                  <th scope="col">Name</th>
+                  <th scope="col">Nom</th>
                   <th scope="col">Slug</th>
-                  <th scope="col">Price</th>
-                  <th scope="col">Active</th>
+                  <th scope="col">Prix</th>
+                  <th scope="col">Actif</th>
                   <th scope="col">Actions</th>
                 </tr>
               </thead>
@@ -137,10 +137,10 @@ export default function AdminProductsPage() {
                       <code style={{ fontSize: '0.8125rem' }}>{p.slug}</code>
                     </td>
                     <td>{p.price}</td>
-                    <td>{p.isActive ? 'Yes' : 'No'}</td>
+                    <td>{p.isActive ? 'Oui' : 'Non'}</td>
                     <td>
                       <Link href={`/admin/products/${p.id}/edit`} style={{ marginRight: '0.75rem' }}>
-                        Edit
+                        Modifier
                       </Link>
                       <button
                         type="button"
@@ -148,7 +148,7 @@ export default function AdminProductsPage() {
                         className="btn-danger"
                         style={{ padding: '0.25rem 0.5rem', fontSize: '0.8125rem' }}
                       >
-                        Delete
+                        Supprimer
                       </button>
                     </td>
                   </tr>
@@ -158,10 +158,10 @@ export default function AdminProductsPage() {
           </div>
           <ConfirmDialog
             open={deleteId !== null}
-            title="Delete product"
-            message="This will soft-delete the product. It will no longer appear on the store. You can restore it from the database if needed."
-            confirmLabel="Delete"
-            cancelLabel="Cancel"
+            title="Supprimer le produit"
+            message="Le produit sera désactivé (suppression douce). Il n’apparaîtra plus en boutique. Vous pourrez le réactiver depuis la base de données si besoin."
+            confirmLabel="Supprimer"
+            cancelLabel="Annuler"
             variant="danger"
             onConfirm={async () => {
               if (!deleteId) return;
@@ -173,16 +173,16 @@ export default function AdminProductsPage() {
               });
               setDeleteId(null);
               if (res.ok) {
-                addToast('Product deleted.', 'success');
+                addToast('Produit supprimé.', 'success');
                 load();
               } else {
-                addToast('Failed to delete product.', 'error');
+                addToast('Impossible de supprimer le produit.', 'error');
               }
             }}
             onCancel={() => setDeleteId(null)}
           />
           {meta.totalPages > 1 && (
-            <nav aria-label="Products pagination" style={{ marginTop: '1rem', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+            <nav aria-label="Pagination des produits" style={{ marginTop: '1rem', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
               <button
                 type="button"
                 disabled={meta.page <= 1}
@@ -196,10 +196,10 @@ export default function AdminProductsPage() {
                   opacity: meta.page <= 1 ? 0.6 : 1,
                 }}
               >
-                Previous
+                Précédent
               </button>
               <span style={{ fontSize: '0.875rem', color: 'var(--color-muted)' }}>
-                Page {meta.page} of {meta.totalPages}
+                Page {meta.page} sur {meta.totalPages}
               </span>
               <button
                 type="button"
@@ -214,7 +214,7 @@ export default function AdminProductsPage() {
                   opacity: meta.page >= meta.totalPages ? 0.6 : 1,
                 }}
               >
-                Next
+                Suivant
               </button>
             </nav>
           )}

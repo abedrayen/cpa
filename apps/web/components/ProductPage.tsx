@@ -4,6 +4,12 @@ import type { Product } from '@/lib/types';
 import { OrderForm } from '@/components/OrderForm';
 import { ProductCard } from '@/components/ProductCard';
 import { SiteHeader } from '@/components/SiteHeader';
+import { ProductGallery } from '@/components/product/ProductGallery';
+import { ProductStickyCta } from '@/components/product/ProductStickyCta';
+import { ProductPdpTabs } from '@/components/product/ProductPdpTabs';
+import { ProductFaq } from '@/components/product/ProductFaq';
+
+const ORDER_BLOCK_ID = 'pdp-order-block';
 
 function priceCurrency(_specs: Product['specs']): string {
   return 'TND';
@@ -23,6 +29,7 @@ function ProductSchema({ product, canonical }: { product: Product; canonical: st
       priceCurrency: priceCurrency(product.specs),
       availability: product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
       url: canonical,
+      priceValidUntil: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
     },
   };
   return (
@@ -52,12 +59,31 @@ function BreadcrumbSchema({ items }: { items: { name: string; url: string }[] })
   );
 }
 
+function shortDescription(description: string, maxLen = 200): string {
+  const trimmed = description.trim();
+  if (trimmed.length <= maxLen) return trimmed;
+  const cut = trimmed.slice(0, maxLen).replace(/\s+\S*$/, '');
+  return cut + (cut.length < trimmed.length ? '…' : '');
+}
+
+function formatPrice(product: Product): string {
+  if (product.isQuoteOnly) return 'Demander un devis';
+  const unit = (product.specs as { unit?: string } | null)?.unit;
+  return `À partir de ${product.price}${unit ? ` ${unit}` : ''}`.trim();
+}
+
+const HIGHLIGHTS = [
+  { label: 'Matériau', value: 'Aluminium' },
+  { label: 'Durabilité', value: 'Résistant à la corrosion' },
+  { label: 'Service', value: 'Sousse et Tunisie' },
+];
+
 export function ProductPage({
   product,
   related,
   breadcrumb,
   pathSegments = [],
-  productsBasePath = '/products',
+  productsBasePath = '/produits',
 }: {
   product: Product;
   related: Product[];
@@ -69,11 +95,12 @@ export function ProductPage({
   const path = pathSegments.length ? pathSegments.join('/') : product.slug;
   const canonical = `${siteUrl}${productsBasePath}/${path}`.replace(/\/+/g, '/');
   const breadcrumbUrls = [
-    { name: 'Home', url: siteUrl || '/' },
-    { name: 'Products', url: `${siteUrl}${productsBasePath}` },
-    ...breadcrumb.map((b) => ({ name: b.name, url: `${siteUrl}${b.slug}` })),
+    { name: 'Accueil', url: siteUrl || '/' },
+    { name: 'Produits', url: `${siteUrl}${productsBasePath}` },
+    ...breadcrumb.map((b) => ({ name: b.name, url: `${siteUrl}${productsBasePath}/${b.slug}` })),
     { name: product.name, url: canonical },
   ];
+  const hasImages = product.images && product.images.length > 0;
 
   return (
     <>
@@ -82,86 +109,114 @@ export function ProductPage({
 
       <SiteHeader />
 
-      <main className="container" style={{ paddingTop: '2rem', paddingBottom: '4rem' }}>
-        <nav aria-label="Breadcrumb" className="breadcrumb">
-          <Link href="/">Home</Link>
-          <span aria-hidden>/</span>
-          <Link href={productsBasePath}>Products</Link>
-          <span aria-hidden>/</span>
-          <span>{product.name}</span>
-        </nav>
+      <ProductStickyCta product={product} orderBlockId={ORDER_BLOCK_ID} />
 
-        <article>
-          <h1>{product.name}</h1>
+      <main id="main-content" className="pdp">
+        <div className="container pdp__container">
+          <nav aria-label="Fil d'Ariane" className="breadcrumb pdp__breadcrumb">
+            <ol className="breadcrumb__list">
+              <li><Link href="/">Accueil</Link></li>
+              <li><Link href={productsBasePath}>Produits</Link></li>
+              <li aria-current="page">{product.name}</li>
+            </ol>
+          </nav>
 
-          {product.images?.length ? (
-            <div className="product-gallery">
-              {product.images.map((img) => (
-                <Image
-                  key={img.id}
-                  src={img.url}
-                  alt={img.alt || product.name}
-                  width={800}
-                  height={600}
-                  sizes="(max-width: 640px) 100vw, 800px"
-                  priority={product.images[0]?.id === img.id}
-                />
-              ))}
-            </div>
-          ) : null}
-
-          <div className="product-meta">
-            <p className="product-price">
-              {product.isQuoteOnly
-                ? 'Request quote'
-                : `From ${product.price}${(product.specs as { unit?: string } | null)?.unit ? ` ${(product.specs as { unit: string }).unit}` : ''}`.trim()}
-            </p>
-          </div>
-
-          <section>
-            <h2>Description</h2>
-            <p className="product-description">{product.description}</p>
-          </section>
-
-          {product.specs && Object.keys(product.specs as object).length > 0 ? (
-            <section>
-              <h2>Technical specifications</h2>
-              <table className="specs-table">
-                <tbody>
-                  {Object.entries(product.specs as Record<string, unknown>).map(([key, value]) => (
-                    <tr key={key}>
-                      <th>{key}</th>
-                      <td>{String(value)}</td>
-                    </tr>
+          <article className="pdp__article">
+            {/* Hero: gallery + info */}
+            <header className="pdp-hero">
+              <div className="pdp-hero__gallery">
+                {hasImages ? (
+                  <ProductGallery images={product.images!} productName={product.name} />
+                ) : (
+                  <div className="pdp-gallery pdp-gallery--empty" aria-hidden>
+                    <span className="pdp-gallery__placeholder">Aucune image</span>
+                  </div>
+                )}
+                <ul className="pdp-hero__highlights" role="list">
+                  {HIGHLIGHTS.map((h) => (
+                    <li key={h.label} className="pdp-hero__highlight">
+                      <span className="pdp-hero__highlight-label">{h.label}</span>
+                      <span className="pdp-hero__highlight-value">{h.value}</span>
+                    </li>
                   ))}
-                </tbody>
-              </table>
+                </ul>
+              </div>
+              <div className="pdp-hero__info">
+                <h1 className="pdp-hero__title">{product.name}</h1>
+                <p className="pdp-hero__short-desc">{shortDescription(product.description)}</p>
+                <div className="pdp-hero__price-wrap">
+                  <p className="product-price pdp-hero__price">{formatPrice(product)}</p>
+                  {!product.isQuoteOnly && (
+                    <span
+                      className={`pdp-hero__stock ${product.stock > 0 ? 'pdp-hero__stock--in' : 'pdp-hero__stock--out'}`}
+                      aria-label={product.stock > 0 ? 'En stock' : 'Rupture de stock'}
+                    >
+                      {product.stock > 0 ? 'En stock' : 'Rupture de stock'}
+                    </span>
+                  )}
+                </div>
+                <section
+                  id={ORDER_BLOCK_ID}
+                  className="pdp-order pdp-order--in-hero"
+                  aria-labelledby="pdp-order-heading"
+                >
+                  <h2 id="pdp-order-heading" className="pdp-order__title">
+                    {product.isQuoteOnly ? 'Demander un devis' : 'Commander'}
+                  </h2>
+                  <OrderForm product={product} />
+                </section>
+              </div>
+            </header>
+
+            {/* Details: tabs */}
+            <section className="pdp-details" aria-labelledby="pdp-details-heading">
+              <h2 id="pdp-details-heading" className="pdp-details__title">
+                Détails du produit
+              </h2>
+              <ProductPdpTabs description={product.description} specs={product.specs} />
             </section>
-          ) : null}
 
-          <section>
-            <h2>{product.isQuoteOnly ? 'Request quote' : 'Order'}</h2>
-            <OrderForm product={product} />
-          </section>
-        </article>
+            {/* Trust */}
+            <section className="pdp-trust" aria-labelledby="pdp-trust-heading">
+              <h2 id="pdp-trust-heading" className="pdp-trust__title">
+                Pourquoi nous choisir
+              </h2>
+              <ul className="pdp-trust__list" role="list">
+                <li>Produits aluminium de qualité pour usage résidentiel et commercial</li>
+                <li>Prix compétitifs et devis personnalisés</li>
+                <li>Livraison à Sousse et en Tunisie</li>
+                <li>Conseils d’experts et accompagnement professionnel</li>
+              </ul>
+            </section>
 
-        {related.length > 0 ? (
-          <section style={{ marginTop: '3rem' }}>
-            <h2>Related products</h2>
-            <ul className="product-grid">
-              {related.map((p) => (
-                <li key={p.id}>
-                  <ProductCard product={p} basePath={productsBasePath} />
-                </li>
-              ))}
-            </ul>
-          </section>
-        ) : null}
+            {/* FAQ */}
+            <ProductFaq />
+          </article>
+
+          {/* Related */}
+          {related.length > 0 && (
+            <section
+              className="pdp-related"
+              aria-labelledby="pdp-related-heading"
+            >
+              <h2 id="pdp-related-heading" className="pdp-related__title">
+                Produits associés
+              </h2>
+              <ul className="product-grid" role="list">
+                {related.map((p) => (
+                  <li key={p.id}>
+                    <ProductCard product={p} basePath={productsBasePath} />
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+        </div>
       </main>
 
-      <footer className="site-footer">
-        <div className="container">
-          <p>&copy; {new Date().getFullYear()} CPA Aluminium.</p>
+      <footer className="site-footer" role="contentinfo">
+        <div className="container site-footer__inner">
+          <p className="site-footer__copy">&copy; {new Date().getFullYear()} CPA Aluminium. Tous droits réservés.</p>
         </div>
       </footer>
     </>

@@ -37,8 +37,8 @@ export default function AdminNewProductPage() {
       }),
     });
     const data = await res.json().catch(() => ({}));
-    if (!res.ok) throw new Error(Array.isArray(data.message) ? data.message[0] : data.message ?? 'Failed to create');
-    addToast('Product created.', 'success');
+    if (!res.ok) throw new Error(Array.isArray(data.message) ? data.message[0] : data.message ?? 'Échec de la création');
+    addToast('Produit créé.', 'success');
     router.push('/admin/products');
   }
 
@@ -47,15 +47,15 @@ export default function AdminNewProductPage() {
       <Breadcrumbs
         items={[
           { label: 'Admin', href: '/admin' },
-          { label: 'Products', href: '/admin/products' },
-          { label: 'New product' },
+          { label: 'Produits', href: '/admin/products' },
+          { label: 'Nouveau produit' },
         ]}
       />
       <header className="admin-page-header">
-        <h1 className="admin-page-title">New product</h1>
+        <h1 className="admin-page-title">Nouveau produit</h1>
       </header>
       <ProductForm
-        submitLabel="Create product"
+        submitLabel="Créer le produit"
         onSubmit={handleSubmit}
         onCancel={() => router.push('/admin/products')}
       />

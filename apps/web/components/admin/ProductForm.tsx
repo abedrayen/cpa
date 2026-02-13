@@ -75,17 +75,17 @@ export function ProductForm({
     setSaving(true);
     const price = parseFloat(values.price);
     if (Number.isNaN(price) || price < 0) {
-      setError('Price must be a valid number.');
+      setError('Le prix doit être un nombre valide.');
       setSaving(false);
       return;
     }
     if (!values.name.trim()) {
-      setError('Name is required.');
+      setError('Le nom est obligatoire.');
       setSaving(false);
       return;
     }
     if (!values.slug.trim()) {
-      setError('Slug is required.');
+      setError('Le slug est obligatoire.');
       setSaving(false);
       return;
     }
@@ -93,7 +93,7 @@ export function ProductForm({
       await onSubmit(values);
       setSaving(false);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to save.');
+      setError(err instanceof Error ? err.message : 'Échec de l’enregistrement.');
       setSaving(false);
     }
   }
@@ -101,7 +101,7 @@ export function ProductForm({
   return (
     <form onSubmit={handleSubmit} className="admin-form" style={{ maxWidth: '560px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       <label htmlFor="product-name">
-        Name <span aria-hidden>*</span>
+        Nom <span aria-hidden>*</span>
       </label>
       <input
         id="product-name"
@@ -137,7 +137,7 @@ export function ProductForm({
           }}
           style={{ fontSize: '0.875rem', padding: '0.5rem' }}
         >
-          Sync from name
+          Générer depuis le nom
         </button>
       </div>
 
@@ -155,7 +155,7 @@ export function ProductForm({
       />
 
       <label htmlFor="product-price">
-        Price (numeric) <span aria-hidden>*</span>
+        Prix (nombre) <span aria-hidden>*</span>
       </label>
       <input
         id="product-price"
@@ -169,20 +169,20 @@ export function ProductForm({
         aria-required="true"
       />
 
-      <label htmlFor="product-unit">Pricing unit (e.g. TND/m, TND/m²)</label>
+      <label htmlFor="product-unit">Unité de prix (ex. TND/m, TND/m²)</label>
       <input
         id="product-unit"
         type="text"
         value={values.pricingUnit}
         onChange={(e) => update({ pricingUnit: e.target.value })}
-        placeholder="TND/unit"
+        placeholder="TND/unité"
         className="admin-input"
       />
 
       <fieldset style={{ border: '1px solid var(--color-border)', borderRadius: '8px', padding: '1rem', margin: 0 }}>
         <legend style={{ fontWeight: 600, padding: '0 0.25rem' }}>Images</legend>
         <p style={{ fontSize: '0.875rem', color: 'var(--color-muted)', margin: '0 0 0.75rem 0' }}>
-          Choose images from your device. Add descriptive alt text for each for accessibility and SEO.
+          Choisissez des images depuis votre appareil. Ajoutez un texte alternatif pour l’accessibilité et le référencement.
         </p>
         {values.images.map((img, i) => (
           <div
@@ -196,7 +196,7 @@ export function ProductForm({
             }}
           >
             <div>
-              <label htmlFor={`img-file-${i}`}>Image from device</label>
+              <label htmlFor={`img-file-${i}`}>Image depuis l’appareil</label>
               <input
                 id={`img-file-${i}`}
                 type="file"
@@ -210,7 +210,7 @@ export function ProductForm({
                     const res = await fetch('/api/upload', { method: 'POST', body: fd });
                     const data = await res.json();
                     if (!res.ok || !data.url) {
-                      throw new Error(data.message ?? 'Upload failed');
+                      throw new Error(data.message ?? 'Échec du téléversement');
                     }
                     const next = [...values.images];
                     next[i] = { ...next[i], url: data.url };
@@ -226,12 +226,12 @@ export function ProductForm({
               />
               {img.url ? (
                 <span style={{ fontSize: '0.75rem', color: 'var(--color-muted)', display: 'block', marginTop: '0.25rem' }}>
-                  Uploaded
+                  Téléversé
                 </span>
               ) : null}
             </div>
             <div>
-              <label htmlFor={`img-alt-${i}`}>Alt text</label>
+              <label htmlFor={`img-alt-${i}`}>Texte alternatif</label>
               <input
                 id={`img-alt-${i}`}
                 type="text"
@@ -241,7 +241,7 @@ export function ProductForm({
                   next[i] = { ...next[i], alt: e.target.value };
                   update({ images: next });
                 }}
-                placeholder="Describe the image"
+                placeholder="Décrire l’image"
                 className="admin-input"
               />
             </div>
@@ -249,9 +249,9 @@ export function ProductForm({
               type="button"
               onClick={() => update({ images: values.images.filter((_, j) => j !== i) })}
               style={{ padding: '0.5rem', fontSize: '0.875rem' }}
-              aria-label={`Remove image ${i + 1}`}
+              aria-label={`Supprimer l’image ${i + 1}`}
             >
-              Remove
+              Supprimer
             </button>
           </div>
         ))}
@@ -261,7 +261,7 @@ export function ProductForm({
           className="btn"
           style={{ background: 'var(--color-bg)', border: '1px solid var(--color-border)' }}
         >
-          Add image
+          Ajouter une image
         </button>
       </fieldset>
 
@@ -272,7 +272,7 @@ export function ProductForm({
             checked={values.isQuoteOnly}
             onChange={(e) => update({ isQuoteOnly: e.target.checked })}
           />
-          Quote only (hide price, show “Request quote”)
+          Sur devis uniquement (masquer le prix, afficher « Demander un devis »)
         </label>
       </div>
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
@@ -282,7 +282,7 @@ export function ProductForm({
             checked={values.isActive}
             onChange={(e) => update({ isActive: e.target.checked })}
           />
-          Active (visible on store)
+          Actif (visible en boutique)
         </label>
       </div>
 
@@ -293,10 +293,10 @@ export function ProductForm({
       )}
       <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.5rem' }}>
         <button type="submit" disabled={saving} className="btn btn-primary">
-          {saving ? 'Saving…' : submitLabel}
+          {saving ? 'Enregistrement…' : submitLabel}
         </button>
         <button type="button" onClick={onCancel} className="btn" style={{ background: 'var(--color-bg)', border: '1px solid var(--color-border)' }}>
-          Cancel
+          Annuler
         </button>
       </div>
     </form>

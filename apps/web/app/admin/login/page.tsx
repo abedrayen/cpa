@@ -26,15 +26,15 @@ export default function AdminLoginPage() {
         body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message?.[0] ?? 'Login failed');
+      if (!res.ok) throw new Error(data.message?.[0] ?? 'Échec de la connexion');
       if (data.user?.role !== 'ADMIN') {
-        throw new Error('Access denied. Admin role required.');
+        throw new Error('Accès refusé. Droits administrateur requis.');
       }
       setAdminToken(data.accessToken);
-      addToast('Signed in successfully.', 'success');
+      addToast('Connexion réussie.', 'success');
       router.replace('/admin');
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Login failed';
+      const message = err instanceof Error ? err.message : 'Échec de la connexion';
       setError(message);
       addToast(message, 'error');
     } finally {
@@ -45,11 +45,11 @@ export default function AdminLoginPage() {
   return (
     <div className="admin-login">
       <h1 id="admin-login-title" style={{ margin: '0 0 1rem', fontSize: '1.25rem' }}>
-        Admin login
+        Connexion administration
       </h1>
       <form onSubmit={handleSubmit} aria-labelledby="admin-login-title" noValidate>
         <label htmlFor="admin-email">
-          Email
+          E-mail
           <input
             id="admin-email"
             type="email"
@@ -62,7 +62,7 @@ export default function AdminLoginPage() {
           />
         </label>
         <label htmlFor="admin-password">
-          Password
+          Mot de passe
           <input
             id="admin-password"
             type="password"
@@ -80,7 +80,7 @@ export default function AdminLoginPage() {
           </p>
         )}
         <button type="submit" disabled={loading}>
-          {loading ? 'Signing in…' : 'Sign in'}
+          {loading ? 'Connexion…' : 'Se connecter'}
         </button>
       </form>
     </div>

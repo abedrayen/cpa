@@ -37,7 +37,7 @@ export default function AdminEditProductPage() {
           isActive: product.isActive ?? true,
         });
       })
-      .catch(() => setError('Failed to load product.'))
+      .catch(() => setError('Impossible de charger le produit.'))
       .finally(() => setLoading(false));
   }, [id]);
 
@@ -66,16 +66,16 @@ export default function AdminEditProductPage() {
       }),
     });
     const data = await res.json().catch(() => ({}));
-    if (!res.ok) throw new Error(Array.isArray(data.message) ? data.message[0] : data.message ?? 'Failed to update');
-    addToast('Product updated.', 'success');
+    if (!res.ok) throw new Error(Array.isArray(data.message) ? data.message[0] : data.message ?? 'Échec de la mise à jour');
+    addToast('Produit mis à jour.', 'success');
     router.push('/admin/products');
   }
 
   if (loading && !initial) {
     return (
       <>
-        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Products', href: '/admin/products' }, { label: 'Edit' }]} />
-        <div className="admin-loading" role="status">Loading…</div>
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Produits', href: '/admin/products' }, { label: 'Modifier' }]} />
+        <div className="admin-loading" role="status">Chargement…</div>
       </>
     );
   }
@@ -83,9 +83,9 @@ export default function AdminEditProductPage() {
   if (error || !initial) {
     return (
       <>
-        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Products', href: '/admin/products' }]} />
-        <p className="form-error" role="alert">{error ?? 'Product not found.'}</p>
-        <button type="button" onClick={() => router.push('/admin/products')} className="btn">Back to products</button>
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Produits', href: '/admin/products' }]} />
+        <p className="form-error" role="alert">{error ?? 'Produit introuvable.'}</p>
+        <button type="button" onClick={() => router.push('/admin/products')} className="btn">Retour aux produits</button>
       </>
     );
   }
@@ -95,17 +95,17 @@ export default function AdminEditProductPage() {
       <Breadcrumbs
         items={[
           { label: 'Admin', href: '/admin' },
-          { label: 'Products', href: '/admin/products' },
-          { label: 'Edit' },
+          { label: 'Produits', href: '/admin/products' },
+          { label: 'Modifier' },
         ]}
       />
       <header className="admin-page-header">
-        <h1 className="admin-page-title">Edit product</h1>
+        <h1 className="admin-page-title">Modifier le produit</h1>
         <p style={{ margin: 0, color: 'var(--color-muted)', fontSize: '0.9375rem' }}>{initial.name}</p>
       </header>
       <ProductForm
         initialValues={initial}
-        submitLabel="Save changes"
+        submitLabel="Enregistrer les modifications"
         onSubmit={handleSubmit}
         onCancel={() => router.push('/admin/products')}
       />

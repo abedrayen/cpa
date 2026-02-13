@@ -25,7 +25,7 @@ export async function generateMetadata({
   if (!product) return {};
   const title = product.metaTitle ?? product.name;
   const description = product.metaDescription ?? product.description.slice(0, 160);
-  const canonical = `${siteUrl}/products/${product.slug}`;
+  const canonical = `${siteUrl}/produits/${product.slug}`;
   return {
     title,
     description,
@@ -53,7 +53,7 @@ export default async function ProductSlugPage({
       related={related}
       breadcrumb={[]}
       pathSegments={[product.slug]}
-      productsBasePath="/products"
+      productsBasePath="/produits"
     />
   );
 }

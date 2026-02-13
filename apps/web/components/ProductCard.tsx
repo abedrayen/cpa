@@ -4,7 +4,7 @@ import type { Product } from '@/lib/types';
 
 export function ProductCard({
   product,
-  basePath = '/products',
+  basePath = '/produits',
 }: {
   product: Product;
   basePath?: string;
@@ -32,8 +32,8 @@ export function ProductCard({
         <h3 className="product-card-title">{product.name}</h3>
         <p className="product-card-price">
           {product.isQuoteOnly
-            ? 'Request quote'
-            : `From ${product.price}${(product.specs as { unit?: string } | null)?.unit ? ` ${(product.specs as { unit: string }).unit}` : ''}`.trim()}
+            ? 'Demander un devis'
+            : `À partir de ${product.price}${(product.specs as { unit?: string } | null)?.unit ? ` ${(product.specs as { unit: string }).unit}` : ''}`.trim()}
         </p>
       </Link>
     </article>

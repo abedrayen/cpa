@@ -31,11 +31,18 @@ const STATUS_CLASS: Record<string, string> = {
   CANCELED: 'admin-status--canceled',
 };
 
+const STATUS_LABEL: Record<string, string> = {
+  PENDING: 'En attente',
+  CONFIRMED: 'Confirmée',
+  COMPLETED: 'Terminée',
+  CANCELED: 'Annulée',
+};
+
 function StatusBadge({ status }: { status: string }) {
   const className = STATUS_CLASS[status] ?? 'admin-status--pending';
   return (
     <span className={`admin-status ${className}`}>
-      {status}
+      {STATUS_LABEL[status] ?? status}
     </span>
   );
 }
@@ -59,7 +66,7 @@ export default function AdminOrdersPage() {
       .then((data) => setOrders(data.data ?? []))
       .catch(() => {
         setOrders([]);
-        setError('Failed to load orders.');
+        setError('Impossible de charger les commandes.');
       })
       .finally(() => setLoading(false));
   }, [statusFilter]);
@@ -67,12 +74,12 @@ export default function AdminOrdersPage() {
   if (loading && orders.length === 0) {
     return (
       <>
-        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Orders' }]} />
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Commandes' }]} />
         <div className="admin-page-header">
-          <h1 className="admin-page-title">Orders</h1>
+          <h1 className="admin-page-title">Commandes</h1>
         </div>
         <div className="admin-loading" role="status" aria-live="polite">
-          Loading orders…
+          Chargement des commandes…
         </div>
       </>
     );
@@ -83,13 +90,13 @@ export default function AdminOrdersPage() {
       <Breadcrumbs
         items={[
           { label: 'Admin', href: '/admin' },
-          { label: 'Orders', href: '/admin/orders' },
+          { label: 'Commandes', href: '/admin/orders' },
         ]}
       />
       <header className="admin-page-header">
-        <h1 className="admin-page-title">Orders</h1>
+        <h1 className="admin-page-title">Commandes</h1>
         <p style={{ margin: 0, color: 'var(--color-muted)', fontSize: '0.9375rem' }}>
-          {orders.length > 0 ? `${orders.length} order${orders.length !== 1 ? 's' : ''}` : 'No orders'}
+          {orders.length > 0 ? `${orders.length} commande${orders.length !== 1 ? 's' : ''}` : 'Aucune commande'}
         </p>
       </header>
 
@@ -101,7 +108,7 @@ export default function AdminOrdersPage() {
 
       <div className="admin-sticky-bar">
         <label htmlFor="order-status-filter" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.875rem' }}>
-          Filter by status:
+          Filtrer par statut :
           <select
             id="order-status-filter"
             value={statusFilter}
@@ -115,18 +122,18 @@ export default function AdminOrdersPage() {
               fontSize: '0.875rem',
             }}
           >
-            <option value="">All</option>
-            <option value="PENDING">Pending</option>
-            <option value="CONFIRMED">Confirmed</option>
-            <option value="COMPLETED">Completed</option>
-            <option value="CANCELED">Canceled</option>
+            <option value="">Toutes</option>
+            <option value="PENDING">En attente</option>
+            <option value="CONFIRMED">Confirmée</option>
+            <option value="COMPLETED">Terminée</option>
+            <option value="CANCELED">Annulée</option>
           </select>
         </label>
       </div>
 
       {orders.length === 0 && !error ? (
         <div className="admin-empty">
-          <p>No orders match the current filter.</p>
+          <p>Aucune commande ne correspond au filtre.</p>
         </div>
       ) : (
         <div className="admin-table-wrap">
@@ -134,11 +141,11 @@ export default function AdminOrdersPage() {
             <thead>
               <tr>
                 <th scope="col">ID</th>
-                <th scope="col">Customer</th>
-                <th scope="col">Status</th>
+                <th scope="col">Client</th>
+                <th scope="col">Statut</th>
                 <th scope="col">Date</th>
-                <th scope="col">Items</th>
-                <th scope="col">Notes</th>
+                <th scope="col">Articles</th>
+                <th scope="col">Remarques</th>
               </tr>
             </thead>
             <tbody>

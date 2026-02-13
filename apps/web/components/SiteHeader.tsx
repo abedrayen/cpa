@@ -1,7 +1,13 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
-export function SiteHeader({ homeCurrent }: { homeCurrent?: boolean } = {}) {
+export function SiteHeader({
+  homeCurrent,
+  children,
+}: {
+  homeCurrent?: boolean;
+  children?: React.ReactNode;
+} = {}) {
   return (
     <header className="site-header" role="banner">
       <div className="container site-header-bar">
@@ -16,21 +22,29 @@ export function SiteHeader({ homeCurrent }: { homeCurrent?: boolean } = {}) {
           />
           <span className="logo-name">Comptoir Pro Aliminium</span>
         </Link>
-        <nav aria-label="Main">
-          <Link href="/products">Products</Link>
+        <nav aria-label="Navigation principale">
+          <Link href="/produits">Produits</Link>
+          <Link href="/#contact">Contact</Link>
         </nav>
       </div>
-      <div className="site-header-banner">
-        <Image
-          src="/media/header.jpg"
-          alt="Comptoir Pro Aliminium warehouse filled with aluminium profiles and extrusions"
-          fill
-          sizes="100vw"
-          className="site-header-banner-img"
-          loading="eager"
-          fetchPriority="high"
-        />
-      </div>
+      {homeCurrent && (
+        <div className="site-header-banner-wrap">
+          <div className="site-header-banner">
+            <Image
+              src="/media/header.jpg"
+              alt="Entrepôt Comptoir Pro Aluminium, profilés et extrusions aluminium"
+              fill
+              sizes="100vw"
+              className="site-header-banner-img"
+              loading="eager"
+              fetchPriority="high"
+            />
+          </div>
+          <div className="hero-overlay" aria-labelledby="hero-heading">
+            {children}
+          </div>
+        </div>
+      )}
     </header>
   );
 }

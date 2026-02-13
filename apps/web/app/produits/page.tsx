@@ -10,37 +10,37 @@ export const revalidate = 60;
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://example.com';
 
 export const metadata = {
-  title: 'Products',
+  title: 'Produits',
   description:
-    'Browse our products. Request a quote or buy online. Trusted supplier for residential and commercial projects.',
-  alternates: { canonical: `${siteUrl}/products` },
-  openGraph: { url: `${siteUrl}/products`, type: 'website' },
+    'Parcourez nos produits aluminium. Demande de devis ou achat en ligne. Fournisseur de confiance pour projets résidentiels et commerciaux.',
+  alternates: { canonical: `${siteUrl}/produits` },
+  openGraph: { url: `${siteUrl}/produits`, type: 'website' },
 };
 
 async function getProducts() {
   return fetcher<Paginated<Product>>('/products?limit=100&sort=name&order=asc');
 }
 
-export default async function ProductsPage() {
+export default async function ProduitsPage() {
   const { data: products } = await getProducts();
 
   return (
     <>
       <SiteHeader />
 
-      <main id="main-content" className="container" style={{ paddingTop: '2rem', paddingBottom: '4rem' }}>
-        <h1>Products</h1>
+      <main id="main-content" className="container main-content">
+        <h1>Produits</h1>
         <p className="section-lead">
-          Request a quote or view details for any product.
+          Demande de devis ou fiche détaillée pour chaque produit.
         </p>
         {products.length === 0 ? (
-          <p className="admin-empty">No products yet.</p>
+          <p className="admin-empty">Aucun produit pour le moment.</p>
         ) : (
           <>
             <ul className="product-grid" role="list">
               {products.map((p) => (
                 <li key={p.id}>
-                  <ProductCard product={p} basePath="/products" />
+                  <ProductCard product={p} basePath="/produits" />
                 </li>
               ))}
             </ul>
@@ -49,8 +49,8 @@ export default async function ProductsPage() {
       </main>
 
       <footer className="site-footer" role="contentinfo">
-        <div className="container">
-          <p>&copy; {new Date().getFullYear()} CPA Aluminium.</p>
+        <div className="container site-footer__inner">
+          <p className="site-footer__copy">&copy; {new Date().getFullYear()} CPA Aluminium. Tous droits réservés.</p>
         </div>
       </footer>
     </>

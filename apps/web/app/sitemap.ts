@@ -7,14 +7,14 @@ const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://example.com';
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
     { url: baseUrl, lastModified: new Date(), changeFrequency: 'daily', priority: 1 },
-    { url: `${baseUrl}/products`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.9 },
+    { url: `${baseUrl}/produits`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.9 },
   ];
 
   if (!process.env.NEXT_PUBLIC_API_URL) return staticPages;
   try {
     const res = await fetcher<{ data: Product[] }>('/products?limit=5000');
     const dynamic: MetadataRoute.Sitemap = res.data.map((p) => ({
-      url: `${baseUrl}/products/${p.slug}`,
+      url: `${baseUrl}/produits/${p.slug}`,
       lastModified: new Date(),
       changeFrequency: 'weekly' as const,
       priority: 0.8,

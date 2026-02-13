@@ -21,9 +21,9 @@ export function clearAdminToken(): void {
 }
 
 const navItems = [
-  { href: '/admin', label: 'Dashboard', short: 'D' },
-  { href: '/admin/products', label: 'Products', short: 'P' },
-  { href: '/admin/orders', label: 'Orders', short: 'O' },
+  { href: '/admin', label: 'Tableau de bord', short: 'T' },
+  { href: '/admin/products', label: 'Produits', short: 'P' },
+  { href: '/admin/orders', label: 'Commandes', short: 'C' },
 ] as const;
 
 export function AdminGuard({ children }: { children: React.ReactNode }) {
@@ -50,7 +50,7 @@ export function AdminGuard({ children }: { children: React.ReactNode }) {
   if (!allowed) {
     return (
       <div className="admin-loading" role="status" aria-live="polite">
-        Loading…
+        Chargement…
       </div>
     );
   }
@@ -59,7 +59,7 @@ export function AdminGuard({ children }: { children: React.ReactNode }) {
     return (
       <ToastProvider>
         <div className="admin-layout">
-          <main className="admin-main" style={{ marginLeft: 0 }}>{children}</main>
+          <main id="main-content" className="admin-main" style={{ marginLeft: 0 }}>{children}</main>
         </div>
       </ToastProvider>
     );
@@ -71,7 +71,7 @@ export function AdminGuard({ children }: { children: React.ReactNode }) {
         <aside
           className="admin-sidebar"
           aria-expanded={!sidebarCollapsed}
-          aria-label="Admin navigation"
+          aria-label="Navigation administration"
         >
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 0.5rem 0.5rem' }}>
             <Link href="/admin" className="admin-logo" style={{ padding: 0 }}>
@@ -81,7 +81,7 @@ export function AdminGuard({ children }: { children: React.ReactNode }) {
               type="button"
               className="admin-sidebar-toggle"
               onClick={() => setSidebarCollapsed((v) => !v)}
-              aria-label={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+              aria-label={sidebarCollapsed ? 'Déplier le menu' : 'Replier le menu'}
               aria-expanded={!sidebarCollapsed}
             >
               {sidebarCollapsed ? '→' : '←'}
@@ -118,11 +118,11 @@ export function AdminGuard({ children }: { children: React.ReactNode }) {
                 fontSize: '0.875rem',
               }}
             >
-              {sidebarCollapsed ? 'Out' : 'Logout'}
+              {sidebarCollapsed ? 'Sortir' : 'Déconnexion'}
             </button>
           </div>
         </aside>
-        <main className="admin-main">{children}</main>
+        <main id="main-content" className="admin-main">{children}</main>
       </div>
     </ToastProvider>
   );
