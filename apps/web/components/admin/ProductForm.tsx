@@ -11,12 +11,6 @@ function slugify(name: string): string {
     .replace(/^-|-$/g, '');
 }
 
-export interface CategoryOption {
-  id: string;
-  name: string;
-  slug: string;
-}
-
 export interface ProductImageInput {
   url: string;
   alt: string;
@@ -25,7 +19,6 @@ export interface ProductImageInput {
 export interface ProductFormValues {
   name: string;
   slug: string;
-  categoryId: string;
   description: string;
   price: string;
   pricingUnit: string;
@@ -37,7 +30,6 @@ export interface ProductFormValues {
 const defaultValues: ProductFormValues = {
   name: '',
   slug: '',
-  categoryId: '',
   description: '',
   price: '',
   pricingUnit: '',
@@ -47,13 +39,11 @@ const defaultValues: ProductFormValues = {
 };
 
 export function ProductForm({
-  categories,
   initialValues,
   submitLabel,
   onSubmit,
   onCancel,
 }: {
-  categories: CategoryOption[];
   initialValues?: Partial<ProductFormValues>;
   submitLabel: string;
   onSubmit: (values: ProductFormValues) => Promise<void>;
@@ -96,11 +86,6 @@ export function ProductForm({
     }
     if (!values.slug.trim()) {
       setError('Slug is required.');
-      setSaving(false);
-      return;
-    }
-    if (!values.categoryId) {
-      setError('Category is required.');
       setSaving(false);
       return;
     }
@@ -155,25 +140,6 @@ export function ProductForm({
           Sync from name
         </button>
       </div>
-
-      <label htmlFor="product-category">
-        Category <span aria-hidden>*</span>
-      </label>
-      <select
-        id="product-category"
-        value={values.categoryId}
-        onChange={(e) => update({ categoryId: e.target.value })}
-        required
-        className="admin-input"
-        aria-required="true"
-      >
-        <option value="">Select category</option>
-        {categories.map((c) => (
-          <option key={c.id} value={c.id}>
-            {c.name}
-          </option>
-        ))}
-      </select>
 
       <label htmlFor="product-description">
         Description <span aria-hidden>*</span>

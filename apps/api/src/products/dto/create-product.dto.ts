@@ -34,9 +34,6 @@ export class CreateProductDto {
   slug: string;
 
   @IsString()
-  categoryId: string;
-
-  @IsString()
   description: string;
 
   @IsOptional()

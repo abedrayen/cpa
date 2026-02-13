@@ -24,12 +24,8 @@ let ProductsController = class ProductsController {
     findAll(query) {
         return this.products.findAll(query);
     }
-    findByCategory(categorySlug, query) {
-        return this.products.findAll(query, categorySlug);
-    }
-    async findRelated(slug, limit) {
-        const product = await this.products.findBySlug(slug);
-        return this.products.findRelated(product.id, product.categoryId, limit ? parseInt(limit, 10) : 4);
+    findRelated(slug, limit) {
+        return this.products.findBySlug(slug).then((product) => this.products.findRelated(product.id, limit ? parseInt(limit, 10) : 4));
     }
     findBySlug(slug) {
         return this.products.findBySlug(slug);
@@ -46,21 +42,12 @@ __decorate([
 ], ProductsController.prototype, "findAll", null);
 __decorate([
     (0, public_decorator_1.Public)(),
-    (0, common_1.Get)('category/:categorySlug'),
-    __param(0, (0, common_1.Param)('categorySlug')),
-    __param(1, (0, common_1.Query)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, product_query_dto_1.ProductQueryDto]),
-    __metadata("design:returntype", void 0)
-], ProductsController.prototype, "findByCategory", null);
-__decorate([
-    (0, public_decorator_1.Public)(),
     (0, common_1.Get)(':slug/related'),
     __param(0, (0, common_1.Param)('slug')),
     __param(1, (0, common_1.Query)('limit')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", void 0)
 ], ProductsController.prototype, "findRelated", null);
 __decorate([
     (0, public_decorator_1.Public)(),

@@ -6,7 +6,6 @@ export declare class ProductImageDto {
 export declare class CreateProductDto {
     name: string;
     slug: string;
-    categoryId: string;
     description: string;
     specs?: Record<string, unknown>;
     price: number;

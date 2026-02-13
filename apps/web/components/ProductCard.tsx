@@ -2,28 +2,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 import type { Product } from '@/lib/types';
 
-function productUrl(
-  product: Product,
-  basePath: string,
-  categoryPath?: string
-): string {
-  // Flat product list: no category in URL
-  if (basePath === '/products') return `${basePath}/${product.slug}`;
-  const path = categoryPath ?? product.category?.slug;
-  if (path) return `${basePath}/${path}/${product.slug}`;
-  return `${basePath}/p/${product.slug}`;
-}
-
 export function ProductCard({
   product,
-  basePath = '/aluminium',
-  categoryPath,
+  basePath = '/products',
 }: {
   product: Product;
   basePath?: string;
-  categoryPath?: string;
 }) {
-  const href = productUrl(product, basePath, categoryPath);
+  const href = `${basePath}/${product.slug}`;
   const img = product.images?.[0];
 
   return (

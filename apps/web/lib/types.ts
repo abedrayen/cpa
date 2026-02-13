@@ -1,15 +1,3 @@
-export interface Category {
-  id: string;
-  name: string;
-  slug: string;
-  parentId: string | null;
-  sortOrder: number;
-  metaTitle: string | null;
-  metaDescription: string | null;
-  parent?: Category | null;
-  children?: Category[];
-}
-
 export interface ProductImage {
   id: string;
   url: string;
@@ -26,8 +14,6 @@ export interface Product {
   price: string;
   isQuoteOnly: boolean;
   stock: number;
-  categoryId: string;
-  category?: { id: string; name: string; slug: string; parent?: { name: string; slug: string } | null };
   images?: ProductImage[];
   metaTitle?: string | null;
   metaDescription?: string | null;

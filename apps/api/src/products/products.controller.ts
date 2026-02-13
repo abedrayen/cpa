@@ -14,22 +14,10 @@ export class ProductsController {
   }
 
   @Public()
-  @Get('category/:categorySlug')
-  findByCategory(@Param('categorySlug') categorySlug: string, @Query() query: ProductQueryDto) {
-    return this.products.findAll(query, categorySlug);
-  }
-
-  @Public()
   @Get(':slug/related')
-  async findRelated(
-    @Param('slug') slug: string,
-    @Query('limit') limit?: string,
-  ) {
-    const product = await this.products.findBySlug(slug);
-    return this.products.findRelated(
-      product.id,
-      product.categoryId,
-      limit ? parseInt(limit, 10) : 4,
+  findRelated(@Param('slug') slug: string, @Query('limit') limit?: string) {
+    return this.products.findBySlug(slug).then((product) =>
+      this.products.findRelated(product.id, limit ? parseInt(limit, 10) : 4),
     );
   }
 

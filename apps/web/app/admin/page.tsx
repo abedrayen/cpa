@@ -15,24 +15,6 @@ export default function AdminDashboardPage() {
         <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
           <li>
             <Link
-              href="/admin/categories"
-              style={{
-                display: 'block',
-                padding: '1rem 1.25rem',
-                background: 'var(--color-surface)',
-                border: '1px solid var(--color-border)',
-                borderRadius: '8px',
-                color: 'var(--color-text)',
-                textDecoration: 'none',
-                fontWeight: 500,
-                transition: 'border-color var(--transition-duration), box-shadow var(--transition-duration)',
-              }}
-            >
-              Manage categories
-            </Link>
-          </li>
-          <li>
-            <Link
               href="/admin/products"
               style={{
                 display: 'block',

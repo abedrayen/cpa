@@ -16,7 +16,6 @@ interface Product {
   slug: string;
   price: string;
   isActive: boolean;
-  category?: { name: string; slug: string };
   images?: { id: string; url: string; alt: string }[];
 }
 
@@ -111,7 +110,6 @@ export default function AdminProductsPage() {
                   <th scope="col">Slug</th>
                   <th scope="col">Price</th>
                   <th scope="col">Active</th>
-                  <th scope="col">Category</th>
                   <th scope="col">Actions</th>
                 </tr>
               </thead>
@@ -140,7 +138,6 @@ export default function AdminProductsPage() {
                     </td>
                     <td>{p.price}</td>
                     <td>{p.isActive ? 'Yes' : 'No'}</td>
-                    <td>{p.category?.name ?? '—'}</td>
                     <td>
                       <Link href={`/admin/products/${p.id}/edit`} style={{ marginRight: '0.75rem' }}>
                         Edit

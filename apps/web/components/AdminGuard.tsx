@@ -22,7 +22,6 @@ export function clearAdminToken(): void {
 
 const navItems = [
   { href: '/admin', label: 'Dashboard', short: 'D' },
-  { href: '/admin/categories', label: 'Categories', short: 'C' },
   { href: '/admin/products', label: 'Products', short: 'P' },
   { href: '/admin/orders', label: 'Orders', short: 'O' },
 ] as const;

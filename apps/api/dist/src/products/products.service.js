@@ -17,16 +17,13 @@ let ProductsService = class ProductsService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    async findAll(query, categorySlug, forAdmin = false) {
+    async findAll(query, forAdmin = false) {
         const { page, limit, sort = 'name', order = 'asc', search } = query;
         const skip = (page - 1) * limit;
         const where = {
             deletedAt: null,
             ...(forAdmin ? {} : { isActive: true }),
         };
-        if (categorySlug) {
-            where.category = { slug: categorySlug, deletedAt: null };
-        }
         if (search?.trim()) {
             where.OR = [
                 { name: { contains: search.trim(), mode: 'insensitive' } },
@@ -40,7 +37,6 @@ let ProductsService = class ProductsService {
                 take: limit,
                 orderBy: { [sort]: order },
                 include: {
-                    category: { select: { id: true, name: true, slug: true } },
                     images: { orderBy: { sortOrder: 'asc' }, take: 1 },
                 },
             }),
@@ -49,7 +45,6 @@ let ProductsService = class ProductsService {
         const serialize = (p) => ({
             ...p,
             price: p.price.toString(),
-            category: p.category,
         });
         return {
             data: items.map(serialize),
@@ -60,14 +55,6 @@ let ProductsService = class ProductsService {
         const product = await this.prisma.product.findFirst({
             where: { id, deletedAt: null },
             include: {
-                category: {
-                    select: {
-                        id: true,
-                        name: true,
-                        slug: true,
-                        parent: { select: { name: true, slug: true } },
-                    },
-                },
                 images: { orderBy: { sortOrder: 'asc' } },
             },
         });
@@ -79,50 +66,35 @@ let ProductsService = class ProductsService {
         const product = await this.prisma.product.findFirst({
             where: { slug, deletedAt: null, isActive: true },
             include: {
-                category: {
-                    select: {
-                        id: true,
-                        name: true,
-                        slug: true,
-                        parent: { select: { name: true, slug: true } },
-                    },
-                },
                 images: { orderBy: { sortOrder: 'asc' } },
             },
         });
         if (!product)
             throw new common_1.NotFoundException('Product not found');
-        return {
-            ...product,
-            price: product.price.toString(),
-        };
+        return { ...product, price: product.price.toString() };
     }
-    async findRelated(productId, categoryId, limit = 4) {
+    async findRelated(productId, limit = 4) {
         const items = await this.prisma.product.findMany({
             where: {
                 id: { not: productId },
-                categoryId,
                 deletedAt: null,
                 isActive: true,
             },
             take: limit,
+            orderBy: { createdAt: 'desc' },
             include: {
-                category: { select: { slug: true, name: true } },
                 images: { orderBy: { sortOrder: 'asc' }, take: 1 },
             },
         });
         return items.map((p) => ({ ...p, price: p.price.toString() }));
     }
     async create(dto) {
-        const { images, categoryId, specs, price, ...rest } = dto;
+        const { images, specs, price, ...rest } = dto;
         const product = await this.prisma.product.create({
             data: {
                 ...rest,
                 price: new library_1.Decimal(price),
                 specs: specs,
-                category: {
-                    connect: { id: categoryId },
-                },
                 images: images?.length
                     ? {
                         create: images.map((img, i) => ({
@@ -133,10 +105,7 @@ let ProductsService = class ProductsService {
                     }
                     : undefined,
             },
-            include: {
-                category: { select: { id: true, name: true, slug: true } },
-                images: true,
-            },
+            include: { images: true },
         });
         return { ...product, price: product.price.toString() };
     }
@@ -144,7 +113,7 @@ let ProductsService = class ProductsService {
         const existing = await this.prisma.product.findFirst({ where: { id, deletedAt: null } });
         if (!existing)
             throw new common_1.NotFoundException('Product not found');
-        const { images, categoryId, specs, price, ...rest } = dto;
+        const { images, specs, price, ...rest } = dto;
         if (images !== undefined) {
             await this.prisma.productImage.deleteMany({ where: { productId: id } });
             if (images.length) {
@@ -164,18 +133,8 @@ let ProductsService = class ProductsService {
                 ...rest,
                 specs: specs,
                 price: price !== undefined ? new library_1.Decimal(price) : undefined,
-                ...(categoryId !== undefined
-                    ? {
-                        category: {
-                            connect: { id: categoryId },
-                        },
-                    }
-                    : {}),
             },
-            include: {
-                category: { select: { id: true, name: true, slug: true } },
-                images: { orderBy: { sortOrder: 'asc' } },
-            },
+            include: { images: { orderBy: { sortOrder: 'asc' } } },
         });
         return { ...product, price: product.price.toString() };
     }

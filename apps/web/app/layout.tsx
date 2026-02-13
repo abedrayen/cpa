@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    siteName: 'CPA Aluminium',
+    siteName: 'Comptoir Pro Aliminium',
   },
   twitter: { card: 'summary_large_image' },
   robots: { index: true, follow: true },
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'CPA Aluminium',
+  name: 'Comptoir Pro Aliminium',
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://example.com',
 };
 

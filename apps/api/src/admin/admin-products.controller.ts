@@ -26,7 +26,7 @@ export class AdminProductsController {
 
   @Get()
   findAll(@Query() query: ProductQueryDto) {
-    return this.products.findAll(query, undefined, true);
+    return this.products.findAll(query, true);
   }
 
   @Get('by-slug/:slug')

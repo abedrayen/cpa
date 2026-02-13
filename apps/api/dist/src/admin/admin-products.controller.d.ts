@@ -8,16 +8,11 @@ export declare class AdminProductsController {
     findAll(query: ProductQueryDto): Promise<{
         data: {
             price: string;
-            category: {
-                id: string;
-                name: string;
-                slug: string;
-            };
             images: {
                 id: string;
-                sortOrder: number;
                 url: string;
                 alt: string;
+                sortOrder: number;
                 productId: string;
             }[];
             id: string;
@@ -26,14 +21,13 @@ export declare class AdminProductsController {
             deletedAt: Date | null;
             name: string;
             slug: string;
-            metaTitle: string | null;
-            metaDescription: string | null;
-            categoryId: string;
             description: string;
             specs: import("@prisma/client/runtime/library").JsonValue | null;
             isQuoteOnly: boolean;
             stock: number;
             isActive: boolean;
+            metaTitle: string | null;
+            metaDescription: string | null;
         }[];
         meta: {
             total: number;
@@ -44,20 +38,11 @@ export declare class AdminProductsController {
     }>;
     findBySlug(slug: string): Promise<{
         price: string;
-        category: {
-            id: string;
-            name: string;
-            slug: string;
-            parent: {
-                name: string;
-                slug: string;
-            } | null;
-        };
         images: {
             id: string;
-            sortOrder: number;
             url: string;
             alt: string;
+            sortOrder: number;
             productId: string;
         }[];
         id: string;
@@ -66,31 +51,21 @@ export declare class AdminProductsController {
         deletedAt: Date | null;
         name: string;
         slug: string;
-        metaTitle: string | null;
-        metaDescription: string | null;
-        categoryId: string;
         description: string;
         specs: import("@prisma/client/runtime/library").JsonValue | null;
         isQuoteOnly: boolean;
         stock: number;
         isActive: boolean;
+        metaTitle: string | null;
+        metaDescription: string | null;
     }>;
     findById(id: string): Promise<{
         price: string;
-        category: {
-            id: string;
-            name: string;
-            slug: string;
-            parent: {
-                name: string;
-                slug: string;
-            } | null;
-        };
         images: {
             id: string;
-            sortOrder: number;
             url: string;
             alt: string;
+            sortOrder: number;
             productId: string;
         }[];
         id: string;
@@ -99,27 +74,21 @@ export declare class AdminProductsController {
         deletedAt: Date | null;
         name: string;
         slug: string;
-        metaTitle: string | null;
-        metaDescription: string | null;
-        categoryId: string;
         description: string;
         specs: import("@prisma/client/runtime/library").JsonValue | null;
         isQuoteOnly: boolean;
         stock: number;
         isActive: boolean;
+        metaTitle: string | null;
+        metaDescription: string | null;
     }>;
     create(dto: CreateProductDto): Promise<{
         price: string;
-        category: {
-            id: string;
-            name: string;
-            slug: string;
-        };
         images: {
             id: string;
-            sortOrder: number;
             url: string;
             alt: string;
+            sortOrder: number;
             productId: string;
         }[];
         id: string;
@@ -128,27 +97,21 @@ export declare class AdminProductsController {
         deletedAt: Date | null;
         name: string;
         slug: string;
-        metaTitle: string | null;
-        metaDescription: string | null;
-        categoryId: string;
         description: string;
         specs: import("@prisma/client/runtime/library").JsonValue | null;
         isQuoteOnly: boolean;
         stock: number;
         isActive: boolean;
+        metaTitle: string | null;
+        metaDescription: string | null;
     }>;
     update(id: string, dto: UpdateProductDto): Promise<{
         price: string;
-        category: {
-            id: string;
-            name: string;
-            slug: string;
-        };
         images: {
             id: string;
-            sortOrder: number;
             url: string;
             alt: string;
+            sortOrder: number;
             productId: string;
         }[];
         id: string;
@@ -157,14 +120,13 @@ export declare class AdminProductsController {
         deletedAt: Date | null;
         name: string;
         slug: string;
-        metaTitle: string | null;
-        metaDescription: string | null;
-        categoryId: string;
         description: string;
         specs: import("@prisma/client/runtime/library").JsonValue | null;
         isQuoteOnly: boolean;
         stock: number;
         isActive: boolean;
+        metaTitle: string | null;
+        metaDescription: string | null;
     }>;
     remove(id: string): Promise<{
         success: boolean;

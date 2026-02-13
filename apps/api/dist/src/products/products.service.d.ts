@@ -6,19 +6,14 @@ import { Prisma } from '@prisma/client';
 export declare class ProductsService {
     private readonly prisma;
     constructor(prisma: PrismaService);
-    findAll(query: ProductQueryDto, categorySlug?: string, forAdmin?: boolean): Promise<{
+    findAll(query: ProductQueryDto, forAdmin?: boolean): Promise<{
         data: {
             price: string;
-            category: {
-                id: string;
-                name: string;
-                slug: string;
-            };
             images: {
                 id: string;
-                sortOrder: number;
                 url: string;
                 alt: string;
+                sortOrder: number;
                 productId: string;
             }[];
             id: string;
@@ -27,14 +22,13 @@ export declare class ProductsService {
             deletedAt: Date | null;
             name: string;
             slug: string;
-            metaTitle: string | null;
-            metaDescription: string | null;
-            categoryId: string;
             description: string;
             specs: Prisma.JsonValue | null;
             isQuoteOnly: boolean;
             stock: number;
             isActive: boolean;
+            metaTitle: string | null;
+            metaDescription: string | null;
         }[];
         meta: {
             total: number;
@@ -45,20 +39,11 @@ export declare class ProductsService {
     }>;
     findById(id: string): Promise<{
         price: string;
-        category: {
-            id: string;
-            name: string;
-            slug: string;
-            parent: {
-                name: string;
-                slug: string;
-            } | null;
-        };
         images: {
             id: string;
-            sortOrder: number;
             url: string;
             alt: string;
+            sortOrder: number;
             productId: string;
         }[];
         id: string;
@@ -67,31 +52,21 @@ export declare class ProductsService {
         deletedAt: Date | null;
         name: string;
         slug: string;
-        metaTitle: string | null;
-        metaDescription: string | null;
-        categoryId: string;
         description: string;
         specs: Prisma.JsonValue | null;
         isQuoteOnly: boolean;
         stock: number;
         isActive: boolean;
+        metaTitle: string | null;
+        metaDescription: string | null;
     }>;
     findBySlug(slug: string): Promise<{
         price: string;
-        category: {
-            id: string;
-            name: string;
-            slug: string;
-            parent: {
-                name: string;
-                slug: string;
-            } | null;
-        };
         images: {
             id: string;
-            sortOrder: number;
             url: string;
             alt: string;
+            sortOrder: number;
             productId: string;
         }[];
         id: string;
@@ -100,26 +75,21 @@ export declare class ProductsService {
         deletedAt: Date | null;
         name: string;
         slug: string;
-        metaTitle: string | null;
-        metaDescription: string | null;
-        categoryId: string;
         description: string;
         specs: Prisma.JsonValue | null;
         isQuoteOnly: boolean;
         stock: number;
         isActive: boolean;
+        metaTitle: string | null;
+        metaDescription: string | null;
     }>;
-    findRelated(productId: string, categoryId: string, limit?: number): Promise<{
+    findRelated(productId: string, limit?: number): Promise<{
         price: string;
-        category: {
-            name: string;
-            slug: string;
-        };
         images: {
             id: string;
-            sortOrder: number;
             url: string;
             alt: string;
+            sortOrder: number;
             productId: string;
         }[];
         id: string;
@@ -128,27 +98,21 @@ export declare class ProductsService {
         deletedAt: Date | null;
         name: string;
         slug: string;
-        metaTitle: string | null;
-        metaDescription: string | null;
-        categoryId: string;
         description: string;
         specs: Prisma.JsonValue | null;
         isQuoteOnly: boolean;
         stock: number;
         isActive: boolean;
+        metaTitle: string | null;
+        metaDescription: string | null;
     }[]>;
     create(dto: CreateProductDto): Promise<{
         price: string;
-        category: {
-            id: string;
-            name: string;
-            slug: string;
-        };
         images: {
             id: string;
-            sortOrder: number;
             url: string;
             alt: string;
+            sortOrder: number;
             productId: string;
         }[];
         id: string;
@@ -157,27 +121,21 @@ export declare class ProductsService {
         deletedAt: Date | null;
         name: string;
         slug: string;
-        metaTitle: string | null;
-        metaDescription: string | null;
-        categoryId: string;
         description: string;
         specs: Prisma.JsonValue | null;
         isQuoteOnly: boolean;
         stock: number;
         isActive: boolean;
+        metaTitle: string | null;
+        metaDescription: string | null;
     }>;
     update(id: string, dto: UpdateProductDto): Promise<{
         price: string;
-        category: {
-            id: string;
-            name: string;
-            slug: string;
-        };
         images: {
             id: string;
-            sortOrder: number;
             url: string;
             alt: string;
+            sortOrder: number;
             productId: string;
         }[];
         id: string;
@@ -186,14 +144,13 @@ export declare class ProductsService {
         deletedAt: Date | null;
         name: string;
         slug: string;
-        metaTitle: string | null;
-        metaDescription: string | null;
-        categoryId: string;
         description: string;
         specs: Prisma.JsonValue | null;
         isQuoteOnly: boolean;
         stock: number;
         isActive: boolean;
+        metaTitle: string | null;
+        metaDescription: string | null;
     }>;
     remove(id: string): Promise<{
         success: boolean;

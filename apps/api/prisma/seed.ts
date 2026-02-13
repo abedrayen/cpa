@@ -34,13 +34,6 @@ async function main() {
   });
   console.log('Admin user ready:', adminEmail);
 
-  const category = await prisma.category.upsert({
-    where: { slug: 'catalogue' },
-    create: { name: 'Catalogue', slug: 'catalogue', sortOrder: 0 },
-    update: {},
-  });
-  console.log('Category ready:', category.slug);
-
   for (const p of TND_PRODUCTS) {
     const slug = slugify(p.name);
     const existing = await prisma.product.findFirst({ where: { slug, deletedAt: null } });
@@ -51,7 +44,6 @@ async function main() {
       price: new Decimal(p.value),
       isQuoteOnly: false,
       isActive: true,
-      categoryId: category.id,
       specs: { unit: p.unit } as object,
     };
     if (existing) {

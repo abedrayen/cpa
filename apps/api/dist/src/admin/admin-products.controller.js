@@ -28,7 +28,7 @@ let AdminProductsController = class AdminProductsController {
         this.products = products;
     }
     findAll(query) {
-        return this.products.findAll(query, undefined, true);
+        return this.products.findAll(query, true);
     }
     findBySlug(slug) {
         return this.products.findBySlug(slug);

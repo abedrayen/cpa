@@ -4,46 +4,31 @@ import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { getAdminToken } from '@/components/AdminGuard';
 import { Breadcrumbs } from '@/components/admin/Breadcrumbs';
-import { ProductForm, type CategoryOption, type ProductFormValues } from '@/components/admin/ProductForm';
+import { ProductForm, type ProductFormValues } from '@/components/admin/ProductForm';
 import { useToast } from '@/components/admin/ToastContext';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? '';
-
-function flattenCategories(
-  cats: { id: string; name: string; slug: string; children?: unknown[] }[],
-  out: CategoryOption[] = []
-): CategoryOption[] {
-  for (const c of cats) {
-    out.push({ id: c.id, name: c.name, slug: c.slug });
-    if (c.children?.length) flattenCategories(c.children as typeof cats, out);
-  }
-  return out;
-}
 
 export default function AdminEditProductPage() {
   const router = useRouter();
   const params = useParams();
   const id = params?.id as string;
   const { addToast } = useToast();
-  const [categories, setCategories] = useState<CategoryOption[]>([]);
   const [initial, setInitial] = useState<ProductFormValues | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!id) return;
     const token = getAdminToken();
-    if (!token || !id) return;
-    Promise.all([
-      fetch(`${API_URL}/admin/categories`, { headers: { Authorization: `Bearer ${token}` } }).then((r) => r.json()),
-      fetch(`${API_URL}/admin/products/${id}`, { headers: { Authorization: `Bearer ${token}` } }).then((r) => r.json()),
-    ])
-      .then(([tree, product]) => {
-        setCategories(flattenCategories(tree));
+    if (!token) return;
+    fetch(`${API_URL}/admin/products/${id}`, { headers: { Authorization: `Bearer ${token}` } })
+      .then((r) => r.json())
+      .then((product) => {
         const specs = product.specs as { unit?: string } | null;
         setInitial({
           name: product.name,
           slug: product.slug,
-          categoryId: product.categoryId,
           description: product.description ?? '',
           price: String(product.price ?? ''),
           pricingUnit: specs?.unit ?? '',
@@ -70,7 +55,6 @@ export default function AdminEditProductPage() {
       body: JSON.stringify({
         name: values.name.trim(),
         slug: values.slug.trim(),
-        categoryId: values.categoryId,
         description: values.description.trim(),
         price,
         specs: values.pricingUnit.trim() ? { unit: values.pricingUnit.trim() } : undefined,
@@ -120,7 +104,6 @@ export default function AdminEditProductPage() {
         <p style={{ margin: 0, color: 'var(--color-muted)', fontSize: '0.9375rem' }}>{initial.name}</p>
       </header>
       <ProductForm
-        categories={categories}
         initialValues={initial}
         submitLabel="Save changes"
         onSubmit={handleSubmit}

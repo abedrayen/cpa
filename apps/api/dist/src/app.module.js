@@ -14,7 +14,6 @@ const throttler_1 = require("@nestjs/throttler");
 const prisma_module_1 = require("./prisma/prisma.module");
 const auth_module_1 = require("./auth/auth.module");
 const products_module_1 = require("./products/products.module");
-const categories_module_1 = require("./categories/categories.module");
 const orders_module_1 = require("./orders/orders.module");
 const admin_module_1 = require("./admin/admin.module");
 const jwt_auth_guard_1 = require("./auth/guards/jwt-auth.guard");
@@ -34,7 +33,6 @@ exports.AppModule = AppModule = __decorate([
             prisma_module_1.PrismaModule,
             auth_module_1.AuthModule,
             products_module_1.ProductsModule,
-            categories_module_1.CategoriesModule,
             orders_module_1.OrdersModule,
             admin_module_1.AdminModule,
         ],

@@ -10,7 +10,7 @@ import { Decimal } from '@prisma/client/runtime/library';
 export class ProductsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAll(query: ProductQueryDto, categorySlug?: string, forAdmin = false) {
+  async findAll(query: ProductQueryDto, forAdmin = false) {
     const { page, limit, sort = 'name', order = 'asc', search } = query;
     const skip = (page - 1) * limit;
 
@@ -18,9 +18,6 @@ export class ProductsService {
       deletedAt: null,
       ...(forAdmin ? {} : { isActive: true }),
     };
-    if (categorySlug) {
-      where.category = { slug: categorySlug, deletedAt: null };
-    }
     if (search?.trim()) {
       where.OR = [
         { name: { contains: search.trim(), mode: 'insensitive' } },
@@ -35,7 +32,6 @@ export class ProductsService {
         take: limit,
         orderBy: { [sort]: order },
         include: {
-          category: { select: { id: true, name: true, slug: true } },
           images: { orderBy: { sortOrder: 'asc' }, take: 1 },
         },
       }),
@@ -45,7 +41,6 @@ export class ProductsService {
     const serialize = (p: (typeof items)[0]) => ({
       ...p,
       price: p.price.toString(),
-      category: p.category,
     });
 
     return {
@@ -58,14 +53,6 @@ export class ProductsService {
     const product = await this.prisma.product.findFirst({
       where: { id, deletedAt: null },
       include: {
-        category: {
-          select: {
-            id: true,
-            name: true,
-            slug: true,
-            parent: { select: { name: true, slug: true } },
-          },
-        },
         images: { orderBy: { sortOrder: 'asc' } },
       },
     });
@@ -77,35 +64,23 @@ export class ProductsService {
     const product = await this.prisma.product.findFirst({
       where: { slug, deletedAt: null, isActive: true },
       include: {
-        category: {
-          select: {
-            id: true,
-            name: true,
-            slug: true,
-            parent: { select: { name: true, slug: true } },
-          },
-        },
         images: { orderBy: { sortOrder: 'asc' } },
       },
     });
     if (!product) throw new NotFoundException('Product not found');
-    return {
-      ...product,
-      price: product.price.toString(),
-    };
+    return { ...product, price: product.price.toString() };
   }
 
-  async findRelated(productId: string, categoryId: string, limit = 4) {
+  async findRelated(productId: string, limit = 4) {
     const items = await this.prisma.product.findMany({
       where: {
         id: { not: productId },
-        categoryId,
         deletedAt: null,
         isActive: true,
       },
       take: limit,
+      orderBy: { createdAt: 'desc' },
       include: {
-        category: { select: { slug: true, name: true } },
         images: { orderBy: { sortOrder: 'asc' }, take: 1 },
       },
     });
@@ -113,16 +88,12 @@ export class ProductsService {
   }
 
   async create(dto: CreateProductDto) {
-    const { images, categoryId, specs, price, ...rest } = dto;
+    const { images, specs, price, ...rest } = dto;
     const product = await this.prisma.product.create({
       data: {
         ...rest,
-        // map DTO fields to Prisma checked create input
         price: new Decimal(price),
         specs: specs as Prisma.InputJsonValue | undefined,
-        category: {
-          connect: { id: categoryId },
-        },
         images: images?.length
           ? {
               create: images.map((img, i) => ({
@@ -132,11 +103,8 @@ export class ProductsService {
               })),
             }
           : undefined,
-      } as Prisma.ProductCreateInput,
-      include: {
-        category: { select: { id: true, name: true, slug: true } },
-        images: true,
       },
+      include: { images: true },
     });
     return { ...product, price: product.price.toString() };
   }
@@ -144,7 +112,7 @@ export class ProductsService {
   async update(id: string, dto: UpdateProductDto) {
     const existing = await this.prisma.product.findFirst({ where: { id, deletedAt: null } });
     if (!existing) throw new NotFoundException('Product not found');
-    const { images, categoryId, specs, price, ...rest } = dto;
+    const { images, specs, price, ...rest } = dto;
     if (images !== undefined) {
       await this.prisma.productImage.deleteMany({ where: { productId: id } });
       if (images.length) {
@@ -164,18 +132,8 @@ export class ProductsService {
         ...rest,
         specs: specs as Prisma.InputJsonValue | undefined,
         price: price !== undefined ? new Decimal(price) : undefined,
-        ...(categoryId !== undefined
-          ? {
-              category: {
-                connect: { id: categoryId },
-              },
-            }
-          : {}),
-      } as Prisma.ProductUpdateInput,
-      include: {
-        category: { select: { id: true, name: true, slug: true } },
-        images: { orderBy: { sortOrder: 'asc' } },
       },
+      include: { images: { orderBy: { sortOrder: 'asc' } } },
     });
     return { ...product, price: product.price.toString() };
   }
