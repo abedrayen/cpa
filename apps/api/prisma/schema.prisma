@@ -69,7 +69,7 @@ model Product {
   images     ProductImage[]
   orderItems OrderItem[]
 
-  @@unique([slug])
+  // Slug unique only among active (non-deleted) products; partial index added in migration
   @@index([slug, deletedAt])
   @@index([isActive, deletedAt])
   @@index([createdAt])

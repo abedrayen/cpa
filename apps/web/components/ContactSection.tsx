@@ -9,8 +9,8 @@ import { RevealOnScroll } from '@/components/landing/RevealOnScroll';
  */
 
 const CONTACT = {
-  landline: { label: 'Téléphone fixe', value: '+216 31 106 159', href: 'tel:+21631106159' },
-  mobile: { label: 'Mobile', value: '+216 98 287 926', href: 'tel:+21698287926' },
+  landline: { label: 'Téléphone fixe', value: '+216 73 299 127', href: 'tel:+21631106159' },
+  mobile: { label: 'Mobile', value: '+216 58 561 301', href: 'tel:+21698287926' },
   email: {
     label: 'E-mail',
     value: 'comptoireproaluminium@gmail.com',

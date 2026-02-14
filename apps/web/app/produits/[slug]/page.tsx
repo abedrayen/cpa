@@ -1,16 +1,15 @@
 import { notFound } from 'next/navigation';
-import { fetcher } from '@/lib/api';
+import { fetcherNoCache } from '@/lib/api';
 import type { Product } from '@/lib/types';
 import { ProductPage } from '@/components/ProductPage';
 
 export const dynamic = 'force-dynamic';
-export const revalidate = 60;
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://example.com';
 
 async function getProductBySlug(slug: string): Promise<Product | null> {
   try {
-    return await fetcher<Product>(`/products/${slug}`);
+    return await fetcherNoCache<Product>(`/products/${slug}`);
   } catch {
     return null;
   }
@@ -43,7 +42,7 @@ export default async function ProductSlugPage({
   const product = await getProductBySlug(params.slug);
   if (!product) notFound();
 
-  const related = await fetcher<Product[]>(
+  const related = await fetcherNoCache<Product[]>(
     `/products/${product.slug}/related?limit=4`
   ).catch(() => []);
 

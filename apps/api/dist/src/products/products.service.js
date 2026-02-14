@@ -11,8 +11,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductsService = void 0;
 const common_1 = require("@nestjs/common");
-const prisma_service_1 = require("../prisma/prisma.service");
 const library_1 = require("@prisma/client/runtime/library");
+const library_2 = require("@prisma/client/runtime/library");
+const prisma_service_1 = require("../prisma/prisma.service");
 let ProductsService = class ProductsService {
     constructor(prisma) {
         this.prisma = prisma;
@@ -90,24 +91,32 @@ let ProductsService = class ProductsService {
     }
     async create(dto) {
         const { images, specs, price, ...rest } = dto;
-        const product = await this.prisma.product.create({
-            data: {
-                ...rest,
-                price: new library_1.Decimal(price),
-                specs: specs,
-                images: images?.length
-                    ? {
-                        create: images.map((img, i) => ({
-                            url: img.url,
-                            alt: img.alt ?? '',
-                            sortOrder: img.sortOrder ?? i,
-                        })),
-                    }
-                    : undefined,
-            },
-            include: { images: true },
-        });
-        return { ...product, price: product.price.toString() };
+        try {
+            const product = await this.prisma.product.create({
+                data: {
+                    ...rest,
+                    price: new library_2.Decimal(price),
+                    specs: specs,
+                    images: images?.length
+                        ? {
+                            create: images.map((img, i) => ({
+                                url: img.url,
+                                alt: img.alt ?? '',
+                                sortOrder: img.sortOrder ?? i,
+                            })),
+                        }
+                        : undefined,
+                },
+                include: { images: true },
+            });
+            return { ...product, price: product.price.toString() };
+        }
+        catch (err) {
+            if (err instanceof library_1.PrismaClientKnownRequestError && err.code === 'P2002') {
+                throw new common_1.ConflictException('Un produit avec ce slug existe déjà.');
+            }
+            throw err;
+        }
     }
     async update(id, dto) {
         const existing = await this.prisma.product.findFirst({ where: { id, deletedAt: null } });
@@ -127,16 +136,24 @@ let ProductsService = class ProductsService {
                 });
             }
         }
-        const product = await this.prisma.product.update({
-            where: { id },
-            data: {
-                ...rest,
-                specs: specs,
-                price: price !== undefined ? new library_1.Decimal(price) : undefined,
-            },
-            include: { images: { orderBy: { sortOrder: 'asc' } } },
-        });
-        return { ...product, price: product.price.toString() };
+        try {
+            const product = await this.prisma.product.update({
+                where: { id },
+                data: {
+                    ...rest,
+                    specs: specs,
+                    price: price !== undefined ? new library_2.Decimal(price) : undefined,
+                },
+                include: { images: { orderBy: { sortOrder: 'asc' } } },
+            });
+            return { ...product, price: product.price.toString() };
+        }
+        catch (err) {
+            if (err instanceof library_1.PrismaClientKnownRequestError && err.code === 'P2002') {
+                throw new common_1.ConflictException('Un produit avec ce slug existe déjà.');
+            }
+            throw err;
+        }
     }
     async remove(id) {
         const product = await this.prisma.product.findFirst({ where: { id, deletedAt: null } });

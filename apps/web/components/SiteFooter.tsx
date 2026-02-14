@@ -6,8 +6,8 @@ import Link from 'next/link';
  */
 
 const FOOTER_CONTACT = {
-  landline: { value: '+216 31 106 159', href: 'tel:+21631106159' },
-  mobile: { value: '+216 98 287 926', href: 'tel:+21698287926' },
+  landline: { value: '+216 73 299 127', href: 'tel:+21631106159' },
+  mobile: { value: '+216 58 561 301', href: 'tel:+21698287926' },
   email: { value: 'comptoireproaluminium@gmail.com', href: 'mailto:comptoireproaluminium@gmail.com' },
   address: 'Cité Zarrouk – Route de Ceinture, Sousse, Tunisie',
 } as const;

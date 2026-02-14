@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { fetcher } from '@/lib/api';
+import { fetcherNoCache } from '@/lib/api';
 import type { Product, Paginated } from '@/lib/types';
 import { ProductCard } from '@/components/ProductCard';
 import { SiteHeader } from '@/components/SiteHeader';
@@ -31,7 +31,7 @@ export const metadata = {
 
 async function getLandingData(): Promise<Paginated<Product>> {
   try {
-    return await fetcher<Paginated<Product>>('/products?limit=8&sort=createdAt&order=desc');
+    return await fetcherNoCache<Paginated<Product>>('/products?limit=8&sort=createdAt&order=desc');
   } catch {
     return { data: [], meta: { total: 0, page: 1, limit: 8, totalPages: 0 } };
   }

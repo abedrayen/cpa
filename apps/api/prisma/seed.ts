@@ -36,7 +36,7 @@ async function main() {
 
   for (const p of TND_PRODUCTS) {
     const slug = slugify(p.name);
-    const existing = await prisma.product.findFirst({ where: { slug, deletedAt: null } });
+    const existing = await prisma.product.findFirst({ where: { slug } });
     const data = {
       name: p.name,
       slug,
@@ -49,7 +49,10 @@ async function main() {
     if (existing) {
       await prisma.product.update({
         where: { id: existing.id },
-        data,
+        data: {
+          ...data,
+          deletedAt: null,
+        },
       });
       console.log('Updated product:', slug);
     } else {

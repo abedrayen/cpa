@@ -1,10 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
-import { ProductQueryDto } from './dto/product-query.dto';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { Decimal } from '@prisma/client/runtime/library';
+import { PrismaService } from '../prisma/prisma.service';
+import { CreateProductDto } from './dto/create-product.dto';
+import { ProductQueryDto } from './dto/product-query.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
 
 @Injectable()
 export class ProductsService {
@@ -89,24 +90,31 @@ export class ProductsService {
 
   async create(dto: CreateProductDto) {
     const { images, specs, price, ...rest } = dto;
-    const product = await this.prisma.product.create({
-      data: {
-        ...rest,
-        price: new Decimal(price),
-        specs: specs as Prisma.InputJsonValue | undefined,
-        images: images?.length
-          ? {
-              create: images.map((img, i) => ({
-                url: img.url,
-                alt: img.alt ?? '',
-                sortOrder: img.sortOrder ?? i,
-              })),
-            }
-          : undefined,
-      },
-      include: { images: true },
-    });
-    return { ...product, price: product.price.toString() };
+    try {
+      const product = await this.prisma.product.create({
+        data: {
+          ...rest,
+          price: new Decimal(price),
+          specs: specs as Prisma.InputJsonValue | undefined,
+          images: images?.length
+            ? {
+                create: images.map((img, i) => ({
+                  url: img.url,
+                  alt: img.alt ?? '',
+                  sortOrder: img.sortOrder ?? i,
+                })),
+              }
+            : undefined,
+        },
+        include: { images: true },
+      });
+      return { ...product, price: product.price.toString() };
+    } catch (err) {
+      if (err instanceof PrismaClientKnownRequestError && err.code === 'P2002') {
+        throw new ConflictException('Un produit avec ce slug existe déjà.');
+      }
+      throw err;
+    }
   }
 
   async update(id: string, dto: UpdateProductDto) {
@@ -126,16 +134,23 @@ export class ProductsService {
         });
       }
     }
-    const product = await this.prisma.product.update({
-      where: { id },
-      data: {
-        ...rest,
-        specs: specs as Prisma.InputJsonValue | undefined,
-        price: price !== undefined ? new Decimal(price) : undefined,
-      },
-      include: { images: { orderBy: { sortOrder: 'asc' } } },
-    });
-    return { ...product, price: product.price.toString() };
+    try {
+      const product = await this.prisma.product.update({
+        where: { id },
+        data: {
+          ...rest,
+          specs: specs as Prisma.InputJsonValue | undefined,
+          price: price !== undefined ? new Decimal(price) : undefined,
+        },
+        include: { images: { orderBy: { sortOrder: 'asc' } } },
+      });
+      return { ...product, price: product.price.toString() };
+    } catch (err) {
+      if (err instanceof PrismaClientKnownRequestError && err.code === 'P2002') {
+        throw new ConflictException('Un produit avec ce slug existe déjà.');
+      }
+      throw err;
+    }
   }
 
   async remove(id: string) {

@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { fetcher } from '@/lib/api';
+import { fetcherNoCache } from '@/lib/api';
 import type { Product } from '@/lib/types';
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://example.com';
@@ -12,7 +12,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   if (!process.env.NEXT_PUBLIC_API_URL) return staticPages;
   try {
-    const res = await fetcher<{ data: Product[] }>('/products?limit=5000');
+    const res = await fetcherNoCache<{ data: Product[] }>('/products?limit=5000');
     const dynamic: MetadataRoute.Sitemap = res.data.map((p) => ({
       url: `${baseUrl}/produits/${p.slug}`,
       lastModified: new Date(),
