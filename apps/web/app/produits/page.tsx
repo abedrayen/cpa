@@ -5,7 +5,6 @@ import { ProductCard } from '@/components/ProductCard';
 import { SiteHeader } from '@/components/SiteHeader';
 
 export const dynamic = 'force-dynamic';
-export const revalidate = 60;
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://example.com';
 
@@ -17,8 +16,12 @@ export const metadata = {
   openGraph: { url: `${siteUrl}/produits`, type: 'website' },
 };
 
-async function getProducts() {
-  return fetcher<Paginated<Product>>('/products?limit=100&sort=name&order=asc');
+async function getProducts(): Promise<Paginated<Product>> {
+  try {
+    return await fetcher<Paginated<Product>>('/products?limit=100&sort=name&order=asc');
+  } catch {
+    return { data: [], meta: { total: 0, page: 1, limit: 100, totalPages: 0 } };
+  }
 }
 
 export default async function ProduitsPage() {

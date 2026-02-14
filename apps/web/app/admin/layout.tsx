@@ -1,4 +1,5 @@
 import { AdminGuard } from '@/components/AdminGuard';
+import './admin.css';
 
 export const metadata = {
   title: 'Admin',

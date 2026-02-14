@@ -2,8 +2,8 @@
 
 import { useRouter, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { ToastProvider } from '@/components/admin/ToastContext';
+import { AdminSidebar } from '@/components/admin/AdminSidebar';
 
 const ADMIN_TOKEN_KEY = 'cpa_admin_token';
 
@@ -20,17 +20,10 @@ export function clearAdminToken(): void {
   localStorage.removeItem(ADMIN_TOKEN_KEY);
 }
 
-const navItems = [
-  { href: '/admin', label: 'Tableau de bord', short: 'T' },
-  { href: '/admin/products', label: 'Produits', short: 'P' },
-  { href: '/admin/orders', label: 'Commandes', short: 'C' },
-] as const;
-
 export function AdminGuard({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const [allowed, setAllowed] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const isLoginPage = pathname === '/admin/login';
 
   useEffect(() => {
@@ -67,62 +60,9 @@ export function AdminGuard({ children }: { children: React.ReactNode }) {
 
   return (
     <ToastProvider>
-      <div className="admin-layout">
-        <aside
-          className="admin-sidebar"
-          aria-expanded={!sidebarCollapsed}
-          aria-label="Navigation administration"
-        >
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 0.5rem 0.5rem' }}>
-            <Link href="/admin" className="admin-logo" style={{ padding: 0 }}>
-              {sidebarCollapsed ? 'CPA' : 'CPA Admin'}
-            </Link>
-            <button
-              type="button"
-              className="admin-sidebar-toggle"
-              onClick={() => setSidebarCollapsed((v) => !v)}
-              aria-label={sidebarCollapsed ? 'Déplier le menu' : 'Replier le menu'}
-              aria-expanded={!sidebarCollapsed}
-            >
-              {sidebarCollapsed ? '→' : '←'}
-            </button>
-          </div>
-          <nav className="admin-sidebar-nav">
-            {navItems.map(({ href, label, short }) => (
-              <Link
-                key={href}
-                href={href}
-                aria-current={pathname === href || (href !== '/admin' && pathname.startsWith(href)) ? 'page' : undefined}
-                title={sidebarCollapsed ? label : undefined}
-                aria-label={sidebarCollapsed ? label : undefined}
-              >
-                {sidebarCollapsed ? <span aria-hidden>{short}</span> : label}
-              </Link>
-            ))}
-          </nav>
-          <div style={{ marginTop: 'auto', padding: '0.5rem 1rem' }}>
-            <button
-              type="button"
-              onClick={() => {
-                clearAdminToken();
-                router.push('/admin/login');
-              }}
-              style={{
-                width: '100%',
-                padding: '0.5rem',
-                border: '1px solid var(--color-border)',
-                borderRadius: '6px',
-                background: 'var(--color-bg)',
-                color: 'var(--color-text)',
-                cursor: 'pointer',
-                fontSize: '0.875rem',
-              }}
-            >
-              {sidebarCollapsed ? 'Sortir' : 'Déconnexion'}
-            </button>
-          </div>
-        </aside>
-        <main id="main-content" className="admin-main">{children}</main>
+      <div className="admin-portal admin-layout">
+        <AdminSidebar />
+        <main id="main-content" className="admin-main-v2 admin-main">{children}</main>
       </div>
     </ToastProvider>
   );

@@ -12,13 +12,16 @@ const products_module_1 = require("../products/products.module");
 const orders_module_1 = require("../orders/orders.module");
 const admin_products_controller_1 = require("./admin-products.controller");
 const admin_orders_controller_1 = require("./admin-orders.controller");
+const admin_stats_controller_1 = require("./admin-stats.controller");
+const admin_stats_service_1 = require("./admin-stats.service");
 let AdminModule = class AdminModule {
 };
 exports.AdminModule = AdminModule;
 exports.AdminModule = AdminModule = __decorate([
     (0, common_1.Module)({
         imports: [products_module_1.ProductsModule, orders_module_1.OrdersModule],
-        controllers: [admin_products_controller_1.AdminProductsController, admin_orders_controller_1.AdminOrdersController],
+        controllers: [admin_products_controller_1.AdminProductsController, admin_orders_controller_1.AdminOrdersController, admin_stats_controller_1.AdminStatsController],
+        providers: [admin_stats_service_1.AdminStatsService],
     })
 ], AdminModule);
 //# sourceMappingURL=admin.module.js.map

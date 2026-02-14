@@ -6,7 +6,6 @@ import { SiteHeader } from '@/components/SiteHeader';
 import { ContactSection } from '@/components/ContactSection';
 
 export const dynamic = 'force-dynamic';
-export const revalidate = 60;
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://example.com';
 
@@ -26,8 +25,12 @@ export const metadata = {
   },
 };
 
-async function getLandingData() {
-  return fetcher<Paginated<Product>>('/products?limit=8&sort=createdAt&order=desc');
+async function getLandingData(): Promise<Paginated<Product>> {
+  try {
+    return await fetcher<Paginated<Product>>('/products?limit=8&sort=createdAt&order=desc');
+  } catch {
+    return { data: [], meta: { total: 0, page: 1, limit: 8, totalPages: 0 } };
+  }
 }
 
 export default async function HomePage() {

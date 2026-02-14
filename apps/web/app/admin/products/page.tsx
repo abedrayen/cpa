@@ -25,6 +25,8 @@ export default function AdminProductsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [search, setSearch] = useState('');
+  const [searchInput, setSearchInput] = useState('');
   const { addToast } = useToast();
 
   const load = useCallback(() => {
@@ -32,7 +34,12 @@ export default function AdminProductsPage() {
     if (!token) return;
     setLoading(true);
     setError(null);
-    fetch(`${API_URL}/admin/products?limit=${meta.limit}&page=${meta.page}`, {
+    const params = new URLSearchParams({
+      limit: String(meta.limit),
+      page: String(meta.page),
+    });
+    if (search.trim()) params.set('search', search.trim());
+    fetch(`${API_URL}/admin/products?${params}`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((r) => r.json())
@@ -45,7 +52,7 @@ export default function AdminProductsPage() {
         setError('Impossible de charger les produits.');
       })
       .finally(() => setLoading(false));
-  }, [meta.limit, meta.page]);
+  }, [meta.limit, meta.page, search]);
 
   useEffect(() => {
     load();
@@ -81,6 +88,36 @@ export default function AdminProductsPage() {
       </header>
 
       <div className="admin-sticky-bar">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+          <input
+            type="search"
+            placeholder="Rechercher un produit (nom, description)…"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && setSearch(searchInput)}
+            className="admin-input"
+            style={{ width: '280px', margin: 0 }}
+            aria-label="Recherche produits"
+          />
+          <button
+            type="button"
+            onClick={() => { setMeta((m) => ({ ...m, page: 1 })); setSearch(searchInput); }}
+            className="btn"
+            style={{ border: '1px solid var(--color-border)' }}
+          >
+            Rechercher
+          </button>
+          {search && (
+            <button
+              type="button"
+              onClick={() => { setSearch(''); setSearchInput(''); setMeta((m) => ({ ...m, page: 1 })); }}
+              className="btn"
+              style={{ fontSize: '0.875rem' }}
+            >
+              Effacer
+            </button>
+          )}
+        </div>
         <Link href="/admin/products/new" className="btn btn-primary">
           Nouveau produit
         </Link>

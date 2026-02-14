@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { getAdminToken } from '@/components/AdminGuard';
 import { Breadcrumbs } from '@/components/admin/Breadcrumbs';
 
@@ -47,11 +48,44 @@ function StatusBadge({ status }: { status: string }) {
   );
 }
 
+function exportOrdersToCsv(orders: Order[]) {
+  const headers = ['ID', 'Date', 'Client', 'Email', 'Téléphone', 'Statut', 'Articles', 'Total (TND)', 'Remarques'];
+  const rows = orders.map((o) => {
+    const total = o.items.reduce((s, i) => s + i.quantity * parseFloat(i.unitPrice), 0);
+    const articles = o.items.map((i) => `${i.product.name} × ${i.quantity}`).join(' ; ');
+    return [
+      o.id,
+      new Date(o.createdAt).toISOString().slice(0, 10),
+      o.customerName,
+      o.customerEmail,
+      o.customerPhone ?? '',
+      STATUS_LABEL[o.status] ?? o.status,
+      articles,
+      total.toFixed(2),
+      (o.notes ?? '').replace(/"/g, '""'),
+    ];
+  });
+  const csv = [headers.join(','), ...rows.map((r) => r.map((c) => `"${String(c)}"`).join(','))].join('\r\n');
+  const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `commandes-${new Date().toISOString().slice(0, 10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 export default function AdminOrdersPage() {
+  const searchParams = useSearchParams();
+  const statusFromUrl = searchParams.get('status') ?? '';
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [statusFilter, setStatusFilter] = useState('');
+  const [statusFilter, setStatusFilter] = useState(statusFromUrl);
+
+  useEffect(() => {
+    setStatusFilter(statusFromUrl);
+  }, [statusFromUrl]);
 
   useEffect(() => {
     const token = getAdminToken();
@@ -129,6 +163,15 @@ export default function AdminOrdersPage() {
             <option value="CANCELED">Annulée</option>
           </select>
         </label>
+        <button
+          type="button"
+          onClick={() => exportOrdersToCsv(orders)}
+          disabled={orders.length === 0}
+          className="btn btn-outline"
+          style={{ fontSize: '0.875rem' }}
+        >
+          Exporter en CSV
+        </button>
       </div>
 
       {orders.length === 0 && !error ? (
