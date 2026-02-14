@@ -109,11 +109,12 @@ export default function AdminOrdersPage() {
     return (
       <>
         <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Commandes' }]} />
-        <div className="admin-page-header">
-          <h1 className="admin-page-title">Commandes</h1>
-        </div>
+        <header className="admin-page-hero">
+          <h1 className="admin-page-hero__title">Commandes</h1>
+          <p className="admin-page-hero__subtitle">Chargement des commandes…</p>
+        </header>
         <div className="admin-loading" role="status" aria-live="polite">
-          Chargement des commandes…
+          Chargement…
         </div>
       </>
     );
@@ -127,10 +128,19 @@ export default function AdminOrdersPage() {
           { label: 'Commandes', href: '/admin/orders' },
         ]}
       />
-      <header className="admin-page-header">
-        <h1 className="admin-page-title">Commandes</h1>
-        <p style={{ margin: 0, color: 'var(--color-muted)', fontSize: '0.9375rem' }}>
-          {orders.length > 0 ? `${orders.length} commande${orders.length !== 1 ? 's' : ''}` : 'Aucune commande'}
+      <header className="admin-page-hero">
+        <div className="admin-page-hero__title-block">
+          <h1 className="admin-page-hero__title">Commandes</h1>
+          {orders.length > 0 && (
+            <span className="admin-page-hero__count" aria-label={`${orders.length} commande${orders.length !== 1 ? 's' : ''}`}>
+              {orders.length} commande{orders.length !== 1 ? 's' : ''}
+            </span>
+          )}
+        </div>
+        <p className="admin-page-hero__subtitle">
+          {orders.length > 0
+            ? 'Consultez et gérez les demandes et commandes clients.'
+            : 'Aucune commande pour le moment.'}
         </p>
       </header>
 

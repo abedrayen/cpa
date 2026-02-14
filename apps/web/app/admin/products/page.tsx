@@ -62,11 +62,12 @@ export default function AdminProductsPage() {
     return (
       <>
         <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Produits' }]} />
-        <div className="admin-page-header">
-          <h1 className="admin-page-title">Produits</h1>
-        </div>
+        <header className="admin-page-hero">
+          <h1 className="admin-page-hero__title">Produits</h1>
+          <p className="admin-page-hero__subtitle">Chargement des produits…</p>
+        </header>
         <div className="admin-loading" role="status" aria-live="polite">
-          Chargement des produits…
+          Chargement…
         </div>
       </>
     );
@@ -80,10 +81,19 @@ export default function AdminProductsPage() {
           { label: 'Produits', href: '/admin/products' },
         ]}
       />
-      <header className="admin-page-header">
-        <h1 className="admin-page-title">Produits</h1>
-        <p style={{ margin: 0, color: 'var(--color-muted)', fontSize: '0.9375rem' }}>
-          {meta.total > 0 ? `${meta.total} produit${meta.total !== 1 ? 's' : ''}` : 'Aucun produit pour le moment'}
+      <header className="admin-page-hero">
+        <div className="admin-page-hero__title-block">
+          <h1 className="admin-page-hero__title">Produits</h1>
+          {meta.total > 0 && (
+            <span className="admin-page-hero__count" aria-label={`${meta.total} produit${meta.total !== 1 ? 's' : ''}`}>
+              {meta.total} produit{meta.total !== 1 ? 's' : ''}
+            </span>
+          )}
+        </div>
+        <p className="admin-page-hero__subtitle">
+          {meta.total > 0
+            ? 'Gérez le catalogue et les fiches produits.'
+            : 'Aucun produit pour le moment. Ajoutez votre premier produit ci-dessous.'}
         </p>
       </header>
 

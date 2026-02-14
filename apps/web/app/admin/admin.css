@@ -157,6 +157,54 @@
   .admin-main-v2 { padding: 1rem; }
 }
 
+/* List page header (Produits, Commandes) */
+.admin-page-hero {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.admin-page-hero__title-block {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.admin-page-hero__title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--admin-text);
+  letter-spacing: -0.02em;
+}
+
+.admin-page-hero__count {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: var(--color-primary-50);
+  color: var(--color-primary-700);
+}
+
+[data-admin-theme="dark"] .admin-page-hero__count {
+  background: var(--color-primary-900);
+  color: var(--color-primary-200);
+}
+
+.admin-page-hero__subtitle {
+  margin: 0.25rem 0 0;
+  font-size: 0.9375rem;
+  color: var(--admin-muted);
+  width: 100%;
+}
+
 /* Dashboard */
 .admin-dashboard__header {
   margin-bottom: 1.5rem;
