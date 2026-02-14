@@ -4,6 +4,10 @@ import type { Product, Paginated } from '@/lib/types';
 import { ProductCard } from '@/components/ProductCard';
 import { SiteHeader } from '@/components/SiteHeader';
 import { ContactSection } from '@/components/ContactSection';
+import { SocialProofSection } from '@/components/SocialProofSection';
+import { CtaSection } from '@/components/CtaSection';
+import { SiteFooter } from '@/components/SiteFooter';
+import { RevealOnScroll } from '@/components/landing/RevealOnScroll';
 
 export const dynamic = 'force-dynamic';
 
@@ -60,7 +64,7 @@ export default async function HomePage() {
             Solutions aluminium de qualité pour projets résidentiels et commerciaux à Sousse, Tunisie.
             Demande de devis ou achat en ligne.
           </p>
-          <Link href="/produits" className="btn btn-primary hero-overlay__cta">
+          <Link href="/produits" className="btn btn-primary btn--hover hero-overlay__cta">
             Voir tous les produits
           </Link>
         </div>
@@ -73,7 +77,7 @@ export default async function HomePage() {
           className="landing-section landing-section--alt"
           aria-labelledby="about-heading"
         >
-          <div className="container landing-about">
+          <RevealOnScroll as="div" className="container landing-about">
             <div className="landing-about__content">
               <h2 id="about-heading">À propos de CPA Aluminium</h2>
               <p className="landing-about__lead">
@@ -86,7 +90,7 @@ export default async function HomePage() {
                 Découvrir nos produits
               </Link>
             </div>
-          </div>
+          </RevealOnScroll>
         </section>
 
         {/* Services / Products section */}
@@ -96,21 +100,23 @@ export default async function HomePage() {
           aria-labelledby="products-heading"
         >
           <div className="container">
-            <header className="landing-section__header">
+            <RevealOnScroll as="header" className="landing-section__header">
               <h2 id="products-heading">Produits à la une</h2>
               <p className="section-lead">
                 Produits aluminium les plus demandés. Demande de devis ou consultation du catalogue complet.
               </p>
-            </header>
-            <ul className="product-grid" role="list">
-              {products.data.map((p) => (
-                <li key={p.id}>
-                  <ProductCard product={p} basePath="/produits" />
-                </li>
-              ))}
-            </ul>
+            </RevealOnScroll>
+            <RevealOnScroll as="div" className="landing-product-grid">
+              <ul className="product-grid" role="list">
+                {products.data.map((p) => (
+                  <li key={p.id}>
+                    <ProductCard product={p} basePath="/produits" />
+                  </li>
+                ))}
+              </ul>
+            </RevealOnScroll>
             <p className="section-cta">
-              <Link href="/produits" className="btn btn-outline">
+              <Link href="/produits" className="btn btn-outline btn--hover">
                 Voir tous les produits
               </Link>
             </p>
@@ -123,7 +129,7 @@ export default async function HomePage() {
           className="landing-section landing-section--alt"
           aria-labelledby="trust-heading"
         >
-          <div className="container">
+          <RevealOnScroll as="div" className="container">
             <header className="landing-section__header">
               <h2 id="trust-heading">Pourquoi nous choisir</h2>
               <p className="section-lead">
@@ -152,18 +158,18 @@ export default async function HomePage() {
                 <p className="trust-card__text">Implantés à Sousse, nous accompagnons depuis des années la Tunisie et la région.</p>
               </li>
             </ul>
-          </div>
+          </RevealOnScroll>
         </section>
+
+        <SocialProofSection />
+
+        <CtaSection />
 
         {/* Contact */}
         <ContactSection />
       </main>
 
-      <footer className="site-footer" role="contentinfo">
-        <div className="container site-footer__inner">
-          <p className="site-footer__copy">&copy; {new Date().getFullYear()} CPA Aluminium. Tous droits réservés.</p>
-        </div>
-      </footer>
+      <SiteFooter />
     </>
   );
 }

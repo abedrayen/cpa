@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { HeroBanner } from '@/components/landing/HeroBanner';
 
 export function SiteHeader({
   homeCurrent,
@@ -29,7 +30,7 @@ export function SiteHeader({
       </div>
       {homeCurrent && (
         <div className="site-header-banner-wrap">
-          <div className="site-header-banner">
+          <HeroBanner>
             <Image
               src="/media/header.jpg"
               alt="Entrepôt Comptoir Pro Aluminium, profilés et extrusions aluminium"
@@ -39,7 +40,7 @@ export function SiteHeader({
               loading="eager"
               fetchPriority="high"
             />
-          </div>
+          </HeroBanner>
           <div className="hero-overlay" aria-labelledby="hero-heading">
             {children}
           </div>
