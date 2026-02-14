@@ -10,15 +10,12 @@ export declare class AdminProductsController {
             price: string;
             images: {
                 id: string;
-                url: string;
-                alt: string;
                 sortOrder: number;
                 productId: string;
+                url: string;
+                alt: string;
             }[];
             id: string;
-            createdAt: Date;
-            updatedAt: Date;
-            deletedAt: Date | null;
             name: string;
             slug: string;
             description: string;
@@ -28,6 +25,9 @@ export declare class AdminProductsController {
             isActive: boolean;
             metaTitle: string | null;
             metaDescription: string | null;
+            createdAt: Date;
+            updatedAt: Date;
+            deletedAt: Date | null;
         }[];
         meta: {
             total: number;
@@ -40,15 +40,12 @@ export declare class AdminProductsController {
         price: string;
         images: {
             id: string;
-            url: string;
-            alt: string;
             sortOrder: number;
             productId: string;
+            url: string;
+            alt: string;
         }[];
         id: string;
-        createdAt: Date;
-        updatedAt: Date;
-        deletedAt: Date | null;
         name: string;
         slug: string;
         description: string;
@@ -58,20 +55,20 @@ export declare class AdminProductsController {
         isActive: boolean;
         metaTitle: string | null;
         metaDescription: string | null;
+        createdAt: Date;
+        updatedAt: Date;
+        deletedAt: Date | null;
     }>;
     findById(id: string): Promise<{
         price: string;
         images: {
             id: string;
-            url: string;
-            alt: string;
             sortOrder: number;
             productId: string;
+            url: string;
+            alt: string;
         }[];
         id: string;
-        createdAt: Date;
-        updatedAt: Date;
-        deletedAt: Date | null;
         name: string;
         slug: string;
         description: string;
@@ -81,20 +78,20 @@ export declare class AdminProductsController {
         isActive: boolean;
         metaTitle: string | null;
         metaDescription: string | null;
+        createdAt: Date;
+        updatedAt: Date;
+        deletedAt: Date | null;
     }>;
     create(dto: CreateProductDto): Promise<{
         price: string;
         images: {
             id: string;
-            url: string;
-            alt: string;
             sortOrder: number;
             productId: string;
+            url: string;
+            alt: string;
         }[];
         id: string;
-        createdAt: Date;
-        updatedAt: Date;
-        deletedAt: Date | null;
         name: string;
         slug: string;
         description: string;
@@ -104,20 +101,20 @@ export declare class AdminProductsController {
         isActive: boolean;
         metaTitle: string | null;
         metaDescription: string | null;
+        createdAt: Date;
+        updatedAt: Date;
+        deletedAt: Date | null;
     }>;
     update(id: string, dto: UpdateProductDto): Promise<{
         price: string;
         images: {
             id: string;
-            url: string;
-            alt: string;
             sortOrder: number;
             productId: string;
+            url: string;
+            alt: string;
         }[];
         id: string;
-        createdAt: Date;
-        updatedAt: Date;
-        deletedAt: Date | null;
         name: string;
         slug: string;
         description: string;
@@ -127,6 +124,9 @@ export declare class AdminProductsController {
         isActive: boolean;
         metaTitle: string | null;
         metaDescription: string | null;
+        createdAt: Date;
+        updatedAt: Date;
+        deletedAt: Date | null;
     }>;
     remove(id: string): Promise<{
         success: boolean;

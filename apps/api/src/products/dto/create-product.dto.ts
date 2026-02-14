@@ -7,6 +7,7 @@ import {
   ValidateNested,
   MinLength,
   MaxLength,
+  Min,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -48,6 +49,7 @@ export class CreateProductDto {
 
   @IsOptional()
   @IsNumber()
+  @Min(0)
   stock?: number;
 
   @IsOptional()

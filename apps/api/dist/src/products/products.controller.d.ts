@@ -8,15 +8,12 @@ export declare class ProductsController {
             price: string;
             images: {
                 id: string;
-                url: string;
-                alt: string;
                 sortOrder: number;
                 productId: string;
+                url: string;
+                alt: string;
             }[];
             id: string;
-            createdAt: Date;
-            updatedAt: Date;
-            deletedAt: Date | null;
             name: string;
             slug: string;
             description: string;
@@ -26,6 +23,9 @@ export declare class ProductsController {
             isActive: boolean;
             metaTitle: string | null;
             metaDescription: string | null;
+            createdAt: Date;
+            updatedAt: Date;
+            deletedAt: Date | null;
         }[];
         meta: {
             total: number;
@@ -38,15 +38,12 @@ export declare class ProductsController {
         price: string;
         images: {
             id: string;
-            url: string;
-            alt: string;
             sortOrder: number;
             productId: string;
+            url: string;
+            alt: string;
         }[];
         id: string;
-        createdAt: Date;
-        updatedAt: Date;
-        deletedAt: Date | null;
         name: string;
         slug: string;
         description: string;
@@ -56,20 +53,20 @@ export declare class ProductsController {
         isActive: boolean;
         metaTitle: string | null;
         metaDescription: string | null;
+        createdAt: Date;
+        updatedAt: Date;
+        deletedAt: Date | null;
     }[]>;
     findBySlug(slug: string): Promise<{
         price: string;
         images: {
             id: string;
-            url: string;
-            alt: string;
             sortOrder: number;
             productId: string;
+            url: string;
+            alt: string;
         }[];
         id: string;
-        createdAt: Date;
-        updatedAt: Date;
-        deletedAt: Date | null;
         name: string;
         slug: string;
         description: string;
@@ -79,5 +76,8 @@ export declare class ProductsController {
         isActive: boolean;
         metaTitle: string | null;
         metaDescription: string | null;
+        createdAt: Date;
+        updatedAt: Date;
+        deletedAt: Date | null;
     }>;
 }

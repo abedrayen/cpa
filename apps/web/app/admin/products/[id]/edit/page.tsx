@@ -33,6 +33,7 @@ export default function AdminEditProductPage() {
           price: String(product.price ?? ''),
           pricingUnit: specs?.unit ?? '',
           images: (product.images ?? []).map((img: { url: string; alt: string }) => ({ url: img.url, alt: img.alt ?? '' })),
+          stock: typeof product.stock === 'number' ? product.stock : 0,
           isQuoteOnly: product.isQuoteOnly ?? false,
           isActive: product.isActive ?? true,
         });
@@ -61,6 +62,7 @@ export default function AdminEditProductPage() {
         images: values.images
           .filter((im) => im.url.trim())
           .map((im, i) => ({ url: im.url.trim(), alt: im.alt.trim() || undefined, sortOrder: i })),
+        stock: Math.max(0, Math.floor(Number(values.stock)) || 0),
         isQuoteOnly: values.isQuoteOnly,
         isActive: values.isActive,
       }),

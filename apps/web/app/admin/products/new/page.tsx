@@ -32,6 +32,7 @@ export default function AdminNewProductPage() {
         images: values.images
           .filter((im) => im.url.trim())
           .map((im, i) => ({ url: im.url.trim(), alt: im.alt.trim() || undefined, sortOrder: i })),
+        stock: Math.max(0, Math.floor(Number(values.stock)) || 0),
         isQuoteOnly: values.isQuoteOnly,
         isActive: values.isActive,
       }),

@@ -23,6 +23,7 @@ export interface ProductFormValues {
   price: string;
   pricingUnit: string;
   images: ProductImageInput[];
+  stock: number;
   isQuoteOnly: boolean;
   isActive: boolean;
 }
@@ -34,6 +35,7 @@ const defaultValues: ProductFormValues = {
   price: '',
   pricingUnit: '',
   images: [],
+  stock: 0,
   isQuoteOnly: false,
   isActive: true,
 };
@@ -54,6 +56,7 @@ export function ProductForm({
     ...initialValues,
     price: initialValues?.price ?? defaultValues.price,
     images: initialValues?.images ?? defaultValues.images,
+    stock: initialValues?.stock ?? defaultValues.stock,
   });
   const [slugLocked, setSlugLocked] = useState(!!initialValues?.slug);
   const [error, setError] = useState<string | null>(null);
@@ -86,6 +89,12 @@ export function ProductForm({
     }
     if (!values.slug.trim()) {
       setError('Le slug est obligatoire.');
+      setSaving(false);
+      return;
+    }
+    const stock = Math.floor(Number(values.stock));
+    if (Number.isNaN(stock) || stock < 0) {
+      setError('Le stock doit être un nombre entier positif ou zéro.');
       setSaving(false);
       return;
     }
@@ -178,6 +187,23 @@ export function ProductForm({
         placeholder="TND/unité"
         className="admin-input"
       />
+
+      <label htmlFor="product-stock">
+        Stock <span aria-hidden>*</span>
+      </label>
+      <input
+        id="product-stock"
+        type="number"
+        min={0}
+        step={1}
+        value={values.stock}
+        onChange={(e) => update({ stock: Math.max(0, parseInt(e.target.value, 10) || 0) })}
+        className="admin-input"
+        aria-required="true"
+      />
+      <p style={{ fontSize: '0.875rem', color: 'var(--color-muted)', margin: '-0.5rem 0 0 0' }}>
+        Si 0 : « Rupture de stock » s’affiche en boutique. Sinon : « En stock ».
+      </p>
 
       <fieldset style={{ border: '1px solid var(--color-border)', borderRadius: '8px', padding: '1rem', margin: 0 }}>
         <legend style={{ fontWeight: 600, padding: '0 0.25rem' }}>Images</legend>
