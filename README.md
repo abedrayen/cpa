@@ -1,4 +1,4 @@
-# CPA Aluminium E-commerce
+# CPA E-commerce
 
 Monorepo: NestJS API + Next.js frontend, SEO and performance oriented.
 

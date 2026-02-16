@@ -27,7 +27,7 @@ export function WhatsAppFloat() {
       target="_blank"
       rel="noopener noreferrer"
       className="whatsapp-float"
-      aria-label="Contacter CPA Aluminium sur WhatsApp"
+      aria-label="Contacter CPA sur WhatsApp"
     >
       <span className="whatsapp-float__icon">
         <IconWhatsApp />

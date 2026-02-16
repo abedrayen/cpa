@@ -214,7 +214,7 @@ export function ContactSection() {
             <div className="contact-section__map-wrap">
               <iframe
                 src={MAP_EMBED_URL}
-                title="Emplacement CPA Aluminium sur la carte"
+                title="Emplacement CPA sur la carte"
                 className="contact-section__map-iframe"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"

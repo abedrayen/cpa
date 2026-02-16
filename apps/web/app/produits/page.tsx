@@ -53,7 +53,7 @@ export default async function ProduitsPage() {
 
       <footer className="site-footer" role="contentinfo">
         <div className="container site-footer__inner">
-          <p className="site-footer__copy">&copy; {new Date().getFullYear()} CPA Aluminium. Tous droits réservés.</p>
+          <p className="site-footer__copy">&copy; {new Date().getFullYear()} CPA. Tous droits réservés.</p>
         </div>
       </footer>
     </>

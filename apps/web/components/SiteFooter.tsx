@@ -82,7 +82,7 @@ export function SiteFooter() {
           <div className="site-footer__brand">
             <p className="site-footer__name">
               <Link href="/" className="site-footer__name-link">
-                CPA Aluminium
+                CPA
               </Link>
             </p>
             <p className="site-footer__tagline">
@@ -96,7 +96,7 @@ export function SiteFooter() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="site-footer__social-link"
-                    aria-label="Facebook CPA Aluminium"
+                    aria-label="Facebook CPA"
                   >
                     <IconFacebook />
                   </a>
@@ -107,7 +107,7 @@ export function SiteFooter() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="site-footer__social-link"
-                    aria-label="LinkedIn CPA Aluminium"
+                    aria-label="LinkedIn CPA"
                   >
                     <IconLinkedIn />
                   </a>
@@ -168,7 +168,7 @@ export function SiteFooter() {
 
         <div className="site-footer__bottom">
           <p className="site-footer__copy">
-            &copy; {year} CPA Aluminium. Tous droits réservés.
+            &copy; {year} CPA. Tous droits réservés.
           </p>
           <nav className="site-footer__legal" aria-label="Informations légales">
             <Link href="/mentions-legales" className="site-footer__legal-link">

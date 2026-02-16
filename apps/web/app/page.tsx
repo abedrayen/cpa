@@ -8,22 +8,23 @@ import { SocialProofSection } from '@/components/SocialProofSection';
 import { CtaSection } from '@/components/CtaSection';
 import { SiteFooter } from '@/components/SiteFooter';
 import { RevealOnScroll } from '@/components/landing/RevealOnScroll';
+import { WhyChooseUsSection } from '@/components/landing/WhyChooseUsSection';
 
 export const dynamic = 'force-dynamic';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://example.com';
 
 const pageDescription =
-  'CPA Aluminium fournit fenêtres, portes et profilés aluminium de qualité à Sousse, Tunisie. Demande de devis ou achat en ligne. Fournisseur de confiance pour projets résidentiels et commerciaux.';
+  'CPA fournit fenêtres, portes et profilés aluminium de qualité à Sousse, Tunisie. Demande de devis ou achat en ligne. Fournisseur de confiance pour projets résidentiels et commerciaux.';
 
 export const metadata = {
-  title: 'Fenêtres, portes et profilés aluminium | CPA Aluminium Sousse',
+  title: 'Fenêtres, portes et profilés aluminium | CPA Sousse',
   description: pageDescription,
   alternates: { canonical: siteUrl },
   openGraph: {
     url: siteUrl,
     type: 'website',
-    title: 'Fenêtres, portes et profilés aluminium | CPA Aluminium Sousse',
+    title: 'Fenêtres, portes et profilés aluminium | CPA Sousse',
     description:
       'Solutions aluminium de qualité à Sousse, Tunisie. Fenêtres, portes, profilés. Devis sur demande ou achat en ligne.',
   },
@@ -43,10 +44,10 @@ export default async function HomePage() {
   const webPageSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
-    name: 'Fenêtres, portes et profilés aluminium | CPA Aluminium Sousse',
+    name: 'Fenêtres, portes et profilés aluminium | CPA Sousse',
     description: pageDescription,
     url: siteUrl,
-    isPartOf: { '@type': 'WebSite', name: 'CPA Aluminium', url: siteUrl },
+    isPartOf: { '@type': 'WebSite', name: 'CPA', url: siteUrl },
   };
 
   return (
@@ -79,7 +80,7 @@ export default async function HomePage() {
         >
           <RevealOnScroll as="div" className="container landing-about">
             <div className="landing-about__content">
-              <h2 id="about-heading">À propos de CPA Aluminium</h2>
+              <h2 id="about-heading">À propos de CPA</h2>
               <p className="landing-about__lead">
                 Comptoir Pro Aluminium est votre fournisseur de confiance en fenêtres, portes et profilés aluminium à Sousse et en Tunisie. Nous allions matériaux de qualité, prix compétitifs et accompagnement expert pour vos projets résidentiels et commerciaux.
               </p>
@@ -123,43 +124,7 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* Why Choose Us */}
-        <section
-          id="why-choose-us"
-          className="landing-section landing-section--alt"
-          aria-labelledby="trust-heading"
-        >
-          <RevealOnScroll as="div" className="container">
-            <header className="landing-section__header">
-              <h2 id="trust-heading">Pourquoi nous choisir</h2>
-              <p className="section-lead">
-                Confiance et expertise pour vos projets aluminium à Sousse, Tunisie.
-              </p>
-            </header>
-            <ul className="trust-cards" role="list">
-              <li className="trust-card">
-                <span className="trust-card__dot" aria-hidden />
-                <h3 className="trust-card__title">Matériaux de qualité</h3>
-                <p className="trust-card__text">Profilés aluminium certifiés et finitions durables pour des résultats pérennes.</p>
-              </li>
-              <li className="trust-card">
-                <span className="trust-card__dot" aria-hidden />
-                <h3 className="trust-card__title">Prix compétitifs</h3>
-                <p className="trust-card__text">Tarification transparente et devis personnalisés adaptés à votre projet.</p>
-              </li>
-              <li className="trust-card">
-                <span className="trust-card__dot" aria-hidden />
-                <h3 className="trust-card__title">Accompagnement expert</h3>
-                <p className="trust-card__text">Conseils professionnels du choix à la livraison, avec aide à la pose.</p>
-              </li>
-              <li className="trust-card">
-                <span className="trust-card__dot" aria-hidden />
-                <h3 className="trust-card__title">Présence locale</h3>
-                <p className="trust-card__text">Implantés à Sousse, nous accompagnons depuis des années la Tunisie et la région.</p>
-              </li>
-            </ul>
-          </RevealOnScroll>
-        </section>
+        <WhyChooseUsSection />
 
         <SocialProofSection />
 

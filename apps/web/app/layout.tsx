@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://example.com'),
   title: {
     default: 'Produits aluminium | Fenêtres, portes et profilés',
-    template: '%s | CPA Aluminium',
+    template: '%s | CPA',
   },
   description:
     'Fenêtres, portes et profilés aluminium de qualité. Demande de devis ou achat en ligne. Fournisseur de confiance pour projets résidentiels et commerciaux.',
