@@ -22,6 +22,12 @@ const CONTACT = {
   },
 } as const;
 
+const MAP_LAT = 35.83500671386719;
+const MAP_LNG = 10.561318397521973;
+const MAP_ZOOM = 17;
+const MAP_EMBED_URL = `https://www.google.com/maps?q=${MAP_LAT},${MAP_LNG}&z=${MAP_ZOOM}&hl=fr&output=embed`;
+const MAP_OPEN_URL = `https://www.google.com/maps?q=${MAP_LAT},${MAP_LNG}&z=${MAP_ZOOM}&hl=fr`;
+
 function IconPhone({ className }: { className?: string }) {
   return (
     <svg className={className} width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
@@ -205,6 +211,24 @@ export function ContactSection() {
                 </div>
               </li>
             </ul>
+            <div className="contact-section__map-wrap">
+              <iframe
+                src={MAP_EMBED_URL}
+                title="Emplacement CPA Aluminium sur la carte"
+                className="contact-section__map-iframe"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
+              <a
+                href={MAP_OPEN_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="contact-section__map-link"
+              >
+                Ouvrir dans Google Maps
+              </a>
+            </div>
           </div>
         </aside>
       </RevealOnScroll>
