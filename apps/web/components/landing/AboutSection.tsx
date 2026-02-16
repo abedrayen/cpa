@@ -75,7 +75,12 @@ export function AboutSection() {
       className="landing-section landing-section--alt about-section"
       aria-labelledby="about-heading"
     >
-      <RevealOnScroll as="div" className="container about-section__inner">
+      <RevealOnScroll
+        as="div"
+        className="container about-section__inner"
+        rootMargin="0px 0px -80px 0px"
+        threshold={0.05}
+      >
         <header className="about-section__header">
           <h2 id="about-heading" className="about-section__title">
             À propos de CPA
@@ -105,28 +110,35 @@ export function AboutSection() {
           </ul>
         </section>
 
-        <section className="about-section__expertise" aria-labelledby="about-expertise-heading">
-          <h3 id="about-expertise-heading" className="about-section__subtitle">
-            Notre expertise
-          </h3>
-          <ol className="about-timeline" role="list">
-            {EXPERTISE_STEPS.map(({ id, label, detail }) => (
-              <li key={id} className="about-timeline__item">
-                <span className="about-timeline__marker" aria-hidden />
-                <div className="about-timeline__content">
-                  <span className="about-timeline__label">{label}</span>
-                  <span className="about-timeline__detail">{detail}</span>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </section>
+        <RevealOnScroll
+          as="div"
+          className="about-section__expertise-wrap"
+          rootMargin="0px 0px -80px 0px"
+          threshold={0.05}
+        >
+          <section className="about-section__expertise" aria-labelledby="about-expertise-heading">
+            <h3 id="about-expertise-heading" className="about-section__subtitle">
+              Notre expertise
+            </h3>
+            <ol className="about-timeline" role="list">
+              {EXPERTISE_STEPS.map(({ id, label, detail }) => (
+                <li key={id} className="about-timeline__item">
+                  <span className="about-timeline__marker" aria-hidden />
+                  <div className="about-timeline__content">
+                    <span className="about-timeline__label">{label}</span>
+                    <span className="about-timeline__detail">{detail}</span>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </section>
 
-        <p className="about-section__cta">
-          <Link href="/produits" className="btn btn-primary btn--hover">
-            Découvrir nos produits
-          </Link>
-        </p>
+          <p className="about-section__cta">
+            <Link href="/produits" className="btn btn-primary btn--hover">
+              Découvrir nos produits
+            </Link>
+          </p>
+        </RevealOnScroll>
       </RevealOnScroll>
     </section>
   );
