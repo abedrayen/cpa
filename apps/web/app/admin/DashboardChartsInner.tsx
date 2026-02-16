@@ -32,12 +32,12 @@ export function SalesEvolutionChartInner({ data }: { data: DashboardData['salesE
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis
               dataKey="date"
-              tickFormatter={(v) => new Date(v).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' })}
+              tickFormatter={(v: string | number) => new Date(String(v)).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' })}
             />
-            <YAxis tickFormatter={(v) => `${v} TND`} />
+            <YAxis tickFormatter={(v: number | undefined) => `${v ?? 0} TND`} />
             <Tooltip
               formatter={(value: number | undefined) => [`${Number(value ?? 0).toFixed(2)} TND`, 'Chiffre d\'affaires']}
-              labelFormatter={(label) => new Date(label).toLocaleDateString('fr-FR')}
+              labelFormatter={(label: React.ReactNode) => new Date(String(label ?? '')).toLocaleDateString('fr-FR')}
             />
             <Legend />
             <Line
@@ -77,12 +77,12 @@ export function TopProductsChartInner({ data }: { data: DashboardData['topProduc
         <ResponsiveContainer>
           <BarChart data={chartData} layout="vertical" margin={{ top: 5, right: 30, left: 80, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis type="number" tickFormatter={(v) => `${v} TND`} />
+            <XAxis type="number" tickFormatter={(v: number | undefined) => `${v ?? 0} TND`} />
             <YAxis type="category" dataKey="name" width={75} tick={{ fontSize: 11 }} />
             <Tooltip
-              formatter={(value: number, _name: string, props: { payload: { quantity: number } }) => [
-                `${Number(value).toFixed(2)} TND`,
-                `Quantité: ${props.payload.quantity}`,
+              formatter={(value: number | undefined, _name: string | undefined, props: { payload?: { quantity?: number } }) => [
+                `${Number(value ?? 0).toFixed(2)} TND`,
+                `Quantité: ${props.payload?.quantity ?? 0}`,
               ]}
             />
             <Bar dataKey="revenue" name="CA (TND)" radius={[0, 4, 4, 0]}>
