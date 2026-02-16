@@ -9,6 +9,7 @@ import { CtaSection } from '@/components/CtaSection';
 import { SiteFooter } from '@/components/SiteFooter';
 import { RevealOnScroll } from '@/components/landing/RevealOnScroll';
 import { WhyChooseUsSection } from '@/components/landing/WhyChooseUsSection';
+import { AboutSection } from '@/components/landing/AboutSection';
 
 export const dynamic = 'force-dynamic';
 
@@ -50,11 +51,25 @@ export default async function HomePage() {
     isPartOf: { '@type': 'WebSite', name: 'CPA', url: siteUrl },
   };
 
+  const organizationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Comptoir Pro Aluminium',
+    alternateName: 'CPA',
+    description: 'Fournisseur de fenêtres, portes et profilés aluminium à Sousse et en Tunisie. Qualité, expertise et accompagnement pour projets résidentiels et commerciaux.',
+    url: siteUrl,
+    areaServed: { '@type': 'Place', name: 'Sousse, Tunisie' },
+  };
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
       />
       <SiteHeader homeCurrent>
         <div className="container hero-overlay__content">
@@ -72,27 +87,7 @@ export default async function HomePage() {
       </SiteHeader>
 
       <main id="main-content">
-        {/* About / Company introduction */}
-        <section
-          id="about"
-          className="landing-section landing-section--alt"
-          aria-labelledby="about-heading"
-        >
-          <RevealOnScroll as="div" className="container landing-about">
-            <div className="landing-about__content">
-              <h2 id="about-heading">À propos de CPA</h2>
-              <p className="landing-about__lead">
-                Comptoir Pro Aluminium est votre fournisseur de confiance en fenêtres, portes et profilés aluminium à Sousse et en Tunisie. Nous allions matériaux de qualité, prix compétitifs et accompagnement expert pour vos projets résidentiels et commerciaux.
-              </p>
-              <p className="landing-about__meta">
-                Implantés à Sousse, nous accompagnons nos clients dans toute la région avec une offre fiable et des conseils professionnels pour chaque projet.
-              </p>
-              <Link href="/produits" className="btn btn-primary btn--hover">
-                Découvrir nos produits
-              </Link>
-            </div>
-          </RevealOnScroll>
-        </section>
+        <AboutSection />
 
         {/* Services / Products section */}
         <section

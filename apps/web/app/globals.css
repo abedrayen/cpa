@@ -907,26 +907,178 @@ h3 { font-size: var(--text-lg); }
   scroll-margin-top: 5rem;
 }
 
-/* About block — clear hierarchy, conversion CTA */
-.landing-about {
-  max-width: 42rem;
+/* About section — en-tête, valeurs (cartes), expertise (timeline), CTA */
+.about-section__inner {
+  max-width: 56rem;
+  margin: 0 auto;
 }
-.landing-about__content h2 {
-  margin-top: 0;
+.about-section__header {
+  margin-bottom: var(--space-10);
 }
-.landing-about__lead {
+.about-section__title {
+  margin: 0 0 var(--space-4);
+  font-size: clamp(var(--text-xl), 3vw, var(--text-2xl));
+  color: var(--color-text);
+}
+.about-section__lead {
   font-size: var(--text-lg);
   line-height: var(--leading-relaxed);
   color: var(--color-text);
-  margin: 0 0 var(--space-4);
+  margin: 0 0 var(--space-3);
 }
-.landing-about__meta {
+.about-section__meta {
   font-size: var(--text-base);
   color: var(--color-text-muted);
-  line-height: var(--leading-normal);
-  margin: 0 0 var(--space-6);
+  line-height: var(--leading-relaxed);
+  margin: 0;
 }
-.landing-about .btn { margin-top: var(--space-2); }
+
+.about-section__subtitle {
+  margin: 0 0 var(--space-4);
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+}
+.about-section__values {
+  margin-bottom: var(--space-10);
+}
+.about-values-grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+@media (min-width: 640px) {
+  .about-values-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1024px) {
+  .about-values-grid { grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+}
+.about-value-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-xs);
+  transition: box-shadow var(--duration-normal) var(--ease-default),
+    border-color var(--duration-normal) var(--ease-default),
+    transform var(--duration-normal) var(--ease-default);
+}
+.about-value-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-primary-200);
+}
+@media (min-width: 1024px) {
+  .about-section__inner[data-visible="true"] .about-value-card {
+    animation: about-value-in 0.45s var(--ease-out) backwards;
+  }
+  .about-section__inner .about-value-card:nth-child(1) { animation-delay: 0.06s; }
+  .about-section__inner .about-value-card:nth-child(2) { animation-delay: 0.12s; }
+  .about-section__inner .about-value-card:nth-child(3) { animation-delay: 0.18s; }
+  .about-section__inner .about-value-card:nth-child(4) { animation-delay: 0.24s; }
+}
+@keyframes about-value-in {
+  from { opacity: 0; transform: translateY(0.5rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .about-section__inner .about-value-card { animation: none; }
+}
+.about-value-card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-bottom: var(--space-3);
+  background: var(--color-primary-50);
+  color: var(--color-primary-600);
+  border-radius: var(--radius-lg);
+}
+.about-value-card__icon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+.about-value-card__title {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+}
+.about-value-card__text {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: var(--leading-relaxed);
+}
+
+.about-section__expertise {
+  margin-bottom: var(--space-10);
+}
+.about-timeline {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+.about-timeline::before {
+  content: '';
+  position: absolute;
+  left: 0.625rem;
+  top: 0.5rem;
+  bottom: 0.5rem;
+  width: 2px;
+  background: var(--color-primary-200);
+  border-radius: var(--radius-pill);
+}
+@media (min-width: 768px) {
+  .about-timeline::before { left: 1rem; }
+}
+.about-timeline__item {
+  position: relative;
+  display: flex;
+  gap: var(--space-4);
+  padding-bottom: var(--space-5);
+}
+.about-timeline__item:last-child { padding-bottom: 0; }
+.about-timeline__marker {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.15rem;
+  margin-left: 0;
+  background: var(--color-primary-500);
+  border: 3px solid var(--color-surface);
+  border-radius: 50%;
+  box-shadow: var(--shadow-sm);
+}
+@media (min-width: 768px) {
+  .about-timeline__marker { width: 1.25rem; height: 1.25rem; margin-left: 0; }
+}
+.about-timeline__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-0);
+  min-width: 0;
+}
+.about-timeline__label {
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+}
+.about-timeline__detail {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: var(--leading-normal);
+}
+
+.about-section__cta {
+  margin: 0;
+  text-align: center;
+}
+.about-section__cta .btn { margin-top: var(--space-2); }
 
 /* Why Choose Us — trust cards */
 .trust-cards {
