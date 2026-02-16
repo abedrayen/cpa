@@ -36,7 +36,7 @@ export function SalesEvolutionChartInner({ data }: { data: DashboardData['salesE
             />
             <YAxis tickFormatter={(v) => `${v} TND`} />
             <Tooltip
-              formatter={(value: number) => [`${Number(value).toFixed(2)} TND`, 'Chiffre d\'affaires']}
+              formatter={(value: number | undefined) => [`${Number(value ?? 0).toFixed(2)} TND`, 'Chiffre d\'affaires']}
               labelFormatter={(label) => new Date(label).toLocaleDateString('fr-FR')}
             />
             <Legend />
