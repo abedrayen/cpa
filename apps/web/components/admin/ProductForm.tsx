@@ -1,6 +1,9 @@
 'use client';
 
 import { useState, useCallback } from 'react';
+import { getAdminToken } from '@/components/AdminGuard';
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? '';
 
 function slugify(name: string): string {
   return name
@@ -233,7 +236,11 @@ export function ProductForm({
                   try {
                     const fd = new FormData();
                     fd.append('file', file);
-                    const res = await fetch('/api/upload', { method: 'POST', body: fd });
+                    const uploadUrl = API_URL ? `${API_URL.replace(/\/$/, '')}/admin/upload` : '/api/upload';
+                    const headers: HeadersInit = {};
+                    const token = getAdminToken();
+                    if (token) headers.Authorization = `Bearer ${token}`;
+                    const res = await fetch(uploadUrl, { method: 'POST', body: fd, headers });
                     const data = await res.json();
                     if (!res.ok || !data.url) {
                       throw new Error(data.message ?? 'Échec du téléversement');
