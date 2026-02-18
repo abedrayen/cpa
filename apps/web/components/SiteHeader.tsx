@@ -19,6 +19,7 @@ export function SiteHeader({
             width={160}
             height={48}
             priority
+            sizes="(max-width: 479px) 120px, (max-width: 767px) 140px, 160px"
             style={{ height: 'auto', maxHeight: '48px', width: 'auto' }}
           />
           <span className="logo-name">Comptoir pro aluminium</span>
