@@ -21,11 +21,11 @@ export declare class OrdersController {
         createdAt: Date;
         updatedAt: Date;
         deletedAt: Date | null;
-        userId: string | null;
+        status: import(".prisma/client").$Enums.OrderStatus;
         customerEmail: string;
         customerName: string;
         customerPhone: string | null;
         notes: string | null;
-        status: import(".prisma/client").$Enums.OrderStatus;
+        userId: string | null;
     }>;
 }

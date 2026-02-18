@@ -23,12 +23,12 @@ export declare class AdminOrdersController {
             createdAt: Date;
             updatedAt: Date;
             deletedAt: Date | null;
-            userId: string | null;
+            status: import(".prisma/client").$Enums.OrderStatus;
             customerEmail: string;
             customerName: string;
             customerPhone: string | null;
             notes: string | null;
-            status: import(".prisma/client").$Enums.OrderStatus;
+            userId: string | null;
         }[];
         meta: {
             total: number;
@@ -56,12 +56,12 @@ export declare class AdminOrdersController {
         createdAt: Date;
         updatedAt: Date;
         deletedAt: Date | null;
-        userId: string | null;
+        status: import(".prisma/client").$Enums.OrderStatus;
         customerEmail: string;
         customerName: string;
         customerPhone: string | null;
         notes: string | null;
-        status: import(".prisma/client").$Enums.OrderStatus;
+        userId: string | null;
     }>;
     updateStatus(id: string, dto: UpdateOrderStatusDto): Promise<{
         items: {
@@ -81,11 +81,11 @@ export declare class AdminOrdersController {
         createdAt: Date;
         updatedAt: Date;
         deletedAt: Date | null;
-        userId: string | null;
+        status: import(".prisma/client").$Enums.OrderStatus;
         customerEmail: string;
         customerName: string;
         customerPhone: string | null;
         notes: string | null;
-        status: import(".prisma/client").$Enums.OrderStatus;
+        userId: string | null;
     }>;
 }
