@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import type { Product } from '@/lib/types';
+import { isUnoptimizedImage } from '@/lib/image';
 
 export function ProductCard({
   product,
@@ -24,6 +25,7 @@ export function ProductCard({
               height={300}
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               loading="lazy"
+              unoptimized={isUnoptimizedImage(img.url)}
             />
           </div>
         ) : (

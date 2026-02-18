@@ -3,6 +3,7 @@
 import { useState, useId } from 'react';
 import Image from 'next/image';
 import type { ProductImage } from '@/lib/types';
+import { isUnoptimizedImage } from '@/lib/image';
 
 export function ProductGallery({
   images,
@@ -36,6 +37,7 @@ export function ProductGallery({
           height={600}
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw,  min(600px, 50vw)"
           priority
+          unoptimized={isUnoptimizedImage(main.url)}
           className="pdp-gallery__main"
         />
       </div>
@@ -60,6 +62,7 @@ export function ProductGallery({
                   width={120}
                   height={90}
                   sizes="80px"
+                  unoptimized={isUnoptimizedImage(img.url)}
                   className="pdp-gallery__thumb-img"
                 />
               </button>

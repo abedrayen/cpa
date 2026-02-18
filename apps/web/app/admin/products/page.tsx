@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { getAdminToken } from '@/components/AdminGuard';
 import { Breadcrumbs } from '@/components/admin/Breadcrumbs';
 import { ConfirmDialog } from '@/components/admin/ConfirmDialog';
+import { isUnoptimizedImage } from '@/lib/image';
 import { useToast } from '@/components/admin/ToastContext';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? '';
@@ -172,7 +173,7 @@ export default function AdminProductsPage() {
                             width={48}
                             height={48}
                             style={{ objectFit: 'cover', borderRadius: '4px' }}
-                            unoptimized={p.images[0].url.startsWith('data:')}
+                            unoptimized={isUnoptimizedImage(p.images[0].url)}
                           />
                         </span>
                       ) : (
