@@ -16,9 +16,10 @@ module.exports = {
       script: 'dist/main.js',
       env: {
         UPLOAD_DIR: 'uploads',
+        // API_PUBLIC_URL: 'https://api.comptoirpro.shop',  // set in production so image URLs use HTTPS
       },
-      // Override UPLOAD_DIR on server if needed, e.g.:
-      // env_production: { UPLOAD_DIR: '/home/sirayen/cpa/apps/api/uploads' },
+      // Override on server if needed, e.g.:
+      // env_production: { UPLOAD_DIR: '/home/sirayen/cpa/apps/api/uploads', API_PUBLIC_URL: 'https://api.comptoirpro.shop' },
     },
     {
       name: 'next-frontend',

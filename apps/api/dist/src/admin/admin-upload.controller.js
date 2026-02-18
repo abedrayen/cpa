@@ -48,7 +48,7 @@ let AdminUploadController = class AdminUploadController {
         const filepath = path.join(uploadDir, filename);
         await (0, promises_1.writeFile)(filepath, file.buffer);
         const base = process.env.API_PUBLIC_URL ?? `${req.protocol}://${req.get('host')}`;
-        const url = `${base.replace(/\/$/, '')}/uploads/${filename}`;
+        const url = `${base.replace(/\/$/, '')}/api/v1/uploads/${filename}`;
         return { url };
     }
 };

@@ -10,6 +10,7 @@ if (!uploadDir)
     throw new Error('UPLOAD_DIR environment variable is required');
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
+    app.useStaticAssets(uploadDir, { prefix: '/api/v1/uploads/' });
     app.useStaticAssets(uploadDir, { prefix: '/uploads/' });
     app.enableCors({
         origin: process.env.CORS_ORIGIN?.split(',').map((o) => o.trim()) ?? [

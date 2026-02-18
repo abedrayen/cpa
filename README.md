@@ -53,6 +53,7 @@ admin@cpa.local / ChangeMeInProduction!
 
 1. **API**
    - `UPLOAD_DIR` is **required**. Set it to a path the process can write to (e.g. `uploads` relative to app, or absolute like `/home/sirayen/cpa/apps/api/uploads`).
+   - Set `API_PUBLIC_URL` to the public API base URL (e.g. `https://api.comptoirpro.shop`) so uploaded image URLs are correct and use HTTPS.
    - Create the directory and fix permissions: `mkdir -p uploads && chown $USER uploads` (from `apps/api`).
    - Do **not** set `UPLOAD_DIR=/var/app` unless that directory exists and is writable by the app user.
    - Build and run: `cd apps/api && npm run build && node dist/main` (or use the ecosystem file below).
