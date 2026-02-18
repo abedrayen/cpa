@@ -23,12 +23,12 @@ export declare class OrdersService {
         createdAt: Date;
         updatedAt: Date;
         deletedAt: Date | null;
-        status: import(".prisma/client").$Enums.OrderStatus;
+        userId: string | null;
         customerEmail: string;
         customerName: string;
         customerPhone: string | null;
         notes: string | null;
-        userId: string | null;
+        status: import(".prisma/client").$Enums.OrderStatus;
     }>;
     findAll(page?: number, limit?: number, status?: OrderStatus): Promise<{
         data: {
@@ -49,12 +49,12 @@ export declare class OrdersService {
             createdAt: Date;
             updatedAt: Date;
             deletedAt: Date | null;
-            status: import(".prisma/client").$Enums.OrderStatus;
+            userId: string | null;
             customerEmail: string;
             customerName: string;
             customerPhone: string | null;
             notes: string | null;
-            userId: string | null;
+            status: import(".prisma/client").$Enums.OrderStatus;
         }[];
         meta: {
             total: number;
@@ -82,12 +82,12 @@ export declare class OrdersService {
         createdAt: Date;
         updatedAt: Date;
         deletedAt: Date | null;
-        status: import(".prisma/client").$Enums.OrderStatus;
+        userId: string | null;
         customerEmail: string;
         customerName: string;
         customerPhone: string | null;
         notes: string | null;
-        userId: string | null;
+        status: import(".prisma/client").$Enums.OrderStatus;
     }>;
     updateStatus(id: string, dto: UpdateOrderStatusDto): Promise<{
         items: {
@@ -107,11 +107,11 @@ export declare class OrdersService {
         createdAt: Date;
         updatedAt: Date;
         deletedAt: Date | null;
-        status: import(".prisma/client").$Enums.OrderStatus;
+        userId: string | null;
         customerEmail: string;
         customerName: string;
         customerPhone: string | null;
         notes: string | null;
-        userId: string | null;
+        status: import(".prisma/client").$Enums.OrderStatus;
     }>;
 }

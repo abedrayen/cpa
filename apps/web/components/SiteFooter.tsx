@@ -92,7 +92,7 @@ export function SiteFooter() {
               <ul className="site-footer__social-list">
                 <li>
                   <a
-                    href="https://www.facebook.com"
+                    href="https://www.facebook.com/profile.php?id=61588124354441"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="site-footer__social-link"
