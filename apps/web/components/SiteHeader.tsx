@@ -21,7 +21,7 @@ export function SiteHeader({
             priority
             style={{ height: 'auto', maxHeight: '48px', width: 'auto' }}
           />
-          <span className="logo-name">Comptoir Pro Aliminium</span>
+          <span className="logo-name">Comptoir pro aluminium</span>
         </Link>
         <nav aria-label="Navigation principale">
           <Link href="/produits">Produits</Link>

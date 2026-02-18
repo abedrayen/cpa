@@ -5,15 +5,19 @@ import { WhatsAppFloat } from '@/components/WhatsAppFloat';
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://example.com'),
   title: {
-    default: 'Produits aluminium | Fenêtres, portes et profilés',
-    template: '%s | CPA',
+    default: 'Comptoir pro aluminium',
+    template: '%s | Comptoir pro aluminium',
   },
   description:
     'Fenêtres, portes et profilés aluminium de qualité. Demande de devis ou achat en ligne. Fournisseur de confiance pour projets résidentiels et commerciaux.',
+  icons: {
+    icon: '/media/logo.png',
+    apple: '/media/logo.png',
+  },
   openGraph: {
     type: 'website',
     locale: 'fr_FR',
-    siteName: 'Comptoir Pro Aluminium',
+    siteName: 'Comptoir pro aluminium',
   },
   twitter: { card: 'summary_large_image' },
   robots: { index: true, follow: true },
@@ -24,14 +28,14 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://example.com';
 const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'Comptoir Pro Aluminium',
+  name: 'Comptoir pro aluminium',
   url: siteUrl,
 };
 
 const localBusinessSchema = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
-  name: 'Comptoir Pro Aluminium',
+  name: 'Comptoir pro aluminium',
   description: 'Fenêtres, portes et profilés aluminium de qualité à Sousse, Tunisie. Devis sur demande ou achat en ligne.',
   url: siteUrl,
   telephone: ['+21631106159', '+21698287926'],
