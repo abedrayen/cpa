@@ -9,6 +9,8 @@ const nextConfig = {
   },
   images: {
     remotePatterns: [
+      { protocol: 'https', hostname: 'api.comptoirpro.shop', pathname: '/uploads/**' },
+      { protocol: 'http', hostname: 'api.comptoirpro.shop', pathname: '/uploads/**' },
       { protocol: 'https', hostname: '**' },
       { protocol: 'http', hostname: '**' },
     ],
