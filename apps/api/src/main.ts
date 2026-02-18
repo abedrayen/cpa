@@ -1,16 +1,16 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { join } from 'path';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 
-const UPLOAD_DIR = process.env.UPLOAD_DIR ?? join(process.cwd(), 'uploads');
+const uploadDir = process.env.UPLOAD_DIR;
+if (!uploadDir) throw new Error('UPLOAD_DIR environment variable is required');
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  app.useStaticAssets(UPLOAD_DIR, { prefix: '/uploads/' });
+  app.useStaticAssets(uploadDir!, { prefix: '/uploads/' });
 
   app.enableCors({
     origin: process.env.CORS_ORIGIN?.split(',').map((o) => o.trim()) ?? [

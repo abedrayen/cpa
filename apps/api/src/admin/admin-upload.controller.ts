@@ -18,7 +18,6 @@ import { Roles } from '../common/decorators/roles.decorator';
 import { Role } from '@prisma/client';
 
 const ALLOWED_EXT = ['.jpg', '.jpeg', '.png', '.webp', '.avif'];
-const UPLOAD_DIR = process.env.UPLOAD_DIR ?? path.join(process.cwd(), 'uploads');
 
 @Controller('admin/upload')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -38,7 +37,11 @@ export class AdminUploadController {
     if (ext && !ALLOWED_EXT.includes(ext)) {
       throw new BadRequestException('Unsupported file type');
     }
-    await mkdir(UPLOAD_DIR, { recursive: true });
+    const uploadDir = process.env.UPLOAD_DIR;
+    if (!uploadDir) {
+      throw new BadRequestException('Upload directory not configured');
+    }
+    await mkdir(uploadDir, { recursive: true });
     const hash = crypto.randomBytes(8).toString('hex');
     const safeName =
       (file.originalname ?? 'image')
@@ -47,7 +50,7 @@ export class AdminUploadController {
         .replace(/[\u0300-\u036f]/g, '')
         .replace(/[^a-z0-9]+/g, '-') || 'image';
     const filename = `${safeName}-${hash}${ext || '.jpg'}`;
-    const filepath = path.join(UPLOAD_DIR, filename);
+    const filepath = path.join(uploadDir, filename);
     await writeFile(filepath, file.buffer);
     const base = process.env.API_PUBLIC_URL ?? `${req.protocol}://${req.get('host')}`;
     const url = `${base.replace(/\/$/, '')}/uploads/${filename}`;

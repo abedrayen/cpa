@@ -23,7 +23,6 @@ const roles_guard_1 = require("../auth/guards/roles.guard");
 const roles_decorator_1 = require("../common/decorators/roles.decorator");
 const client_1 = require("@prisma/client");
 const ALLOWED_EXT = ['.jpg', '.jpeg', '.png', '.webp', '.avif'];
-const UPLOAD_DIR = process.env.UPLOAD_DIR ?? path.join(process.cwd(), 'uploads');
 let AdminUploadController = class AdminUploadController {
     async upload(file, req) {
         if (!file?.buffer) {
@@ -34,7 +33,11 @@ let AdminUploadController = class AdminUploadController {
         if (ext && !ALLOWED_EXT.includes(ext)) {
             throw new common_1.BadRequestException('Unsupported file type');
         }
-        await (0, promises_1.mkdir)(UPLOAD_DIR, { recursive: true });
+        const uploadDir = process.env.UPLOAD_DIR;
+        if (!uploadDir) {
+            throw new common_1.BadRequestException('Upload directory not configured');
+        }
+        await (0, promises_1.mkdir)(uploadDir, { recursive: true });
         const hash = crypto.randomBytes(8).toString('hex');
         const safeName = (file.originalname ?? 'image')
             .toLowerCase()
@@ -42,7 +45,7 @@ let AdminUploadController = class AdminUploadController {
             .replace(/[\u0300-\u036f]/g, '')
             .replace(/[^a-z0-9]+/g, '-') || 'image';
         const filename = `${safeName}-${hash}${ext || '.jpg'}`;
-        const filepath = path.join(UPLOAD_DIR, filename);
+        const filepath = path.join(uploadDir, filename);
         await (0, promises_1.writeFile)(filepath, file.buffer);
         const base = process.env.API_PUBLIC_URL ?? `${req.protocol}://${req.get('host')}`;
         const url = `${base.replace(/\/$/, '')}/uploads/${filename}`;
