@@ -13,7 +13,7 @@ module.exports = {
     {
       name: 'cpa-api',
       cwd: './apps/api',
-      script: 'dist/main.js',
+      script: 'dist/src/main.js',
       env: {
         UPLOAD_DIR: 'uploads',
         // API_PUBLIC_URL: 'https://api.comptoirpro.shop',  // set in production so image URLs use HTTPS
