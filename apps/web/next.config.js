@@ -8,6 +8,8 @@ const nextConfig = {
     ];
   },
   images: {
+    loader: 'custom',
+    loaderFile: './lib/image-loader.ts',
     remotePatterns: [
       { protocol: 'https', hostname: 'api.comptoirpro.shop', pathname: '/uploads/**' },
       { protocol: 'http', hostname: 'api.comptoirpro.shop', pathname: '/uploads/**' },
