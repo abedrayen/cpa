@@ -282,24 +282,30 @@ h3 { font-size: clamp(var(--text-base), 1.5vw + 0.5rem, var(--text-lg)); }
 }
 .hero-overlay__title {
   margin: 0 0 var(--space-3);
-  font-size: clamp(1.25rem, 4vw + 0.5rem, var(--text-4xl));
+  font-size: 1rem;
   font-weight: var(--font-weight-bold);
   line-height: var(--leading-tight);
   color: inherit;
   animation: hero-content-in var(--duration-slow) var(--ease-out) 0.1s both;
 }
 @media (min-width: 480px) {
-  .hero-overlay__title { margin-bottom: var(--space-4); }
+  .hero-overlay__title {
+    margin-bottom: var(--space-4);
+    font-size: clamp(1.25rem, 4vw + 0.5rem, var(--text-4xl));
+  }
 }
 .hero-overlay__lead {
   margin: 0 0 var(--space-4);
-  font-size: clamp(var(--text-sm), 2vw + 0.5rem, var(--text-lg));
+  font-size: 0.8125rem;
   line-height: var(--leading-relaxed);
   opacity: 0.95;
   animation: hero-content-in var(--duration-slow) var(--ease-out) 0.2s both;
 }
 @media (min-width: 480px) {
-  .hero-overlay__lead { margin-bottom: var(--space-6); }
+  .hero-overlay__lead {
+    margin-bottom: var(--space-6);
+    font-size: clamp(var(--text-sm), 2vw + 0.5rem, var(--text-lg));
+  }
 }
 .hero-overlay__cta {
   animation: hero-content-in var(--duration-slow) var(--ease-out) 0.3s both;
