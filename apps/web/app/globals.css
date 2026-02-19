@@ -1151,6 +1151,11 @@ h3 { font-size: clamp(var(--text-base), 1.5vw + 0.5rem, var(--text-lg)); }
   .about-values-grid { grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
 }
 .about-value-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  gap: 0 var(--space-3);
+  align-items: start;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
@@ -1179,12 +1184,14 @@ h3 { font-size: clamp(var(--text-base), 1.5vw + 0.5rem, var(--text-lg)); }
   .about-section__inner .about-value-card { animation: none; }
 }
 .about-value-card__icon {
+  grid-column: 1;
+  grid-row: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 2.5rem;
   height: 2.5rem;
-  margin-bottom: var(--space-3);
+  flex-shrink: 0;
   background: var(--color-primary-50);
   color: var(--color-primary-600);
   border-radius: var(--radius-lg);
@@ -1194,13 +1201,18 @@ h3 { font-size: clamp(var(--text-base), 1.5vw + 0.5rem, var(--text-lg)); }
   height: 1.25rem;
 }
 .about-value-card__title {
-  margin: 0 0 var(--space-2);
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0;
+  align-self: center;
   font-size: var(--text-base);
   font-weight: var(--font-weight-semibold);
   color: var(--color-text);
 }
 .about-value-card__text {
-  margin: 0;
+  grid-column: 1 / -1;
+  grid-row: 2;
+  margin: var(--space-2) 0 0;
   font-size: var(--text-sm);
   color: var(--color-text-muted);
   line-height: var(--leading-relaxed);
