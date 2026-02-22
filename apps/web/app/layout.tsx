@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     template: '%s | Comptoir pro aluminium',
   },
   description:
-    'Fenêtres, portes et profilés aluminium de qualité. Demande de devis ou achat en ligne. Fournisseur de confiance pour projets résidentiels et commerciaux.',
+    'Matériaux de construction et solutions d’isolation de qualité. Demande de devis ou achat en ligne. Fournisseur de confiance pour projets résidentiels et commerciaux.',
   icons: {
     icon: '/media/logo.png',
     apple: '/media/logo.png',
@@ -36,10 +36,10 @@ const localBusinessSchema = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
   name: 'Comptoir pro aluminium',
-  description: 'Fenêtres, portes et profilés aluminium de qualité à Sousse, Tunisie. Devis sur demande ou achat en ligne.',
+  description: 'Matériaux de construction et solutions d’isolation de qualité à Sousse, Tunisie. Devis sur demande ou achat en ligne.',
   url: siteUrl,
   telephone: ['+21631106159', '+21698287926'],
-  email: 'comptoireproaluminium@gmail.com',
+  email: 'contact.cpa@gmail.com',
   address: {
     '@type': 'PostalAddress',
     streetAddress: 'Cité Zarrouk – Route de Ceinture, route de Tunis – Sousse',

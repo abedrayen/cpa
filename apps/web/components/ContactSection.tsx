@@ -13,8 +13,8 @@ const CONTACT = {
   mobile: { label: 'Mobile', value: '+216 58 561 301', href: 'tel:+21698287926' },
   email: {
     label: 'E-mail',
-    value: 'comptoireproaluminium@gmail.com',
-    href: 'mailto:comptoireproaluminium@gmail.com',
+    value: 'contact.cpa@gmail.com',
+    href: 'mailto:contact.cpa@gmail.com',
   },
   address: {
     value: 'Cité Zarrouk – Route de Ceinture, route de Tunis – Sousse',

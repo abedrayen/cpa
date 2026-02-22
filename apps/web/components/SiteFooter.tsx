@@ -8,7 +8,7 @@ import Link from 'next/link';
 const FOOTER_CONTACT = {
   landline: { value: '+216 73 299 127', href: 'tel:+21631106159' },
   mobile: { value: '+216 58 561 301', href: 'tel:+21698287926' },
-  email: { value: 'comptoireproaluminium@gmail.com', href: 'mailto:comptoireproaluminium@gmail.com' },
+  email: { value: 'contact.cpa@gmail.com', href: 'mailto:contact.cpa@gmail.com' },
   address: 'Cité Zarrouk – Route de Ceinture, Sousse, Tunisie',
 } as const;
 
@@ -86,7 +86,7 @@ export function SiteFooter() {
               </Link>
             </p>
             <p className="site-footer__tagline">
-              Fenêtres, portes et profilés aluminium à Sousse, Tunisie.
+              Matériaux de construction et solutions d’isolation à Sousse, Tunisie.
             </p>
             <nav className="site-footer__social" aria-label="Réseaux sociaux">
               <ul className="site-footer__social-list">

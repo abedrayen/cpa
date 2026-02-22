@@ -210,7 +210,7 @@ export function SocialProofSection() {
               Avis clients
             </h3>
             <p className="social-proof__testimonials-lead">
-              Témoignages et évaluations de nos clients à Sousse et en Tunisie sur nos fenêtres, portes et profilés aluminium.
+              Témoignages et évaluations de nos clients à Sousse et en Tunisie sur nos Matériaux de construction et solutions d’isolation.
             </p>
           </header>
           <ul className="testimonials-list" role="list" aria-labelledby="testimonials-heading">

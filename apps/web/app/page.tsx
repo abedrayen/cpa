@@ -16,18 +16,18 @@ export const dynamic = 'force-dynamic';
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://example.com';
 
 const pageDescription =
-  'CPA fournit fenêtres, portes et profilés aluminium de qualité à Sousse, Tunisie. Demande de devis ou achat en ligne. Fournisseur de confiance pour projets résidentiels et commerciaux.';
+  'CPA fournit Matériaux de construction et solutions d’isolation de qualité à Sousse, Tunisie. Demande de devis ou achat en ligne. Fournisseur de confiance pour projets résidentiels et commerciaux.';
 
 export const metadata = {
-  title: 'Fenêtres, portes et profilés aluminium | CPA Sousse',
+  title: 'Matériaux de construction et solutions d’isolation | CPA Sousse',
   description: pageDescription,
   alternates: { canonical: siteUrl },
   openGraph: {
     url: siteUrl,
     type: 'website',
-    title: 'Fenêtres, portes et profilés aluminium | CPA Sousse',
+    title: 'Matériaux de construction et solutions d’isolation | CPA Sousse',
     description:
-      'Solutions aluminium de qualité à Sousse, Tunisie. Fenêtres, portes, profilés. Devis sur demande ou achat en ligne.',
+      'Vente de produits de construction performants et d’éléments d’isolation thermique et acoustique  de qualité pour projets résidentiels et commerciaux à Sousse, Tunisie.',
   },
 };
 
@@ -45,7 +45,7 @@ export default async function HomePage() {
   const webPageSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
-    name: 'Fenêtres, portes et profilés aluminium | CPA Sousse',
+    name: 'Matériaux de construction et solutions d’isolation | CPA Sousse',
     description: pageDescription,
     url: siteUrl,
     isPartOf: { '@type': 'WebSite', name: 'CPA', url: siteUrl },
@@ -56,7 +56,7 @@ export default async function HomePage() {
     '@type': 'Organization',
     name: 'Comptoir Pro Aluminium',
     alternateName: 'CPA',
-    description: 'Fournisseur de fenêtres, portes et profilés aluminium à Sousse et en Tunisie. Qualité, expertise et accompagnement pour projets résidentiels et commerciaux.',
+    description: 'Fournisseur de Matériaux de construction et solutions d’isolation à Sousse et en Tunisie. Qualité, expertise et accompagnement pour projets résidentiels et commerciaux.',
     url: siteUrl,
     areaServed: { '@type': 'Place', name: 'Sousse, Tunisie' },
   };
@@ -74,11 +74,10 @@ export default async function HomePage() {
       <SiteHeader homeCurrent>
         <div className="container hero-overlay__content">
           <h1 id="hero-heading" className="hero-overlay__title">
-            Fenêtres, portes et profilés aluminium
+            Matériaux de construction et solutions d’isolation
           </h1>
           <p className="hero-overlay__lead">
-            Solutions aluminium de qualité pour projets résidentiels et commerciaux à Sousse, Tunisie.
-            Demande de devis ou achat en ligne.
+          Vente de produits de construction performants et d’éléments d’isolation thermique et acoustique  de qualité pour projets résidentiels et commerciaux à Sousse, Tunisie.
           </p>
           <Link href="/produits" className="btn btn-primary btn--hover hero-overlay__cta">
             Voir tous les produits
