@@ -12,22 +12,44 @@ const nextConfig = {
     loaderFile: './lib/image-loader.ts',
     remotePatterns: [
       { protocol: 'https', hostname: 'api.comptoirpro.shop', pathname: '/uploads/**' },
-      { protocol: 'http', hostname: 'api.comptoirpro.shop', pathname: '/uploads/**' },
       { protocol: 'https', hostname: '**' },
       { protocol: 'http', hostname: '**' },
     ],
     formats: ['image/avif', 'image/webp'],
   },
   async headers() {
+    const securityHeaders = [
+      { key: 'X-DNS-Prefetch-Control', value: 'on' },
+      { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+      { key: 'X-Content-Type-Options', value: 'nosniff' },
+      { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+      {
+        key: 'Strict-Transport-Security',
+        value: 'max-age=31536000; includeSubDomains; preload',
+      },
+      {
+        key: 'Cross-Origin-Opener-Policy',
+        value: 'same-origin',
+      },
+      {
+        key: 'Content-Security-Policy',
+        value: [
+          "default-src 'self'",
+          "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+          "style-src 'self' 'unsafe-inline'",
+          "img-src 'self' data: https: blob:",
+          "font-src 'self' data:",
+          "connect-src 'self' https:",
+          "frame-ancestors 'self'",
+          "base-uri 'self'",
+          "form-action 'self'",
+        ].join('; '),
+      },
+    ];
     return [
       {
         source: '/:path*',
-        headers: [
-          { key: 'X-DNS-Prefetch-Control', value: 'on' },
-          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
-          { key: 'X-Content-Type-Options', value: 'nosniff' },
-          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
-        ],
+        headers: securityHeaders,
       },
     ];
   },

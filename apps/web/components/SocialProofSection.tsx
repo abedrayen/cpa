@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { RevealOnScroll } from '@/components/landing/RevealOnScroll';
 
-const SITE_NAME = 'CPA Aluminium';
+const SITE_NAME = 'Comptoir pro aluminium';
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://example.com';
 
 /** Partners: name required, logoUrl optional. Use alt "Logo partenaire {name}" when image. */
@@ -104,6 +104,8 @@ function StarRating({ value, max = 5 }: { value: number; max?: number }) {
   );
 }
 
+const itemReviewedRef = { '@type': 'LocalBusiness' as const, name: SITE_NAME, url: siteUrl };
+
 /** JSON-LD: LocalBusiness with aggregateRating + reviews for SEO. */
 function SocialProofStructuredData() {
   const schema = {
@@ -113,6 +115,7 @@ function SocialProofStructuredData() {
     url: siteUrl,
     aggregateRating: {
       '@type': 'AggregateRating',
+      itemReviewed: itemReviewedRef,
       ratingValue: RATING.value,
       bestRating: RATING.max,
       worstRating: 1,
@@ -120,6 +123,7 @@ function SocialProofStructuredData() {
     },
     review: TESTIMONIALS.map((t) => ({
       '@type': 'Review',
+      itemReviewed: itemReviewedRef,
       author: { '@type': 'Person', name: t.author },
       reviewBody: t.quote,
       datePublished: t.datePublished ?? undefined,
