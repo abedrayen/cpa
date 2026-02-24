@@ -86,7 +86,7 @@ export function AboutSection() {
             À propos de CPA
           </h2>
           <p className="about-section__lead">
-            Comptoir Pro Aluminium est votre fournisseur de confiance en Matériaux de construction et solutions d’isolation à Sousse et en Tunisie. Nous allions matériaux de qualité, prix compétitifs et accompagnement expert pour vos projets résidentiels et commerciaux.
+            Comptoir Pro Aluminium est votre fournisseur de confiance en matériaux de construction performants et solutions d’isolation thermique et acoustique de qualité à Sousse et en Tunisie. Nous allions matériaux de qualité, prix compétitifs et accompagnement expert pour vos projets résidentiels et commerciaux.
           </p>
           <p className="about-section__meta">
             Implantés à Sousse, nous accompagnons nos clients dans toute la région avec une offre fiable et des conseils professionnels pour chaque projet fenêtres et portes aluminium.
