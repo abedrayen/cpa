@@ -10,7 +10,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/produits`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.9 },
   ];
 
-  if (!process.env.NEXT_PUBLIC_API_URL) return staticPages;
   try {
     const res = await fetcherNoCache<{ data: Product[] }>('/products?limit=5000');
     const dynamic: MetadataRoute.Sitemap = res.data.map((p) => ({

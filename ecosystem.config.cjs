@@ -16,17 +16,19 @@ module.exports = {
       script: 'dist/src/main.js',
       env: {
         UPLOAD_DIR: 'uploads',
-        // API_PUBLIC_URL: 'https://api.comptoirpro.shop',  // set in production so image URLs use HTTPS
+        // API_PUBLIC_URL: 'https://comptoirpro.shop',  // same-origin: site origin for upload URLs
       },
-      // Override on server if needed, e.g.:
-      // env_production: { UPLOAD_DIR: '/home/sirayen/cpa/apps/api/uploads', API_PUBLIC_URL: 'https://api.comptoirpro.shop' },
+      // env_production: { UPLOAD_DIR: '/path/to/uploads', API_PUBLIC_URL: 'https://comptoirpro.shop' },
     },
     {
       name: 'next-frontend',
       cwd: './apps/web',
       script: 'node_modules/.bin/next',
       args: 'start',
-      env: { NODE_ENV: 'production' },
+      env: {
+        NODE_ENV: 'production',
+        // NEXT_PUBLIC_SITE_URL: 'https://comptoirpro.shop',  // same-origin API base
+      },
       // If next is hoisted to root, use: script: '../../node_modules/.bin/next'
     },
   ],

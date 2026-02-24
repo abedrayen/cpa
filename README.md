@@ -27,11 +27,13 @@ npm run dev             # http://localhost:3001
 
 ```bash
 cd apps/web
-cp .env.local.example .env.local
-# Set NEXT_PUBLIC_API_URL=http://localhost:3001/api/v1, NEXT_PUBLIC_SITE_URL if needed
+cp .env.local.example .env.local   # optional: for overrides
 npm install
 npm run dev             # http://localhost:3000
 ```
+
+- **Same-origin (default):** Frontend and API share one domain. Set `NEXT_PUBLIC_SITE_URL` (e.g. `https://comptoirpro.shop` or `https://comptoirpro.tn`) so the app uses `{SITE_URL}/api/v1` as the API. Next rewrites `/api/v1/*` to the backend (use `BACKEND_URL` if the API is not on `http://localhost:3001`).
+- **Local dev:** With both apps running, the default is relative `/api/v1`; Next proxies to the API. To point at a separate API URL, set `NEXT_PUBLIC_API_URL=http://localhost:3001/api/v1`.
 
 ### 3. From root (optional)
 
@@ -45,25 +47,27 @@ npm run dev             # turbo dev (both apps)
 
 - **Site:** / (landing), /products (all products), /products/{slug} (product page)
 - **Admin:** /admin/login, /admin (dashboard, categories, products, orders)
-- **API:** http://localhost:3001/api/v1 (products, categories, orders, auth, admin)
+- **API (same-origin):** `{site}/api/v1` (e.g. https://comptoirpro.shop/api/v1). Local: http://localhost:3000/api/v1 (proxied to Nest)
 
 admin@cpa.local / ChangeMeInProduction!
 
-## Production (PM2)
+## Production (PM2) — same-origin
+
+**Architecture:** Frontend and API on the same domain (e.g. https://comptoirpro.shop and https://comptoirpro.shop/api/v1). Use a reverse proxy (e.g. nginx) to route `/` to Next and `/api/v1` to the Nest app, or run Next with rewrites and set `BACKEND_URL` to the internal API URL.
 
 1. **API**
-   - `UPLOAD_DIR` is **required**. Set it to a path the process can write to (e.g. `uploads` relative to app, or absolute like `/home/sirayen/cpa/apps/api/uploads`).
-   - Set `API_PUBLIC_URL` to the public API base URL (e.g. `https://api.comptoirpro.shop`) so uploaded image URLs are correct and use HTTPS.
+   - `UPLOAD_DIR` is **required**. Set it to a path the process can write to (e.g. `uploads` relative to app, or absolute).
+   - Set `API_PUBLIC_URL` to the **site origin** (e.g. `https://comptoirpro.shop` or `https://comptoirpro.tn`) so uploaded image URLs are same-origin (`{API_PUBLIC_URL}/api/v1/uploads/...`).
    - Create the directory and fix permissions: `mkdir -p uploads && chown $USER uploads` (from `apps/api`).
-   - Do **not** set `UPLOAD_DIR=/var/app` unless that directory exists and is writable by the app user.
    - Build and run: `cd apps/api && npm run build && node dist/main` (or use the ecosystem file below).
 
 2. **Web**
-   - Build from `apps/web`: `cd apps/web && npm run build`. Then run `next start` with **cwd** = `apps/web` so `.next` and `node_modules` are found (avoids MODULE_NOT_FOUND).
+   - Set `NEXT_PUBLIC_SITE_URL` to the public site URL (e.g. `https://comptoirpro.shop` or `https://comptoirpro.tn`). The app will use `{SITE_URL}/api/v1` as the API (no CORS).
+   - Build: `cd apps/web && npm run build`. Run `next start` with **cwd** = `apps/web`.
 
 3. **PM2 from repo root**
    - `pm2 start ecosystem.config.cjs`
-   - The included ecosystem file sets `cpa-api` cwd to `apps/api`, script to `dist/main.js`, and `UPLOAD_DIR=uploads`. It sets `next-frontend` cwd to `apps/web` and runs `next start` from there. Adjust `env.UPLOAD_DIR` in `ecosystem.config.cjs` if you use an absolute path.
+   - Set `API_PUBLIC_URL` and (for Next) `NEXT_PUBLIC_SITE_URL` in env or `env_production` to match the deployed domain.
 
 ## Docs
 

@@ -114,7 +114,7 @@ components/
 
 ## 7. Production readiness checklist
 
-- [ ] Set DATABASE_URL, JWT_ACCESS_SECRET, JWT_REFRESH_SECRET (min 32 chars), NEXT_PUBLIC_SITE_URL, NEXT_PUBLIC_API_URL
+- [ ] Set DATABASE_URL, JWT_ACCESS_SECRET, JWT_REFRESH_SECRET (min 32 chars), NEXT_PUBLIC_SITE_URL (same-origin API), API_PUBLIC_URL (site origin for upload URLs)
 - [ ] Run Prisma migrations; seed admin user (db:seed), change default password
 - [ ] HTTPS only; secure headers (X-Frame-Options, X-Content-Type-Options, etc.) – Next.js headers in next.config.js
 - [ ] Rate limiting enabled (ThrottlerModule)

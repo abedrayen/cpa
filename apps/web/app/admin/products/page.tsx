@@ -9,7 +9,7 @@ import { ConfirmDialog } from '@/components/admin/ConfirmDialog';
 import { isUnoptimizedImage } from '@/lib/image';
 import { useToast } from '@/components/admin/ToastContext';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? '';
+import { API_URL } from '@/lib/api';
 
 interface Product {
   id: string;

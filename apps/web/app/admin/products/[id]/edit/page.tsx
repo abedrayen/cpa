@@ -7,7 +7,7 @@ import { Breadcrumbs } from '@/components/admin/Breadcrumbs';
 import { ProductForm, type ProductFormValues } from '@/components/admin/ProductForm';
 import { useToast } from '@/components/admin/ToastContext';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? '';
+import { API_URL } from '@/lib/api';
 
 export default function AdminEditProductPage() {
   const router = useRouter();

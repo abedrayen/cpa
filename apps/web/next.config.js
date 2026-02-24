@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  async rewrites() {
+    const backend = process.env.BACKEND_URL || 'http://localhost:3001';
+    return [{ source: '/api/v1/:path*', destination: `${backend}/api/v1/:path*` }];
+  },
   async redirects() {
     return [
       { source: '/products', destination: '/produits', permanent: true },
@@ -11,7 +15,8 @@ const nextConfig = {
     loader: 'custom',
     loaderFile: './lib/image-loader.ts',
     remotePatterns: [
-      { protocol: 'https', hostname: 'api.comptoirpro.shop', pathname: '/uploads/**' },
+      { protocol: 'https', hostname: 'comptoirpro.shop', pathname: '/api/v1/uploads/**' },
+      { protocol: 'https', hostname: 'comptoirpro.tn', pathname: '/api/v1/uploads/**' },
       { protocol: 'https', hostname: '**' },
       { protocol: 'http', hostname: '**' },
     ],

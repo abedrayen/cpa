@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import type { Product } from '@/lib/types';
+import { API_URL } from '@/lib/api';
 
 export function OrderForm({ product }: { product: Product }) {
   const [email, setEmail] = useState('');
@@ -12,14 +13,12 @@ export function OrderForm({ product }: { product: Product }) {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? '';
-
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setStatus('loading');
     setMessage('');
     try {
-      const res = await fetch(`${apiUrl}/orders`, {
+      const res = await fetch(`${API_URL}/orders`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

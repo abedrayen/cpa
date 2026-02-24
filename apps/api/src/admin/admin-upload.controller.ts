@@ -52,10 +52,8 @@ export class AdminUploadController {
     const filename = `${safeName}-${hash}${ext || '.jpg'}`;
     const filepath = path.join(uploadDir, filename);
     await writeFile(filepath, file.buffer);
-    let base = process.env.API_PUBLIC_URL ?? `${req.protocol}://${req.get('host')}`;
-    if (base.startsWith('http://') && base.includes('api.comptoirpro.shop')) {
-      base = base.replace(/^http:\/\//i, 'https://');
-    }
+    // Same-origin: use site origin (e.g. https://comptoirpro.shop) so upload URLs are under frontend domain
+    const base = process.env.API_PUBLIC_URL ?? `${req.protocol}://${req.get('host')}`;
     const url = `${base.replace(/\/$/, '')}/api/v1/uploads/${filename}`;
     return { url };
   }

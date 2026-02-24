@@ -3,7 +3,7 @@
 import { useState, useCallback } from 'react';
 import { getAdminToken } from '@/components/AdminGuard';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? '';
+import { API_URL } from '@/lib/api';
 
 function slugify(name: string): string {
   return name
@@ -236,7 +236,7 @@ export function ProductForm({
                   try {
                     const fd = new FormData();
                     fd.append('file', file);
-                    const uploadUrl = API_URL ? `${API_URL.replace(/\/$/, '')}/admin/upload` : '/api/upload';
+                    const uploadUrl = `${API_URL.replace(/\/$/, '')}/admin/upload`;
                     const headers: HeadersInit = {};
                     const token = getAdminToken();
                     if (token) headers.Authorization = `Bearer ${token}`;

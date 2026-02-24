@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { getAdminToken } from '@/components/AdminGuard';
 import { Breadcrumbs } from '@/components/admin/Breadcrumbs';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? '';
+import { API_URL } from '@/lib/api';
 
 interface OrderItem {
   productId: string;

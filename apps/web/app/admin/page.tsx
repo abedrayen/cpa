@@ -6,7 +6,7 @@ import { getAdminToken } from '@/components/AdminGuard';
 import { Breadcrumbs } from '@/components/admin/Breadcrumbs';
 import { SalesEvolutionChart, TopProductsChart } from './DashboardCharts';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? '';
+import { API_URL } from '@/lib/api';
 
 export interface DashboardData {
   kpis: {

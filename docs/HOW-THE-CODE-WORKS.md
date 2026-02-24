@@ -147,7 +147,7 @@ Next.js is a **React framework**. **Routing is file-based**: the folder structur
 | **`app/sitemap.ts`** | Dynamic sitemap (home, /products, /products/[slug]). |
 | **`app/robots.ts`** | Robots.txt. |
 | **`components/`** | Reusable React components: SiteHeader, ProductCard, ProductPage, OrderForm, admin (Breadcrumbs, Toast, ConfirmDialog, ProductForm). |
-| **`lib/api.ts`** | `fetcher()` and `apiUrl()`: base URL from `NEXT_PUBLIC_API_URL`, used to call the NestJS API. |
+| **`lib/api.ts`** | `fetcher()`, `apiUrl()`, and exported `API_URL`: same-origin by default (`NEXT_PUBLIC_SITE_URL` + `/api/v1` or override with `NEXT_PUBLIC_API_URL`). |
 | **`lib/types.ts`** | Shared TypeScript types (Category, Product, Order, etc.). |
 
 ### 3.3 How the web app gets data
@@ -166,19 +166,19 @@ export default async function ProductsPage() {
 So when a user opens `/products`, Next.js calls the API, gets JSON, and renders the page once with data. Good for SEO and first load.
 
 **Client-side**  
-Admin pages use `'use client'`, `useState`, and `useEffect`, and call `fetch(NEXT_PUBLIC_API_URL + '/admin/...')` in the browser after the page has loaded. The token is read from `localStorage` and sent in the `Authorization` header.
+Admin pages use `'use client'`, `useState`, and `useEffect`, and call `fetch(API_URL + '/admin/...')` (or `API_URL` from `lib/api`) in the browser after the page has loaded. The token is read from `localStorage` and sent in the `Authorization` header.
 
-### 3.4 Calling the API
+### 3.4 Calling the API (same-origin)
 
 - **Base URL**  
-  Set in env: `NEXT_PUBLIC_API_URL` (e.g. `http://localhost:3001/api/v1`). Used in `lib/api.ts` and in admin/order form fetch calls.
+  Same-origin by default: set `NEXT_PUBLIC_SITE_URL` (e.g. `https://comptoirpro.shop` or `https://comptoirpro.tn`) so the API base is `{SITE_URL}/api/v1`. Override with `NEXT_PUBLIC_API_URL` for local dev (e.g. `http://localhost:3001/api/v1`). Exported as `API_URL` from `lib/api.ts`.
 
 - **`lib/api.ts`**  
-  - `fetcher(path)` → `GET` to `NEXT_PUBLIC_API_URL + path`, returns parsed JSON, throws on non-OK.  
+  - `fetcher(path)` → `GET` to `API_URL + path`, returns parsed JSON, throws on non-OK.  
   - Used in **server components** (page.tsx) to load products, categories, product by slug, etc.
 
 - **Admin and forms**  
-  Use raw `fetch(NEXT_PUBLIC_API_URL + '/admin/products', { ... })` with method, headers (e.g. `Authorization: Bearer ...`), and body.
+  Use `fetch(API_URL + '/admin/products', { ... })` with method, headers (e.g. `Authorization: Bearer ...`), and body. Next rewrites `/api/v1/*` to the backend (see `BACKEND_URL` in next.config.js).
 
 ---
 
@@ -188,7 +188,7 @@ Admin pages use `'use client'`, `useState`, and `useEffect`, and call `fetch(NEX
 
 1. Browser requests `/`.
 2. Next.js runs `app/page.tsx` on the server.
-3. The page calls `fetcher('/products?limit=8')` → HTTP GET to `NEXT_PUBLIC_API_URL/products?limit=8`.
+3. The page calls `fetcher('/products?limit=8')` → HTTP GET to `API_URL + '/products?limit=8'` (same-origin `/api/v1/...` or full URL).
 4. NestJS handles `GET /api/v1/products?limit=8` → ProductsController → ProductsService.findAll() → Prisma → JSON.
 5. Next.js receives the JSON and renders the home page with the product list.
 6. Browser receives the full HTML and displays it.
@@ -204,7 +204,7 @@ Admin pages use `'use client'`, `useState`, and `useEffect`, and call `fetch(NEX
 ### 4.3 User submits an order (quote request)
 
 1. User fills the form on a product page (name, email, phone, quantity, notes).
-2. Client-side: OrderForm calls `fetch(NEXT_PUBLIC_API_URL + '/orders', { method: 'POST', body: JSON.stringify({ customerEmail, customerName, customerPhone, notes, items: [{ productId, quantity }] }) })`.
+2. Client-side: OrderForm calls `fetch(API_URL + '/orders', { method: 'POST', body: JSON.stringify({ customerEmail, customerName, customerPhone, notes, items: [{ productId, quantity }] }) })`.
 3. NestJS: OrdersController receives POST, OrdersService creates Order + OrderItems in the DB.
 4. API returns success; the form shows a success message.
 

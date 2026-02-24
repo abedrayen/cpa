@@ -1,4 +1,12 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? '';
+/**
+ * API base URL: same-origin by default.
+ * - Set NEXT_PUBLIC_SITE_URL (e.g. https://comptoirpro.shop) → API = {SITE_URL}/api/v1
+ * - Set NEXT_PUBLIC_API_URL to override (e.g. local dev: http://localhost:3001/api/v1)
+ * - Else defaults to relative /api/v1 (relies on Next rewrites or reverse proxy)
+ */
+export const API_URL =
+  process.env.NEXT_PUBLIC_API_URL ??
+  (process.env.NEXT_PUBLIC_SITE_URL ? `${process.env.NEXT_PUBLIC_SITE_URL}/api/v1` : '/api/v1');
 
 /**
  * Fetch from the API. By default Next.js caches fetch(); pass cache: 'no-store'
