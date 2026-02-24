@@ -13,13 +13,22 @@ async function bootstrap() {
   app.useStaticAssets(uploadDir!, { prefix: '/api/v1/uploads/' });
   app.useStaticAssets(uploadDir!, { prefix: '/uploads/' }); // legacy URLs
 
+  const envOrigins =
+    process.env.CORS_ORIGIN?.split(',').map((o) => o.trim()).filter(Boolean) ?? [];
+  const defaultOrigins = [
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'http://localhost:3002',
+    'https://comptoirpro.shop',
+    'https://comptoirpro.tn',
+  ];
+  const origins =
+    envOrigins.length > 0
+      ? [...new Set([...envOrigins, 'https://comptoirpro.shop', 'https://comptoirpro.tn'])]
+      : defaultOrigins;
+
   app.enableCors({
-    origin: process.env.CORS_ORIGIN?.split(',').map((o) => o.trim()) ?? [
-      'http://localhost:3000',
-      'http://localhost:3001',
-      'http://localhost:3002',
-      'https://comptoirpro.shop',
-    ],
+    origin: origins,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
