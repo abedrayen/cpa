@@ -77,7 +77,7 @@ export default async function HomePage() {
             Matériaux de construction et solutions d’isolation
           </h1>
           <p className="hero-overlay__lead">
-          Vente de produits de construction performants et d’éléments d’isolation thermique et acoustique  de qualité pour projets résidentiels et commerciaux à Sousse, Tunisie.
+          Vente de produits de construction performants et d’éléments d’isolation à Sousse, Tunisie.
           </p>
           <Link href="/produits" className="btn btn-primary btn--hover hero-overlay__cta">
             Voir tous les produits
