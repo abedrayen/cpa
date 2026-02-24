@@ -27,7 +27,8 @@ module.exports = {
       args: 'start',
       env: {
         NODE_ENV: 'production',
-        // NEXT_PUBLIC_SITE_URL: 'https://comptoirpro.shop',  // same-origin API base
+        BACKEND_URL: 'http://127.0.0.1:3001', // Next rewrites /api/v1 to this; must match cpa-api port
+        // NEXT_PUBLIC_SITE_URL: 'https://comptoirpro.shop',
       },
       // If next is hoisted to root, use: script: '../../node_modules/.bin/next'
     },

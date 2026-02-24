@@ -68,6 +68,10 @@ admin@cpa.local / ChangeMeInProduction!
 3. **PM2 from repo root**
    - `pm2 start ecosystem.config.cjs`
    - Set `API_PUBLIC_URL` and (for Next) `NEXT_PUBLIC_SITE_URL` in env or `env_production` to match the deployed domain.
+   - Next rewrites `/api/v1` to the API; `BACKEND_URL` (default `http://localhost:3001`) must point to the running Nest app. The ecosystem file sets `BACKEND_URL=http://127.0.0.1:3001` so both apps work together.
+
+**502 on POST /api/v1/auth/login (or any /api/v1)?**  
+The reverse proxy cannot reach the Nest API. Check: (1) API process is running (`pm2 list`, `cpa-api` must be online). (2) If using Next rewrites, `BACKEND_URL` matches the API host:port (e.g. `http://127.0.0.1:3001`; Nest default port is 3001). (3) If using nginx, the upstream for `/api/v1` points to the same host:port and the API is listening.
 
 ## Docs
 
