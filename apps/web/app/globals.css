@@ -149,6 +149,7 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  color-scheme: light;
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -159,6 +160,7 @@ body {
   min-height: 100vh;
   min-width: 0;
   overflow-x: hidden;
+  color-scheme: light;
   font-family: var(--font-body);
   font-size: var(--text-base);
   line-height: var(--leading-normal);

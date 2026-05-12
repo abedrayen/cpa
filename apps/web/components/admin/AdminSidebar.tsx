@@ -11,7 +11,6 @@ const NAV_ITEMS = [
   { href: '/admin/orders', label: 'Commandes' },
 ] as const;
 
-const STORAGE_KEY = 'cpa_admin_theme';
 const SIDEBAR_KEY = 'cpa_admin_sidebar_collapsed';
 
 function IconDashboard() {
@@ -41,30 +40,6 @@ function IconOrders() {
       <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
       <line x1="3" y1="6" x2="21" y2="6" />
       <path d="M16 10a4 4 0 0 1-8 0" />
-    </svg>
-  );
-}
-
-function IconMoon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
-      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-    </svg>
-  );
-}
-
-function IconSun() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
-      <circle cx="12" cy="12" r="5" />
-      <line x1="12" y1="1" x2="12" y2="3" />
-      <line x1="12" y1="21" x2="12" y2="23" />
-      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-      <line x1="1" y1="12" x2="3" y2="12" />
-      <line x1="21" y1="12" x2="23" y2="12" />
-      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
     </svg>
   );
 }
@@ -104,15 +79,14 @@ const ICONS: Record<string, React.ReactNode> = {
 export function AdminSidebar() {
   const pathname = usePathname();
   const router = useRouter();
-  const [dark, setDark] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
 
   useEffect(() => {
-    const stored = typeof window !== 'undefined' ? localStorage.getItem(STORAGE_KEY) : null;
-    const isDark = stored === 'dark' || (!stored && typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches);
-    setDark(isDark);
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('cpa_admin_theme');
+    }
     if (typeof document !== 'undefined') {
-      document.documentElement.setAttribute('data-admin-theme', isDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-admin-theme', 'light');
     }
   }, []);
 
@@ -120,13 +94,6 @@ export function AdminSidebar() {
     const stored = typeof window !== 'undefined' ? localStorage.getItem(SIDEBAR_KEY) : null;
     setCollapsed(stored === 'true');
   }, []);
-
-  function toggleTheme() {
-    const next = !dark;
-    setDark(next);
-    localStorage.setItem(STORAGE_KEY, next ? 'dark' : 'light');
-    document.documentElement.setAttribute('data-admin-theme', next ? 'dark' : 'light');
-  }
 
   function toggleCollapse() {
     const next = !collapsed;
@@ -149,8 +116,8 @@ export function AdminSidebar() {
         <button
           type="button"
           onClick={toggleCollapse}
+          className="admin-sidebar-v2__collapse-btn"
           aria-label={collapsed ? 'Déplier le menu' : 'Replier le menu'}
-          style={{ padding: '0.25rem', background: 'none', border: 'none', cursor: 'pointer', color: 'inherit' }}
         >
           {collapsed ? <IconChevronRight /> : <IconChevronLeft />}
         </button>
@@ -174,15 +141,6 @@ export function AdminSidebar() {
         })}
       </nav>
       <div className="admin-sidebar-v2__footer">
-        <button
-          type="button"
-          className="admin-sidebar-v2__toggle-theme"
-          onClick={toggleTheme}
-          aria-label={dark ? 'Passer en mode clair' : 'Passer en mode sombre'}
-        >
-          {dark ? <IconSun /> : <IconMoon />}
-          {!collapsed && <span>{dark ? 'Clair' : 'Sombre'}</span>}
-        </button>
         <button
           type="button"
           className="admin-sidebar-v2__logout"

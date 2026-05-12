@@ -27,6 +27,9 @@ export function AdminGuard({ children }: { children: React.ReactNode }) {
   const isLoginPage = pathname === '/admin/login';
 
   useEffect(() => {
+    if (typeof document !== 'undefined') {
+      document.documentElement.setAttribute('data-admin-theme', 'light');
+    }
     const token = getAdminToken();
     if (isLoginPage) {
       if (token) router.replace('/admin');
