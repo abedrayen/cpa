@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { RevealOnScroll } from '@/components/landing/RevealOnScroll';
 
 /**
- * Section Contact : fond dégradé sombre, carte glassmorphism, formulaire minimal.
- * SEO, accessibilité (ARIA, clavier, contraste), mobile-first.
+ * Section Contact : version claire, lisible et orientee conversion.
+ * SEO, accessibilite (ARIA, clavier, contraste), mobile-first.
  */
 
 const CONTACT = {
@@ -65,7 +65,7 @@ export function ContactSection() {
   return (
     <section
       id="contact"
-      className="contact-section contact-section--dark"
+      className="contact-section"
       aria-labelledby="contact-heading"
     >
       <div className="contact-section__bg" aria-hidden />

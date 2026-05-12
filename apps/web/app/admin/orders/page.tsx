@@ -157,14 +157,7 @@ export default function AdminOrdersPage() {
             id="order-status-filter"
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            style={{
-              padding: '0.5rem 0.75rem',
-              border: '1px solid var(--color-border)',
-              borderRadius: '6px',
-              background: 'var(--color-surface)',
-              color: 'var(--color-text)',
-              fontSize: '0.875rem',
-            }}
+            className="admin-control"
           >
             <option value="">Toutes</option>
             <option value="PENDING">En attente</option>

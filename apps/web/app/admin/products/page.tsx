@@ -113,8 +113,7 @@ export default function AdminProductsPage() {
           <button
             type="button"
             onClick={() => { setMeta((m) => ({ ...m, page: 1 })); setSearch(searchInput); }}
-            className="btn"
-            style={{ border: '1px solid var(--color-border)' }}
+            className="btn admin-btn-secondary"
           >
             Rechercher
           </button>
@@ -122,8 +121,7 @@ export default function AdminProductsPage() {
             <button
               type="button"
               onClick={() => { setSearch(''); setSearchInput(''); setMeta((m) => ({ ...m, page: 1 })); }}
-              className="btn"
-              style={{ fontSize: '0.875rem' }}
+              className="btn admin-btn-secondary"
             >
               Effacer
             </button>
@@ -235,14 +233,7 @@ export default function AdminProductsPage() {
                 type="button"
                 disabled={meta.page <= 1}
                 onClick={() => setMeta((m) => ({ ...m, page: m.page - 1 }))}
-                style={{
-                  padding: '0.5rem 0.75rem',
-                  border: '1px solid var(--color-border)',
-                  borderRadius: '6px',
-                  background: 'var(--color-surface)',
-                  cursor: meta.page <= 1 ? 'not-allowed' : 'pointer',
-                  opacity: meta.page <= 1 ? 0.6 : 1,
-                }}
+                className="admin-btn-secondary"
               >
                 Précédent
               </button>
@@ -253,14 +244,7 @@ export default function AdminProductsPage() {
                 type="button"
                 disabled={meta.page >= meta.totalPages}
                 onClick={() => setMeta((m) => ({ ...m, page: m.page + 1 }))}
-                style={{
-                  padding: '0.5rem 0.75rem',
-                  border: '1px solid var(--color-border)',
-                  borderRadius: '6px',
-                  background: 'var(--color-surface)',
-                  cursor: meta.page >= meta.totalPages ? 'not-allowed' : 'pointer',
-                  opacity: meta.page >= meta.totalPages ? 0.6 : 1,
-                }}
+                className="admin-btn-secondary"
               >
                 Suivant
               </button>

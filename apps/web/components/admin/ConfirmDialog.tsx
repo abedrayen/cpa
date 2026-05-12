@@ -57,8 +57,8 @@ export function ConfirmDialog({
     >
       <div
         style={{
-          background: 'var(--color-surface)',
-          border: '1px solid var(--color-border)',
+          background: 'var(--admin-surface)',
+          border: '1px solid var(--admin-border)',
           borderRadius: '8px',
           padding: '1.5rem',
           maxWidth: '400px',
@@ -70,7 +70,7 @@ export function ConfirmDialog({
         <h2 id="confirm-dialog-title" style={{ margin: '0 0 0.5rem', fontSize: '1.125rem' }}>
           {title}
         </h2>
-        <p id="confirm-dialog-desc" style={{ margin: '0 0 1.25rem', color: 'var(--color-muted)' }}>
+        <p id="confirm-dialog-desc" style={{ margin: '0 0 1.25rem', color: 'var(--admin-muted)' }}>
           {message}
         </p>
         <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'flex-end' }}>
@@ -80,10 +80,10 @@ export function ConfirmDialog({
             onClick={onCancel}
             style={{
               padding: '0.5rem 1rem',
-              border: '1px solid var(--color-border)',
+              border: '1px solid var(--admin-border)',
               borderRadius: '6px',
-              background: 'var(--color-bg)',
-              color: 'var(--color-text)',
+              background: 'var(--admin-surface)',
+              color: 'var(--admin-text)',
               cursor: 'pointer',
             }}
           >

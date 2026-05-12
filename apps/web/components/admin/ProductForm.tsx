@@ -147,7 +147,7 @@ export function ProductForm({
             setSlugLocked(false);
             update({ slug: slugify(values.name) });
           }}
-          style={{ fontSize: '0.875rem', padding: '0.5rem' }}
+          className="admin-btn-secondary"
         >
           Générer depuis le nom
         </button>
@@ -208,7 +208,7 @@ export function ProductForm({
         Si 0 : « Rupture de stock » s’affiche en boutique. Sinon : « En stock ».
       </p>
 
-      <fieldset style={{ border: '1px solid var(--color-border)', borderRadius: '8px', padding: '1rem', margin: 0 }}>
+      <fieldset style={{ border: '1px solid var(--admin-border)', borderRadius: '8px', padding: '1rem', margin: 0 }}>
         <legend style={{ fontWeight: 600, padding: '0 0.25rem' }}>Images</legend>
         <p style={{ fontSize: '0.875rem', color: 'var(--color-muted)', margin: '0 0 0.75rem 0' }}>
           Choisissez des images depuis votre appareil. Ajoutez un texte alternatif pour l’accessibilité et le référencement.
@@ -281,7 +281,7 @@ export function ProductForm({
             <button
               type="button"
               onClick={() => update({ images: values.images.filter((_, j) => j !== i) })}
-              style={{ padding: '0.5rem', fontSize: '0.875rem' }}
+              className="admin-btn-secondary"
               aria-label={`Supprimer l’image ${i + 1}`}
             >
               Supprimer
@@ -291,8 +291,7 @@ export function ProductForm({
         <button
           type="button"
           onClick={() => update({ images: [...values.images, { url: '', alt: '' }] })}
-          className="btn"
-          style={{ background: 'var(--color-bg)', border: '1px solid var(--color-border)' }}
+          className="btn admin-btn-secondary"
         >
           Ajouter une image
         </button>
@@ -328,7 +327,7 @@ export function ProductForm({
         <button type="submit" disabled={saving} className="btn btn-primary">
           {saving ? 'Enregistrement…' : submitLabel}
         </button>
-        <button type="button" onClick={onCancel} className="btn" style={{ background: 'var(--color-bg)', border: '1px solid var(--color-border)' }}>
+        <button type="button" onClick={onCancel} className="btn admin-btn-secondary">
           Annuler
         </button>
       </div>

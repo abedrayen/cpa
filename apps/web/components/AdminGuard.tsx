@@ -29,6 +29,7 @@ export function AdminGuard({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (typeof document !== 'undefined') {
       document.documentElement.setAttribute('data-admin-theme', 'light');
+      document.documentElement.setAttribute('data-theme', 'light');
     }
     const token = getAdminToken();
     if (isLoginPage) {
