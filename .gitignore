@@ -33,3 +33,5 @@ pnpm-error.log*
 *.user
 *.cas
 *.zone.h
+*.txt
+server.txt

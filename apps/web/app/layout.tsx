@@ -39,7 +39,7 @@ const localBusinessSchema = {
   description: 'Matériaux de construction et solutions d’isolation de qualité à Sousse, Tunisie. Devis sur demande ou achat en ligne.',
   url: siteUrl,
   telephone: ['+21631106159', '+21698287926'],
-  email: 'contact.cpa@gmail.com',
+  email: 'contact.sopalp@gmail.com',
   address: {
     '@type': 'PostalAddress',
     streetAddress: 'Cité Zarrouk – Route de Ceinture, route de Tunis – Sousse',

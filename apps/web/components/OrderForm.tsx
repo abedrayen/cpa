@@ -5,7 +5,6 @@ import type { Product } from '@/lib/types';
 import { API_URL } from '@/lib/api';
 
 export function OrderForm({ product }: { product: Product }) {
-  const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [notes, setNotes] = useState('');
@@ -22,7 +21,6 @@ export function OrderForm({ product }: { product: Product }) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          customerEmail: email,
           customerName: name,
           customerPhone: phone || undefined,
           notes: notes || undefined,
@@ -54,21 +52,6 @@ export function OrderForm({ product }: { product: Product }) {
           autoComplete="name"
           className="order-form__input"
           placeholder="Votre nom"
-        />
-      </div>
-      <div className="order-form__field">
-        <label htmlFor="order-email" className="order-form__label">
-          E-mail <span aria-hidden>*</span>
-        </label>
-        <input
-          id="order-email"
-          type="email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          autoComplete="email"
-          className="order-form__input"
-          placeholder="vous@exemple.com"
         />
       </div>
       <div className="order-form__field">
