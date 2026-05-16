@@ -1,4 +1,8 @@
+'use client';
+
 import { useState } from 'react';
+import { getAdminToken } from '@/components/AdminGuard';
+import { API_URL } from '@/lib/api';
 
 export default function AdminChangePasswordPage() {
   const [currentPassword, setCurrentPassword] = useState('');
@@ -18,9 +22,17 @@ export default function AdminChangePasswordPage() {
     }
     setLoading(true);
     try {
-      const res = await fetch('/api/admin/change-password', {
+      const token = getAdminToken();
+      if (!token) {
+        setError('Session expirée. Veuillez vous reconnecter.');
+        return;
+      }
+      const res = await fetch(`${API_URL}/auth/change-password`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({ currentPassword, newPassword }),
       });
       const data = await res.json();
