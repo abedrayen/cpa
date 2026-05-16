@@ -27,7 +27,7 @@ export default function AdminChangePasswordPage() {
         setError('Session expirée. Veuillez vous reconnecter.');
         return;
       }
-      const res = await fetch(`${API_URL}/auth/change-password`, {
+      const res = await fetch(`${API_URL}/admin/change-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -55,6 +55,19 @@ let AuthService = class AuthService {
             ...tokens,
         };
     }
+    async changePassword(userId, currentPassword, newPassword) {
+        const user = await this.prisma.user.findFirst({
+            where: { id: userId, deletedAt: null },
+        });
+        if (!user)
+            throw new common_1.UnauthorizedException();
+        if (!(await bcrypt.compare(currentPassword, user.passwordHash))) {
+            throw new common_1.BadRequestException('Mot de passe actuel incorrect');
+        }
+        const passwordHash = await bcrypt.hash(newPassword, SALT_ROUNDS);
+        await this.prisma.user.update({ where: { id: user.id }, data: { passwordHash } });
+        return { message: 'Mot de passe changé avec succès' };
+    }
     async refresh(refreshToken) {
         const stored = await this.prisma.refreshToken.findUnique({
             where: { token: refreshToken },

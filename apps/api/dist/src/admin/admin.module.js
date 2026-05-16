@@ -10,22 +10,25 @@ exports.AdminModule = void 0;
 const common_1 = require("@nestjs/common");
 const products_module_1 = require("../products/products.module");
 const orders_module_1 = require("../orders/orders.module");
+const auth_module_1 = require("../auth/auth.module");
 const admin_products_controller_1 = require("./admin-products.controller");
 const admin_orders_controller_1 = require("./admin-orders.controller");
 const admin_stats_controller_1 = require("./admin-stats.controller");
 const admin_upload_controller_1 = require("./admin-upload.controller");
+const admin_account_controller_1 = require("./admin-account.controller");
 const admin_stats_service_1 = require("./admin-stats.service");
 let AdminModule = class AdminModule {
 };
 exports.AdminModule = AdminModule;
 exports.AdminModule = AdminModule = __decorate([
     (0, common_1.Module)({
-        imports: [products_module_1.ProductsModule, orders_module_1.OrdersModule],
+        imports: [products_module_1.ProductsModule, orders_module_1.OrdersModule, auth_module_1.AuthModule],
         controllers: [
             admin_products_controller_1.AdminProductsController,
             admin_orders_controller_1.AdminOrdersController,
             admin_stats_controller_1.AdminStatsController,
             admin_upload_controller_1.AdminUploadController,
+            admin_account_controller_1.AdminAccountController,
         ],
         providers: [admin_stats_service_1.AdminStatsService],
     })
