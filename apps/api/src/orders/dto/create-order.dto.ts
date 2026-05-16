@@ -23,9 +23,11 @@ export class OrderItemDto {
   specs?: string;
 }
 
+
 export class CreateOrderDto {
-  @IsEmail()
-  customerEmail: string;
+  @IsOptional()
+  @IsString()
+  customerEmail?: string;
 
   @IsString()
   @MinLength(1)

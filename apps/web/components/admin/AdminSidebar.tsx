@@ -9,6 +9,7 @@ const NAV_ITEMS = [
   { href: '/admin', label: 'Tableau de bord' },
   { href: '/admin/products', label: 'Produits' },
   { href: '/admin/orders', label: 'Commandes' },
+  { href: '/admin/settings/change-password', label: 'Changer le mot de passe' },
 ] as const;
 
 const SIDEBAR_KEY = 'cpa_admin_sidebar_collapsed';
@@ -70,10 +71,20 @@ function IconChevronRight() {
   );
 }
 
+function IconPassword() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
+      <rect x="3" y="11" width="18" height="10" rx="2" />
+      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+    </svg>
+  );
+}
+
 const ICONS: Record<string, React.ReactNode> = {
   '/admin': <IconDashboard />,
   '/admin/products': <IconProducts />,
   '/admin/orders': <IconOrders />,
+  '/admin/settings/change-password': <IconPassword />,
 };
 
 export function AdminSidebar() {
