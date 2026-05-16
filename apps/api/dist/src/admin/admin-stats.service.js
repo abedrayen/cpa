@@ -88,7 +88,9 @@ let AdminStatsService = class AdminStatsService {
             where: { createdAt: { gte: since }, deletedAt: null },
             select: { customerEmail: true },
         });
-        const uniqueCustomers = new Set(uniqueEmailsLast30.map((o) => o.customerEmail)).size;
+        const uniqueCustomers = new Set(uniqueEmailsLast30
+            .map((o) => o.customerEmail)
+            .filter((email) => Boolean(email))).size;
         const avgOrderValue = completedOrdersCount > 0 ? totalRevenue / completedOrdersCount : 0;
         const salesByDay = new Map();
         for (let d = 0; d < days; d++) {

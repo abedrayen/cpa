@@ -4,7 +4,7 @@ export declare class OrderItemDto {
     specs?: string;
 }
 export declare class CreateOrderDto {
-    customerEmail: string;
+    customerEmail?: string;
     customerName: string;
     customerPhone?: string;
     notes?: string;

@@ -18,7 +18,7 @@ interface Order {
   id: string;
   status: string;
   customerName: string;
-  customerEmail: string;
+  customerEmail: string | null;
   customerPhone?: string | null;
   notes?: string | null;
   createdAt: string;
@@ -57,7 +57,7 @@ function exportOrdersToCsv(orders: Order[]) {
       o.id,
       new Date(o.createdAt).toISOString().slice(0, 10),
       o.customerName,
-      o.customerEmail,
+      o.customerEmail ?? '',
       o.customerPhone ?? '',
       STATUS_LABEL[o.status] ?? o.status,
       articles,
@@ -204,7 +204,7 @@ export default function AdminOrdersPage() {
                     {o.customerName}
                     <br />
                     <span style={{ fontSize: '0.8125rem', color: 'var(--color-muted)' }}>
-                      {o.customerEmail}
+                      {o.customerEmail ?? 'Aucun email'}
                     </span>
                     {o.customerPhone ? (
                       <>

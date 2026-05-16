@@ -32,7 +32,7 @@ export declare class AdminStatsService {
             id: string;
             status: import(".prisma/client").$Enums.OrderStatus;
             customerName: string;
-            customerEmail: string;
+            customerEmail: string | null;
             createdAt: Date;
             itemCount: number;
             total: number;

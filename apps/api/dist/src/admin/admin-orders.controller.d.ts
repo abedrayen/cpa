@@ -24,7 +24,7 @@ export declare class AdminOrdersController {
             updatedAt: Date;
             deletedAt: Date | null;
             userId: string | null;
-            customerEmail: string;
+            customerEmail: string | null;
             customerName: string;
             customerPhone: string | null;
             notes: string | null;
@@ -57,7 +57,7 @@ export declare class AdminOrdersController {
         updatedAt: Date;
         deletedAt: Date | null;
         userId: string | null;
-        customerEmail: string;
+        customerEmail: string | null;
         customerName: string;
         customerPhone: string | null;
         notes: string | null;
@@ -82,7 +82,7 @@ export declare class AdminOrdersController {
         updatedAt: Date;
         deletedAt: Date | null;
         userId: string | null;
-        customerEmail: string;
+        customerEmail: string | null;
         customerName: string;
         customerPhone: string | null;
         notes: string | null;

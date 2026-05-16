@@ -102,7 +102,7 @@ model Order {
   id            String      @id @default(cuid())
   userId        String?     @map("user_id") // Optional for guest quote requests
   status        OrderStatus @default(PENDING)
-  customerEmail String      @map("customer_email")
+  customerEmail String?     @map("customer_email")
   customerName  String      @map("customer_name")
   customerPhone String?     @map("customer_phone")
   notes         String?     @db.Text

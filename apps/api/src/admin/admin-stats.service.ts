@@ -88,7 +88,11 @@ export class AdminStatsService {
       where: { createdAt: { gte: since }, deletedAt: null },
       select: { customerEmail: true },
     });
-    const uniqueCustomers = new Set(uniqueEmailsLast30.map((o) => o.customerEmail)).size;
+    const uniqueCustomers = new Set(
+      uniqueEmailsLast30
+        .map((o) => o.customerEmail)
+        .filter((email): email is string => Boolean(email)),
+    ).size;
 
     const avgOrderValue =
       completedOrdersCount > 0 ? totalRevenue / completedOrdersCount : 0;

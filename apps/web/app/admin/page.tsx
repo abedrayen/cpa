@@ -24,7 +24,7 @@ export interface DashboardData {
     id: string;
     status: string;
     customerName: string;
-    customerEmail: string;
+    customerEmail: string | null;
     createdAt: string;
     itemCount: number;
     total: number;

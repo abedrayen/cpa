@@ -40,7 +40,7 @@ let OrdersService = class OrdersService {
         const order = await this.prisma.order.create({
             data: {
                 userId: userId ?? null,
-                customerEmail: dto.customerEmail,
+                customerEmail: dto.customerEmail ?? null,
                 customerName: dto.customerName,
                 customerPhone: dto.customerPhone ?? null,
                 notes: dto.notes ?? null,
